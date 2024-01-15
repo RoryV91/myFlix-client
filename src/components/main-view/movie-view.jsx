@@ -4,16 +4,17 @@ const MovieView = (props) => {
     return (
       <div>
         <div>
-          <img src={selectedMovie.ImagePath} />
+          <img src={props.selectedMovie.ImagePath} />
         </div>
         <div>
           <span>Title: </span>
-          <span>{selectedMovie.Title}</span>
+          <span>{props.selectedMovie.Title}</span>
         </div>
         <div>
           <span>Description: </span>
-          <span>{selectedMovie.Description}</span>
+          <span>{props.selectedMovie.Description}</span>
         </div>
+        <button>Back</button>
       </div>
     );
   };

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import MovieCard from "./movie-card";
-import MovieView from "../movie-view/movie-view";
+import MovieView from "./movie-view";
 
 const MainView = () => {
 	const [movies, setMovies] = useState([
@@ -32,20 +32,24 @@ const MainView = () => {
     const [selectedMovie, setSelectedMovie] = useState(null);
     
     if (selectedMovie) 
-        return <MovieView movie={selectedMovie} />;
+        return <MovieView selectedMovie={selectedMovie} />;
 
 	if (movies.length === 0) {
 		return <div>The list is empty!</div>;
 	}
 
 	return (
-		<div>
-			{movies.map((movie) => {
-				return <div>
-                    <MovieCard key={movie._id} movie={movie} />
-                </div>
-			})}
-		</div>
+        <div>
+            {movies.map((movie) => (
+                    <MovieCard
+                        key={movie._id}
+                        movie={movie}
+                        onMovieClick={(newSelectedMovie) => {
+                            setSelectedMovie(newSelectedMovie);
+                        }}
+                    />
+            ))}
+        </div>
 	);
 };
 
