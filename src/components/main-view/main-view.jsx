@@ -1,13 +1,40 @@
 import React from "react";
+import { useState } from "react";
 
 const MainView = () => {
-    return (
-      <div>
-        <div>myFlix Application</div>
-        <div>Good Burger</div>
-        <div>Apocalypse Now</div>
-        <div>Office Space</div>
-      </div>
-    );
-  };
-export default MainView; 
+	const [movies, setMovies] = useState([
+		{
+			_id: 1,
+			Title: "Good Burger",
+			Description:
+				"A dim-witted teenager and his new coworker try to save the old burger joint they work for from failing after the opening of a brand new burger restaurant across the street, which's planning to put them out of business.",
+			ImagePath:
+				"https://upload.wikimedia.org/wikipedia/en/9/9f/Good_burger.jpg",
+		},
+		{
+			_id: 2,
+			Title: "Apocalypse Now",
+			Description: "A U.S. Army officer serving in Vietnam is tasked with assassinating a renegade Special Forces Colonel who sees himself as a god.",
+			ImagePath:
+				"https://upload.wikimedia.org/wikipedia/en/c/c2/Apocalypse_Now_poster.jpg",
+		},
+		{
+			_id: 3,
+			Title: "Office Space",
+			Description: "Three company workers who hate their jobs decide to rebel against their greedy boss.",
+			ImagePath:
+				"https://upload.wikimedia.org/wikipedia/en/8/8e/Office_space_poster.jpg",
+		},
+	]);
+	if (movies.length === 0) {
+		return <div>The list is empty!</div>;
+	}
+	return (
+		<div>
+			{movies.map((movie) => {
+				return <div key={movie._id}>{movie.Title}</div>
+			})}
+		</div>
+	);
+};
+export default MainView;
