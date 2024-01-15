@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import MovieCard from "./movie-card";
+import MovieView from "../movie-view/movie-view";
 
 const MainView = () => {
 	const [movies, setMovies] = useState([
@@ -36,7 +37,7 @@ const MainView = () => {
 	if (movies.length === 0) {
 		return <div>The list is empty!</div>;
 	}
-    
+
 	return (
 		<div>
 			{movies.map((movie) => {
