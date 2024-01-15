@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import MovieCard from "./movie-card";
 
 const MainView = () => {
 	const [movies, setMovies] = useState([
@@ -26,15 +27,25 @@ const MainView = () => {
 				"https://upload.wikimedia.org/wikipedia/en/8/8e/Office_space_poster.jpg",
 		},
 	]);
+    
+    const [selectedMovie, setSelectedMovie] = useState(null);
+    
+    if (selectedMovie) 
+        return <MovieView movie={selectedMovie} />;
+
 	if (movies.length === 0) {
 		return <div>The list is empty!</div>;
 	}
+    
 	return (
 		<div>
 			{movies.map((movie) => {
-				return <div key={movie._id}>{movie.Title}</div>
+				return <div>
+                    <MovieCard key={movie._id} movie={movie} />
+                </div>
 			})}
 		</div>
 	);
 };
+
 export default MainView;
