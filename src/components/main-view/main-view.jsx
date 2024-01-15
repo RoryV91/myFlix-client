@@ -11,7 +11,7 @@ const MainView = () => {
 			Description:
 				"A dim-witted teenager and his new coworker try to save the old burger joint they work for from failing after the opening of a brand new burger restaurant across the street, which's planning to put them out of business.",
 			ImagePath:
-				"https://upload.wikimedia.org/wikipedia/en/9/9f/Good_burger.jpg",
+				"https://upload.wikimedia.org/wikipedia/en/c/c0/Good_Burger_film_poster.jpg",
 		},
 		{
 			_id: 2,
