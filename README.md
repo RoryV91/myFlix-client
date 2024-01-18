@@ -1,4 +1,4 @@
-# Project Name
+# myFlix Frontend Web application 📼 🌎
 
 A brief description of what the project does.
 
