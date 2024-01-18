@@ -14,12 +14,7 @@ const MovieView = (props) => {
 				<span>Description: </span>
 				<span>{props.selectedMovie.Description}</span>
 			</div>
-			<button
-                onClick={
-                    props.onBackClick
-                }>
-                Back
-            </button>
+			<button onClick={props.onBackClick}>Back</button>
 		</div>
 	);
 };

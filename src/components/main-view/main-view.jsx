@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import MovieCard from "./movie-card";
-import MovieView from "./movie-view";
+import MovieCard from "../movie-card/movie-card";
+import MovieView from "../movie-view/movie-view";
 
 const MainView = () => {
 	const [movies, setMovies] = useState([
@@ -16,45 +16,47 @@ const MainView = () => {
 		{
 			_id: 2,
 			Title: "Apocalypse Now",
-			Description: "A U.S. Army officer serving in Vietnam is tasked with assassinating a renegade Special Forces Colonel who sees himself as a god.",
+			Description:
+				"A U.S. Army officer serving in Vietnam is tasked with assassinating a renegade Special Forces Colonel who sees himself as a god.",
 			ImagePath:
 				"https://upload.wikimedia.org/wikipedia/en/c/c2/Apocalypse_Now_poster.jpg",
 		},
 		{
 			_id: 3,
 			Title: "Office Space",
-			Description: "Three company workers who hate their jobs decide to rebel against their greedy boss.",
+			Description:
+				"Three company workers who hate their jobs decide to rebel against their greedy boss.",
 			ImagePath:
 				"https://upload.wikimedia.org/wikipedia/en/8/8e/Office_space_poster.jpg",
 		},
 	]);
-    
-    const [selectedMovie, setSelectedMovie] = useState(null);
-    
-    if (selectedMovie) 
-        return <MovieView 
-                    selectedMovie={selectedMovie}
-                    onBackClick={()=>
-                        setSelectedMovie(null)
-                    } 
-        />;
+
+	const [selectedMovie, setSelectedMovie] = useState(null);
+
+	if (selectedMovie)
+		return (
+			<MovieView
+				selectedMovie={selectedMovie}
+				onBackClick={() => setSelectedMovie(null)}
+			/>
+		);
 
 	if (movies.length === 0) {
 		return <div>The list is empty!</div>;
 	}
 
 	return (
-        <div>
-            {movies.map((movie) => (
-                    <MovieCard
-                        key={movie._id}
-                        movie={movie}
-                        onMovieClick={(newSelectedMovie) => {
-                            setSelectedMovie(newSelectedMovie);
-                        }}
-                    />
-            ))}
-        </div>
+		<div>
+			{movies.map((movie) => (
+				<MovieCard
+					key={movie._id}
+					movie={movie}
+					onMovieClick={(newSelectedMovie) => {
+						setSelectedMovie(newSelectedMovie);
+					}}
+				/>
+			))}
+		</div>
 	);
 };
 
