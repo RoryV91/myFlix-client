@@ -6,7 +6,7 @@ const MovieCard = (props) => {
                     props.onMovieClick(props.movie)
                 }
         >
-        {props.movie.Title}
+        {props.movie.title}
     </div>;
 };
 
