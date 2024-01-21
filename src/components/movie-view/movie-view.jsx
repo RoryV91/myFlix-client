@@ -9,22 +9,33 @@ const MovieView = ({ selectedMovie, onBackClick }) => {
 	useEffect(() => {
 		Promise.all(
 			selectedMovie.director_ids.map((id) =>
-				fetch(`/api/directors/${id}`).then((res) => res.json())
+				fetch(`https://myflixapi.vanblaricom.dev:9999/directors/${id}`).then(
+					(res) => res.json()
+				)
 			)
-		).then(setDirectors);
+		).then((directors) =>
+			setDirectors(directors.map((director) => director.name))
+		);
 
 		Promise.all(
 			selectedMovie.actor_ids.map((id) =>
-				fetch(`/api/actors/${id}`).then((res) => res.json())
+				fetch(`https://myflixapi.vanblaricom.dev:9999/actors/${id}`).then(
+					(res) => res.json()
+				)
 			)
-		).then(setActors);
+		).then((actors) => setActors(actors.map((actor) => actor.name)));
 
 		Promise.all(
 			selectedMovie.genre_ids.map((id) =>
-				fetch(`/api/genres/${id}`).then((res) => res.json())
+				fetch(`https://myflixapi.vanblaricom.dev:9999/genres/${id}`).then(
+					(res) => res.json()
+				)
 			)
-		).then(setGenres);
+		).then((genres) => setGenres(genres.map((genre) => genre.name)));
 	}, [selectedMovie]);
+	useEffect(() => {
+		console.log(directors);
+	}, [directors]);
 	return (
 		<div>
 			<div>
@@ -45,6 +56,30 @@ const MovieView = ({ selectedMovie, onBackClick }) => {
 			<div>
 				<span>Featured: </span>
 				<span>{selectedMovie.featured.toString()}</span>
+			</div>
+			<div>
+				<span>Director(s): </span>
+				<ul>
+					{directors.map((director, index) => (
+						<li key={index}>{director}</li>
+					))}
+				</ul>
+			</div>
+			<div>
+				<span>Srtarring:</span>
+				<ul>
+					{actors.map((actor, index) => (
+						<li key={index}>{actor}</li>
+					))}
+				</ul>
+			</div>
+			<div>
+				<span>Genres</span>
+				<ul>
+					{genres.map((genre, index) => (
+						<li key={index}>{genre}</li>
+					))}
+				</ul>
 			</div>
 			<button onClick={onBackClick}>Back</button>
 		</div>
