@@ -10,7 +10,6 @@ const MainView = () => {
 		fetch("https://myflixapi.vanblaricom.dev:9999/movies")
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
 				setMovies(data);
 			})
 			.catch((error) => {
