@@ -29,7 +29,7 @@ const LoginView = ({ onLoggedIn }) => {
         })
         .then(data => {
             console.log(data);
-            onLoggedIn(data);
+            onLoggedIn(data.user, data.token);
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -64,6 +64,7 @@ const LoginView = ({ onLoggedIn }) => {
 
 LoginView.propTypes = {
     onLoggedIn: PropTypes.func.isRequired,
+    token: PropTypes.string
   };
 
 export default LoginView;

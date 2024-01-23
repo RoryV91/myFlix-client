@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-const MovieView = ({ selectedMovie, onBackClick }) => {
+const MovieView = ({ selectedMovie, onBackClick, token }) => {
 	const [directors, setDirectors] = useState([]);
 	const [actors, setActors] = useState([]);
 	const [genres, setGenres] = useState([]);
@@ -9,9 +9,11 @@ const MovieView = ({ selectedMovie, onBackClick }) => {
 	useEffect(() => {
 		Promise.all(
 			selectedMovie.director_ids.map((id) =>
-				fetch(`https://myflixapi.vanblaricom.dev:9999/directors/${id}`).then(
-					(res) => res.json()
-				)
+				fetch(`https://myflixapi.vanblaricom.dev:9999/directors/${id}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}).then((res) => res.json())
 			)
 		).then((directors) =>
 			setDirectors(directors.map((director) => director.name))
@@ -19,17 +21,21 @@ const MovieView = ({ selectedMovie, onBackClick }) => {
 
 		Promise.all(
 			selectedMovie.actor_ids.map((id) =>
-				fetch(`https://myflixapi.vanblaricom.dev:9999/actors/${id}`).then(
-					(res) => res.json()
-				)
+				fetch(`https://myflixapi.vanblaricom.dev:9999/actors/${id}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}).then((res) => res.json())
 			)
 		).then((actors) => setActors(actors.map((actor) => actor.name)));
 
 		Promise.all(
 			selectedMovie.genre_ids.map((id) =>
-				fetch(`https://myflixapi.vanblaricom.dev:9999/genres/${id}`).then(
-					(res) => res.json()
-				)
+				fetch(`https://myflixapi.vanblaricom.dev:9999/genres/${id}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}).then((res) => res.json())
 			)
 		).then((genres) => setGenres(genres.map((genre) => genre.name)));
 	}, [selectedMovie]);
@@ -98,6 +104,7 @@ MovieView.propTypes = {
 		genre_ids: PropTypes.arrayOf(PropTypes.string),
 	}).isRequired,
 	onBackClick: PropTypes.func.isRequired,
+	token: PropTypes.string
 };
 
 export default MovieView;

@@ -8,28 +8,40 @@ const MainView = () => {
 	const [movies, setMovies] = useState([]);
 	const [user, setUser] = useState(null);
 	const [selectedMovie, setSelectedMovie] = useState(null);
-	
+	const [token, setToken] = useState(null);
 
 	useEffect(() => {
-		fetch("https://myflixapi.vanblaricom.dev:9999/movies")
-			.then((response) => response.json())
-			.then((data) => {
-				setMovies(data);
-			})
-			.catch((error) => {
-				console.error("Error fetching movies:", error);
-			});
-	}, []);
+		fetch("https://myflixapi.vanblaricom.dev:9999/movies", {
+			headers: {
+				Authorization: `Bearer ${token}`
+			},
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data);
+			setMovies(data);
+		})
+		.catch((error) => {
+			console.error("Error fetching movies:", error);
+		});
+	}, [token]);
 
 	if (!user) {
-		return <LoginView onLoggedIn={user => setUser(user)} />;
+		return (
+			<LoginView
+				onLoggedIn={(user, token) => {
+					setUser(user);
+					setToken(token);
+				}}
+			/>
+		);
 	}
-
 
 	if (selectedMovie)
 		return (
 			<MovieView
 				selectedMovie={selectedMovie}
+				token={token}
 				onBackClick={() => setSelectedMovie(null)}
 			/>
 		);
@@ -49,7 +61,14 @@ const MainView = () => {
 					}}
 				/>
 			))}
-			<button onClick={() => { setUser(null); }}>Logout</button>
+			<button
+				onClick={() => {
+					setUser(null);
+					setToken(null);
+				}}
+			>
+				Logout
+			</button>
 		</div>
 	);
 };
