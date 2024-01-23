@@ -3,3 +3,16 @@ $color: steelblue;
 .my-flix {
   color: $color;
 }
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
