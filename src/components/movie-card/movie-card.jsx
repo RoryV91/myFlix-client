@@ -4,16 +4,15 @@ import { Button, Card } from "react-bootstrap";
 
 const MovieCard = ({ movie, onMovieClick }) => {
 	return (
-		<Card
-			className="movie-card"
-			onClick={() => onMovieClick(movie)}
-		>
-			<Card.imageurl src={movie.imageurl} />
-			<Card.Body>
-				<Card.Title>{movie.title}</Card.Title>
-				<Card.Text>{movie.description}</Card.Text>
-			</Card.Body>
-		</Card>
+        <Card
+            className="movie-card m-5"
+            onClick={() => onMovieClick(movie)}
+        >
+            <Card.Img src={movie.imageurl} className="img-fluid" style={{ height: '300px', objectFit: 'cover' }} />
+            <Card.Body>
+                <Card.Title>{movie.title}</Card.Title>
+            </Card.Body>
+        </Card>
 	);
 };
 
