@@ -2,9 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import MovieCard from "../movie-card/movie-card";
 import MovieView from "../movie-view/movie-view";
+import LoginView from "../login-view/login-view";
 
 const MainView = () => {
 	const [movies, setMovies] = useState([]);
+	const [user, setUser] = useState(null);
+	const [selectedMovie, setSelectedMovie] = useState(null);
 
 	useEffect(() => {
 		fetch("https://myflixapi.vanblaricom.dev:9999/movies")
@@ -17,7 +20,10 @@ const MainView = () => {
 			});
 	}, []);
 
-	const [selectedMovie, setSelectedMovie] = useState(null);
+	if (!user) {
+		return <LoginView />;
+	  }
+
 
 	if (selectedMovie)
 		return (
