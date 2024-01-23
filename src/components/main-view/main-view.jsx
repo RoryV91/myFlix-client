@@ -14,6 +14,7 @@ const MainView = () => {
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [selectedMovie, setSelectedMovie] = useState(null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
+	const [darkMode, setDarkMode] = useState(false);
 
 	useEffect(() => {
 		if (!token) return;
@@ -66,33 +67,35 @@ const MainView = () => {
 	}
 
 	return (
-		<>
-			<Header
-				user={user}
-				onLoggedOut={() => setUser(null)}
-			/>
-			<Container>
-				<Row className="d-flex">
-					{movies.map((movie) => (
-						<Col
-							xs={12}
-							sm={6}
-							md={4}
-							lg={3}
-							key={movie._id}
-							className="d-flex"
-						>
-							<MovieCard
-								movie={movie}
-								onMovieClick={(newSelectedMovie) => {
-									setSelectedMovie(newSelectedMovie);
-								}}
-							/>
-						</Col>
-					))}
-				</Row>
-			</Container>
-		</>
+		<div className={darkMode ? 'bg-dark text-light' : 'bg-light text-dark'}>
+		<Header
+		  user={user}
+		  onLoggedOut={() => setUser(null)}
+		  darkMode={darkMode}
+		  setDarkMode={setDarkMode}
+		/>
+		<Container>
+		  <Row className="d-flex">
+			{movies.map((movie) => (
+			  <Col
+				xs={12}
+				sm={6}
+				md={4}
+				lg={3}
+				key={movie._id}
+				className="d-flex"
+			  >
+				<MovieCard
+				  movie={movie}
+				  onMovieClick={(newSelectedMovie) => {
+					setSelectedMovie(newSelectedMovie);
+				  }}
+				/>
+			  </Col>
+			))}
+		  </Row>
+		</Container>
+	  </div>
 	);
 };
 
