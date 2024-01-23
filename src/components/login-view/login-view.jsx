@@ -29,7 +29,11 @@ const LoginView = ({ onLoggedIn }) => {
         })
         .then(data => {
             console.log(data);
-            onLoggedIn(data.user, data.token);
+            if (data.user) {
+                localStorage.setItem("user", JSON.stringify(data.user));
+                localStorage.setItem("token", data.token);
+                onLoggedIn(data.user, data.token);
+            }
         })
         .catch((error) => {
             console.error('Error:', error);

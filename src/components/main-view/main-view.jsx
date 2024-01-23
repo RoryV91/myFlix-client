@@ -5,25 +5,33 @@ import MovieView from "../movie-view/movie-view";
 import LoginView from "../login-view/login-view";
 
 const MainView = () => {
+	const storedUser = JSON.parse(localStorage.getItem("user"));
+	const storedToken = localStorage.getItem("token");
 	const [movies, setMovies] = useState([]);
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [selectedMovie, setSelectedMovie] = useState(null);
-	const [token, setToken] = useState(null);
+	const [token, setToken] = useState(storedToken ? storedToken : null);
 
 	useEffect(() => {
+		if (!token) return;
+
 		fetch("https://myflixapi.vanblaricom.dev:9999/movies", {
 			headers: {
-				Authorization: `Bearer ${token}`
+				Authorization: `Bearer ${token}`,
 			},
 		})
-		.then((response) => response.json())
-		.then((data) => {
-			console.log(data);
-			setMovies(data);
-		})
-		.catch((error) => {
-			console.error("Error fetching movies:", error);
-		});
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				return response.json();
+			})
+			.then((movies) => {
+				setMovies(movies);
+			})
+			.catch((error) => {
+				console.error("Error fetching movies:", error);
+			});
 	}, [token]);
 
 	if (!user) {
@@ -65,6 +73,7 @@ const MainView = () => {
 				onClick={() => {
 					setUser(null);
 					setToken(null);
+					localStorage.clear();
 				}}
 			>
 				Logout
