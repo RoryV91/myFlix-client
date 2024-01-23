@@ -8,6 +8,7 @@ const MainView = () => {
 	const [movies, setMovies] = useState([]);
 	const [user, setUser] = useState(null);
 	const [selectedMovie, setSelectedMovie] = useState(null);
+	
 
 	useEffect(() => {
 		fetch("https://myflixapi.vanblaricom.dev:9999/movies")
@@ -21,8 +22,8 @@ const MainView = () => {
 	}, []);
 
 	if (!user) {
-		return <LoginView />;
-	  }
+		return <LoginView onLoggedIn={user => setUser(user)} />;
+	}
 
 
 	if (selectedMovie)
@@ -48,6 +49,7 @@ const MainView = () => {
 					}}
 				/>
 			))}
+			<button onClick={() => { setUser(null); }}>Logout</button>
 		</div>
 	);
 };

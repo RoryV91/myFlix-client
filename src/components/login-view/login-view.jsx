@@ -1,39 +1,69 @@
 import React from "react";
 import { useState } from "react";
+import PropTypes from "prop-types";
 
-const LoginView = () => {
+const LoginView = ({ onLoggedIn }) => {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const data = {
-            Username: username,
-            Password: password
-          };
-        
-    }
+            username: username,
+            password: password,
+        };
 
+        fetch('https://myflixapi.vanblaricom.dev:9999/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            onLoggedIn(data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('Login failed. Please check your credentials and try again.')
+        });
+    };
 
-    return (
+	return (
 		<div className="login-view">
-			<form>
+			<form onSubmit={handleSubmit}>
 				<label>
 					Username:
-					<input 
-                        type="text"
-                        value={username} 
-                    />
+					<input
+						type="text"
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
+					/>
 				</label>
 				<label>
 					Password:
-					<input 
-                        type="password"
-                        value={password} />
+					<input
+						type="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+					/>
 				</label>
 				<button type="submit">Submit</button>
 			</form>
-            <span>Dont have an account? <a href="#">Sign up</a> for one here</span>
 		</div>
 	);
 };
+
+LoginView.propTypes = {
+    onLoggedIn: PropTypes.func.isRequired,
+  };
 
 export default LoginView;

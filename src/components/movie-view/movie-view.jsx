@@ -66,7 +66,7 @@ const MovieView = ({ selectedMovie, onBackClick }) => {
 				</ul>
 			</div>
 			<div>
-				<span>Srtarring:</span>
+				<span>Starring:</span>
 				<ul>
 					{actors.map((actor, index) => (
 						<li key={index}>{actor}</li>
