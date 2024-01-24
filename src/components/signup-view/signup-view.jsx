@@ -39,6 +39,11 @@ const SignupView = () => {
     return (
         <Form onSubmit={handleSubmit(onSubmit)}
         >
+            <h1 className='text-center display-4'>Sign up for a myFlix account today!</h1>
+            <br />
+            <h2 className='text-center display-6'>It's fun! It's fast! It's free!</h2>
+            <br />
+            <p className='text-center'>Already have an account? <a href='/login'>Log in here</a></p>
             <Form.Group controlId="formBasicUsername">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
@@ -75,7 +80,7 @@ const SignupView = () => {
                 {errors.dob && <p>Date of birth is required</p>}
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="mt-3">
+            <Button variant="secondary" type="submit" className="mt-3">
                 Submit
             </Button>
         </Form>

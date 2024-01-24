@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { useNavigate } from 'react-router-dom';
 import {
 	Navbar,
 	Nav,
@@ -9,12 +11,17 @@ import {
 } from "react-bootstrap";
 
 const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
-	const navItems = [
+const navigate = useNavigate();
+    const navItems = [
 		{ title: "Movies", view: "#movies/view", add: "#movies/add" },
 		{ title: "Genres", view: "#genres/view", add: "#genres/add" },
 		{ title: "Directors", view: "#directors/view", add: "#directors/add" },
 		{ title: "Actors", view: "#actors/view", add: "#actors/add" },
 	];
+    const handleUserLogout = () => {
+        handleLogout();
+        navigate('/login');
+    };
 return (
     <Navbar
         className={
@@ -74,7 +81,7 @@ return (
                         />
                         <Button
                             variant="danger"
-                            onClick={handleLogout}
+                            onClick={handleUserLogout}
                             className="ml-2"
                         >
                             Logout
@@ -85,6 +92,18 @@ return (
         </Navbar.Collapse>
     </Navbar>
 );
+
+Header.propTypes = {
+    handleLogout: PropTypes.func.isRequired,
+    darkMode: PropTypes.bool.isRequired,
+    setDarkMode: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+      username: PropTypes.string,
+      password: PropTypes.string,
+      email: PropTypes.string,
+      birthday: PropTypes.string,
+    }).isRequired,
+  };
 
 };
 

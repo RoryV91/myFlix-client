@@ -39,8 +39,12 @@ const LoginView = ({ onLoggedIn }) => {
     };
 
     return (
-        <div className="login-view">
             <Form onSubmit={handleSubmit(onSubmit)}>
+                <h1 className='text-center display-1'>myFlix</h1>
+                <br />
+                <h3 className='text-center'>Log in to your account below</h3>
+                <br />
+                <p className='text-center'>Don't have an account? <a href='/signup'>Sign up here</a></p>
                 <Form.Group controlId="formBasicUsername">
                     <Form.Label>Username</Form.Label>
                     <Form.Control
@@ -59,11 +63,10 @@ const LoginView = ({ onLoggedIn }) => {
                     {errors.password && <p>Password is required</p>}
                 </Form.Group>
 
-                <Button variant="primary" type="submit" className="mt-3">
+                <Button variant="secondary" type="submit" className="mt-3">
                     Submit
                 </Button>
             </Form>
-        </div>
     );
 };
 
