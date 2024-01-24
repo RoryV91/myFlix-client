@@ -2,10 +2,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import Header from '../header/header';
 
 const LoginView = ({ onLoggedIn }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate();
 
     const onSubmit = (data) => {
         fetch('https://myflixapi.vanblaricom.dev:9999/login', {
@@ -27,6 +29,7 @@ const LoginView = ({ onLoggedIn }) => {
                     localStorage.setItem('user', JSON.stringify(data.user));
                     localStorage.setItem('token', data.token);
                     onLoggedIn(data.user, data.token);
+                    navigate('/');
                 }
             })
             .catch((error) => {

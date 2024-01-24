@@ -23,3 +23,7 @@ body {
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
+
+.login-view, .signup-view {
+  height: 100vh;
+}
