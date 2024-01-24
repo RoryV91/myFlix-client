@@ -6,9 +6,13 @@ import MovieView from "../movie-view/movie-view";
 import LoginView from "../login-view/login-view";
 import SignupView from "../signup-view/signup-view";
 import Header from "../header/header";
+import Home from "../home-view/home-view";
+import DirectorView from "../director-view/director-view";
+import ActorView from "../actor-view/actor-view";
+import GenreView from "../genre-view/genre-view";
+import MoviesView from "../movies-view/movies-view";
 
 const MainView = () => {
-	
 	const storedUser = JSON.parse(localStorage.getItem("user"));
 	const storedToken = localStorage.getItem("token");
 	const [movies, setMovies] = useState([]);
@@ -17,14 +21,14 @@ const MainView = () => {
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [isLoggingIn, setIsLoggingIn] = useState(true);
 	const [darkMode, setDarkMode] = useState(() => {
-		const saved = localStorage.getItem('darkMode');
+		const saved = localStorage.getItem("darkMode");
 		const initialValue = JSON.parse(saved);
 		return initialValue || false;
-	  });
-	  
-	  useEffect(() => {
-    localStorage.setItem('darkMode', JSON.stringify(darkMode));
-  }, [darkMode]);  
+	});
+
+	useEffect(() => {
+		localStorage.setItem("darkMode", JSON.stringify(darkMode));
+	}, [darkMode]);
 
 	const handleLogout = () => {
 		setUser(null);
@@ -48,11 +52,13 @@ const MainView = () => {
 
 	return (
 		<Router>
-			<div className={
-						darkMode
-							? "bg-dark text-light w-100 h-100 d-flex align-items-center justify-content-center"
-							: "bg-light text-dark w-100 h-100 d-flex align-items-center justify-content-center"
-					}>
+			<div
+				className={
+					darkMode
+						? "bg-dark text-light w-100 h-100 d-flex align-items-center justify-content-center"
+						: "bg-light text-dark w-100 h-100 d-flex align-items-center justify-content-center"
+				}
+			>
 				<div
 					className={
 						darkMode
@@ -100,34 +106,31 @@ const MainView = () => {
 							}
 						/>
 						<Route
+							path="/director/:id"
+							element={<DirectorView />}
+						/>
+						<Route
+							path="/actor/:id"
+							element={<ActorView />}
+						/>
+						<Route
+							path="/genre/:id"
+							element={<GenreView />}
+						/>
+						<Route
 							path="/"
+							element={<Home />}
+						/>
+						<Route
+							path="/movies/view"
 							element={
-								movies.length === 0 ? (
-									<div>The list is empty!</div>
-								) : (
-									<Container>
-										<Row className="d-flex justify-content-center">
-											{movies.map((movie) => (
-												<Col
-													xs={12}
-													sm={6}
-													md={4}
-													lg={3}
-													key={movie._id}
-													className="d-flex justify-content-center"
-												>
-													<MovieCard
-														movie={movie}
-														darkMode={darkMode}
-														onMovieClick={(newSelectedMovie) => {
-															setSelectedMovie(newSelectedMovie);
-														}}
-													/>
-												</Col>
-											))}
-										</Row>
-									</Container>
-								)
+								<MoviesView
+									movies={movies}
+									darkMode={darkMode}
+									onMovieClick={(newSelectedMovie) => {
+										setSelectedMovie(newSelectedMovie);
+									}}
+								/>
 							}
 						/>
 					</Routes>

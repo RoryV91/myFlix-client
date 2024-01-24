@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PropTypes from "prop-types";
+
 
 const MovieView = ({ selectedMovie, token }) => {
 	const [directors, setDirectors] = useState([]);
@@ -17,7 +18,7 @@ const MovieView = ({ selectedMovie, token }) => {
 				}).then((res) => res.json())
 			)
 		).then((directors) =>
-			setDirectors(directors.map((director) => director.name))
+			setDirectors(directors)
 		);
 
 		Promise.all(
@@ -28,7 +29,7 @@ const MovieView = ({ selectedMovie, token }) => {
 					},
 				}).then((res) => res.json())
 			)
-		).then((actors) => setActors(actors.map((actor) => actor.name)));
+		).then((actors) => setActors(actors));
 
 		Promise.all(
 			selectedMovie.genre_ids.map((id) =>
@@ -38,7 +39,7 @@ const MovieView = ({ selectedMovie, token }) => {
 					},
 				}).then((res) => res.json())
 			)
-		).then((genres) => setGenres(genres.map((genre) => genre.name)));
+		).then((genres) => setGenres(genres));
 	}, [selectedMovie]);
 	useEffect(() => {
 		console.log(directors);
@@ -70,29 +71,32 @@ const MovieView = ({ selectedMovie, token }) => {
 						<strong>Director(s): </strong>
 					</p>
 					<ul>
-						{directors.map((director, index) => (
-							
-							<li key={index}>{director}</li>
-						))}
-					</ul>
+  {directors.map((director, index) => (
+    <li key={index}>
+      <Link to={`/director/${director._id}`}>{director.name}</Link>
+    </li>
+  ))}
+</ul>
 					<p>
 						<strong>Starring:</strong>
 					</p>
 					<ul>
-						{actors.map((actor, index) => (
-							
-							<li key={index}>{actor}</li>
-						))}
-					</ul>
+  {actors.map((actor, index) => (
+    <li key={index}>
+      <Link to={`/actor/${actor._id}`}>{actor.name}</Link>
+    </li>
+  ))}
+</ul>
 					<p>
 						<strong>Genres</strong>
 					</p>
 					<ul>
-						{genres.map((genre, index) => (
-							
-							<li key={index}>{genre}</li>
-						))}
-					</ul>
+  {genres.map((genre, index) => (
+    <li key={index}>
+      <Link to={`/genre/${genre._id}`}>{genre.name}</Link>
+    </li>
+  ))}
+</ul>
 					
 					<button
 						className="btn btn-secondary m-3"
@@ -123,7 +127,7 @@ MovieView.propTypes = {
 		release: PropTypes.string,
 		director_ids: PropTypes.arrayOf(PropTypes.string),
 		genre_ids: PropTypes.arrayOf(PropTypes.string),
-	}).isRequired,
+	}),
 	onBackClick: PropTypes.func.isRequired,
 	token: PropTypes.string,
 };
