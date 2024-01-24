@@ -1,9 +1,5 @@
-
-
-$color: steelblue;
-
-.my-flix {
-  color: $color;
+body {
+  padding-top: 70px;
 }
 
 .input-container {
@@ -19,6 +15,11 @@ $color: steelblue;
   color: red;
 }
 
-.movie-card:hover {
+.cursor-pointer {
   cursor: pointer;
+}
+
+.no-break {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }

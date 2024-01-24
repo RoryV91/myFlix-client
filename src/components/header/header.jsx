@@ -19,10 +19,11 @@ const Header = ({ handleLogout, darkMode, setDarkMode }) => {
 		<Navbar
 			className={
 				darkMode
-					? "border-bottom bg-dark text-light px-3"
-					: "border-bottom bg-light text-dark px-3"
+					? "border-bottom bg-dark text-light border-5 px-3"
+					: "border-bottom bg-light text-dark border-5 px-3"
 			}
 			expand="lg"
+            fixed="top"
 		>
 			<Navbar.Brand
 				className={`${darkMode ? "text-light" : "text-dark"}`}
@@ -54,7 +55,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode }) => {
                         label={darkMode ? "☀️" : "🌙"}
 						checked={darkMode}
 						onChange={() => setDarkMode(!darkMode)}
-						className="mr-2"
+						className="mr-2 cursor-pointer"
 					/>
 					<Button
 						variant="danger"
@@ -68,5 +69,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode }) => {
 		</Navbar>
 	);
 };
+
+
 
 export default Header;

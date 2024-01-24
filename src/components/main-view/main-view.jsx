@@ -15,6 +15,12 @@ const MainView = () => {
 	const [selectedMovie, setSelectedMovie] = useState(null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [darkMode, setDarkMode] = useState(false);
+	const handleLogout = () => {
+		setUser(null);
+		setToken(null);
+		localStorage.removeItem('user');
+		localStorage.removeItem('token');
+	  };
 
 	useEffect(() => {
 		if (!token) return;
@@ -70,12 +76,13 @@ const MainView = () => {
 		<div className={darkMode ? 'bg-dark text-light' : 'bg-light text-dark'}>
 		<Header
 		  user={user}
+		  handleLogout={handleLogout}
 		  onLoggedOut={() => setUser(null)}
 		  darkMode={darkMode}
 		  setDarkMode={setDarkMode}
 		/>
 		<Container>
-		  <Row className="d-flex">
+		  <Row className="d-flex justify-content-center">
 			{movies.map((movie) => (
 			  <Col
 				xs={12}
@@ -83,10 +90,11 @@ const MainView = () => {
 				md={4}
 				lg={3}
 				key={movie._id}
-				className="d-flex"
+				className="d-flex justify-content-center"
 			  >
 				<MovieCard
 				  movie={movie}
+				  darkMode={darkMode}
 				  onMovieClick={(newSelectedMovie) => {
 					setSelectedMovie(newSelectedMovie);
 				  }}
