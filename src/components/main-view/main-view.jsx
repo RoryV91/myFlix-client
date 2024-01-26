@@ -3,15 +3,23 @@ import { Link, BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Col, Row, Container } from "react-bootstrap";
 import MovieCard from "../movie-card/movie-card";
 import MovieView from "../movie-view/movie-view";
+import MoviesView from "../movies-view/movies-view";
+
 import LoginView from "../login-view/login-view";
 import SignupView from "../signup-view/signup-view";
 import Header from "../header/header";
 import Footer from "../footer/footer";
 import Home from "../home-view/home-view";
+
 import DirectorView from "../director-view/director-view";
 import ActorView from "../actor-view/actor-view";
+import ActorsView from "../actors-view/actors-view";
 import GenreView from "../genre-view/genre-view";
-import MoviesView from "../movies-view/movies-view";
+
+import ActorCard from "../actor-card/actor-card";
+import DirectorCard from "../director-card/director-card";
+import GenreCard from "../genre-card/genre-card";
+
 
 const MainView = () => {
 	const storedUser = JSON.parse(localStorage.getItem("user"));

@@ -67,31 +67,30 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 					) : (
 						<>
 							{navItems.map((item, index) => (
-								<DropdownButton
-									key={index}
-									id={`dropdown-basic-button-${index}`}
-									title={item.title}
-									variant={darkMode ? "dark" : "light"}
-									className={`p-0 m-0 bg-transparent border-0 ${
-										darkMode ? "text-light" : "text-dark"
-									}`}
-									menuVariant={darkMode ? "dark" : "light"}
-								>
-									<Dropdown.Item
-										as={Link}
-										to={item.view}
-										eventKey="1"
+								<Dropdown key={index}>
+									<Dropdown.Toggle
+										variant={darkMode ? "dark" : "light"}
+										id={`dropdown-basic-button-${index}`}
 									>
-										View
-									</Dropdown.Item>
-									<Dropdown.Item
-										as={Link}
-										to={item.add}
-										eventKey="2"
+										{item.title}
+									</Dropdown.Toggle>
+									<Dropdown.Menu
+										className={darkMode ? "dropdown-menu-dark" : ""}
 									>
-										Add...
-									</Dropdown.Item>
-								</DropdownButton>
+										<Dropdown.Item
+											as={Link}
+											to={item.view}
+										>
+											View
+										</Dropdown.Item>
+										<Dropdown.Item
+											as={Link}
+											to={item.add}
+										>
+											Add...
+										</Dropdown.Item>
+									</Dropdown.Menu>
+								</Dropdown>
 							))}
 							<Form.Check
 								type="switch"
