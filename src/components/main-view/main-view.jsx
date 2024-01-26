@@ -6,6 +6,7 @@ import MovieView from "../movie-view/movie-view";
 import LoginView from "../login-view/login-view";
 import SignupView from "../signup-view/signup-view";
 import Header from "../header/header";
+import Footer from "../footer/footer";
 import Home from "../home-view/home-view";
 import DirectorView from "../director-view/director-view";
 import ActorView from "../actor-view/actor-view";
@@ -134,8 +135,11 @@ const MainView = () => {
 							}
 						/>
 					</Routes>
+					
 				</div>
+				
 			</div>
+			<Footer darkMode={darkMode} />
 		</Router>
 	);
 };

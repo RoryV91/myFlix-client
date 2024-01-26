@@ -130,6 +130,7 @@ MovieView.propTypes = {
 	}),
 	onBackClick: PropTypes.func.isRequired,
 	token: PropTypes.string,
+	
 };
 
 export default MovieView;
