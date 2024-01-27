@@ -3,18 +3,17 @@ import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const ActorCard = ({ actor, darkMode }) => {
+const ActorCard = ({ actor, darkMode, onActorClick }) => {
     return (
-        <Card className={`${darkMode ? 'bg-dark text-light' : 'bg-light text-dark'} m-3`}>
+        <Card className={`${darkMode ? 'bg-dark text-light' : 'bg-light text-dark'} m-1 p-2 border border-3 no-break`}
+        onClick={()=>onActorClick(actor)}>
             <Card.Img variant="top" src={actor.imageurl} />
             <Card.Body>
                 <Card.Title>{actor.name}</Card.Title>
                 <Card.Text>
-                    {actor.bio}
+                    {actor.bio.substring(0, 40)}{actor.bio.length > 40 ? "..." : ""}
                 </Card.Text>
-                <Link to={`/actor/${actor._id}`}>
-                    <Button variant="primary">View Details</Button>
-                </Link>
+                <Link to={`/actor/${actor._id}`} className="stretched-link" />
             </Card.Body>
         </Card>
     );

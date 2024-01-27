@@ -29,7 +29,7 @@ const Footer = ({ darkMode }) => {
                     </Col>
                 </Row>
             </Container>
-            <p>Special thanks to CareerFoundry</p>
+            <p className="m-3">Special thanks to CareerFoundry</p>
             <p>&copy; {new Date().getFullYear()} Rory Van Blaricom</p>
         </footer>
     );

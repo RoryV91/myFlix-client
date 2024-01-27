@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const MovieCard = ({ movie, onMovieClick, darkMode }) => {
 	return (
         <Card
-            className={`card ${darkMode ? "bg-dark text-light" : "bg-light text-dark"} movie-card m-1 p-2 cursor-pointer border border-3 no-break`}
+            className={`card ${darkMode ? "bg-dark text-light" : "bg-light text-dark"} movie-card m-1 p-2 border border-3 no-break`}
             onClick={() => onMovieClick(movie)}
         >
             <Card.Img src={movie.imageurl} className="img-fluid" style={{ height: '300px', objectFit: 'contain' }} />

@@ -1,32 +1,53 @@
+// Import necessary libraries and components
 import { useState, useEffect } from "react";
 import { Link, BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Col, Row, Container } from "react-bootstrap";
+
+//General views
+import Home from "../home-view/home-view";
+import Header from "../header/header";
+import Footer from "../footer/footer";
+import LoginView from "../login-view/login-view";
+import SignupView from "../signup-view/signup-view";
+
+// Movie views
 import MovieCard from "../movie-card/movie-card";
 import MovieView from "../movie-view/movie-view";
 import MoviesView from "../movies-view/movies-view";
+import EditMovieView from "../edit-movie-view/edit-movie-view";
 
-import LoginView from "../login-view/login-view";
-import SignupView from "../signup-view/signup-view";
-import Header from "../header/header";
-import Footer from "../footer/footer";
-import Home from "../home-view/home-view";
-
-import DirectorView from "../director-view/director-view";
-import ActorView from "../actor-view/actor-view";
-import ActorsView from "../actors-view/actors-view";
-import GenreView from "../genre-view/genre-view";
-
-import ActorCard from "../actor-card/actor-card";
-import DirectorCard from "../director-card/director-card";
+// Genre views
 import GenreCard from "../genre-card/genre-card";
+import GenreView from "../genre-view/genre-view";
+import GenresView from "../genres-view/genres-view";
+import EditGenreView from "../edit-genre-view/edit-genre-view";
 
+// Actor views
+import ActorCard from "../actor-card/actor-card";
+import ActorsView from "../actors-view/actors-view";
+import ActorView from "../actor-view/actor-view";
+import EditActorView from "../edit-actor-view/edit-actor-view";
 
+// Director views
+import DirectorCard from "../director-card/director-card";
+import DirectorsView from "../directors-view/directors-view";
+import DirectorView from "../director-view/director-view";
+import EditDirectorView from "../edit-director-view/edit-director-view";
+
+// MainView component
 const MainView = () => {
+	// Define state variables
 	const storedUser = JSON.parse(localStorage.getItem("user"));
 	const storedToken = localStorage.getItem("token");
 	const [movies, setMovies] = useState([]);
+	const [directors, setDirectors] = useState([]);
+	const [actors, setActors] = useState([]);
+	const [genres, setGenres] = useState([]);
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [selectedMovie, setSelectedMovie] = useState(null);
+	const [selectedGenre, setSelectedGenre] = useState(null);
+	const [selectedActor, setSelectedActor] = useState(null);
+	const [selectedDirector, setSelectedDirector] = useState(null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [isLoggingIn, setIsLoggingIn] = useState(true);
 	const [darkMode, setDarkMode] = useState(() => {
@@ -34,18 +55,21 @@ const MainView = () => {
 		const initialValue = JSON.parse(saved);
 		return initialValue || false;
 	});
-
+	
+	// Handle Dark Mode
 	useEffect(() => {
 		localStorage.setItem("darkMode", JSON.stringify(darkMode));
 	}, [darkMode]);
 
+	// Handle Logout
 	const handleLogout = () => {
 		setUser(null);
 		setToken(null);
 		localStorage.removeItem("user");
 		localStorage.removeItem("token");
 	};
-
+	
+	//Fetch Movies
 	useEffect(() => {
 		if (!token) return;
 
@@ -57,6 +81,20 @@ const MainView = () => {
 			.then((response) => response.json())
 			.then((data) => setMovies(data))
 			.catch((error) => console.error("Error fetching movies:", error));
+	}, [token]);
+
+	// Fetch actors
+	useEffect(() => {
+		if (!token) return;
+
+		fetch("https://myflixapi.vanblaricom.dev:9999/actors", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+		.then((response) => response.json())
+		.then((data) => setActors(data))
+		.catch((error) => console.error("Error fetching actors:", error));
 	}, [token]);
 
 	return (
@@ -130,6 +168,7 @@ const MainView = () => {
 							path="/"
 							element={<Home />}
 						/>
+						
 						<Route
 							path="/movies/view"
 							element={
@@ -141,6 +180,19 @@ const MainView = () => {
 									}}
 								/>
 							}
+						/>
+						<Route 
+							path="/actors/view" 
+							element={
+								<ActorsView 
+									darkMode={darkMode}
+									actors={actors}
+									onActorClick={(newSelectedActor) => {
+										setSelectedActor(newSelectedActor);
+									}
+							}
+								/>
+							} 
 						/>
 					</Routes>
 					
