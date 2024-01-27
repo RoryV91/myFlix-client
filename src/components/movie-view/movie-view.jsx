@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link, BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const MovieView = ({ selectedMovie, token }) => {
+const MovieView = ({ selectedMovie: propSelectedMovie, token }) => {
 	const [directors, setDirectors] = useState([]);
 	const [actors, setActors] = useState([]);
 	const [genres, setGenres] = useState([]);
+	const location = useLocation();
+	const selectedMovie =
+		propSelectedMovie || (location.state && location.state.selectedMovie);
 	const navigate = useNavigate();
+
 	useEffect(() => {
 		Promise.all(
 			selectedMovie.director_ids.map((id) =>
@@ -17,9 +23,7 @@ const MovieView = ({ selectedMovie, token }) => {
 					},
 				}).then((res) => res.json())
 			)
-		).then((directors) =>
-			setDirectors(directors)
-		);
+		).then((directors) => setDirectors(directors));
 
 		Promise.all(
 			selectedMovie.actor_ids.map((id) =>
@@ -40,10 +44,12 @@ const MovieView = ({ selectedMovie, token }) => {
 				}).then((res) => res.json())
 			)
 		).then((genres) => setGenres(genres));
-	}, [selectedMovie]);
+	}, [selectedMovie, token]);
+
 	useEffect(() => {
 		console.log(directors);
 	}, [directors]);
+
 	return (
 		<div className="container mt-5 vh-100">
 			<div className="row">
@@ -51,7 +57,7 @@ const MovieView = ({ selectedMovie, token }) => {
 					<img
 						src={selectedMovie.imageurl}
 						className="img-fluid"
-					 />
+					/>
 				</div>
 				<div className="col-12 col-md-6">
 					<h2 className="mt-3">{selectedMovie.title}</h2>
@@ -71,40 +77,47 @@ const MovieView = ({ selectedMovie, token }) => {
 						<strong>Director(s): </strong>
 					</p>
 					<ul>
-  {directors.map((director, index) => (
-    <li key={index}>
-      <Link to={`/director/${director._id}`}>{director.name}</Link>
-    </li>
-  ))}
-</ul>
+						{directors.map((director, index) => (
+							<li key={index}>
+								<Link to={`/director/${director._id}`}>{director.name}</Link>
+							</li>
+						))}
+					</ul>
 					<p>
 						<strong>Starring:</strong>
 					</p>
 					<ul>
-  {actors.map((actor, index) => (
-    <li key={index}>
-      <Link to={`/actor/${actor._id}`}>{actor.name}</Link>
-    </li>
-  ))}
-</ul>
+						{actors.map((actor, index) => (
+							<li key={index}>
+								<Link
+									to={{
+										pathname: `/actor/${actor._id}`,
+										state: { selectedActor: actor },
+									}}
+								>
+									{actor.name}
+								</Link>
+							</li>
+						))}
+					</ul>
 					<p>
-						<strong>Genres</strong>
+						<strong>Genres: </strong>
 					</p>
 					<ul>
-  {genres.map((genre, index) => (
-    <li key={index}>
-      <Link to={`/genre/${genre._id}`}>{genre.name}</Link>
-    </li>
-  ))}
-</ul>
-					
+						{genres.map((genre, index) => (
+							<li key={index}>
+								<Link to={`/genre/${genre._id}`}>{genre.name}</Link>
+							</li>
+						))}
+					</ul>
+
 					<button
 						className="btn btn-secondary m-3"
 						onClick={() => navigate(-1)}
 					>
 						Edit
 					</button>
-					
+
 					<button
 						className="btn btn-secondary m-3"
 						onClick={() => navigate(-1)}
@@ -130,7 +143,6 @@ MovieView.propTypes = {
 	}),
 	onBackClick: PropTypes.func.isRequired,
 	token: PropTypes.string,
-	
 };
 
 export default MovieView;

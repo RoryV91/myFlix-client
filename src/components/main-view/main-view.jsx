@@ -1,7 +1,12 @@
 // Import necessary libraries and components
 import { useState, useEffect } from "react";
-import { Link, BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Col, Row, Container } from "react-bootstrap";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+// Import custom hooks
+import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
+import useFetchGenres from "../../hooks/use-fetch-genres/use-fetch-genres";
+import useFetchDirectors from "../../hooks/use-fetch-directors/use-fetch-directors";
+import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
 
 //General views
 import Home from "../home-view/home-view";
@@ -39,23 +44,20 @@ const MainView = () => {
 	// Define state variables
 	const storedUser = JSON.parse(localStorage.getItem("user"));
 	const storedToken = localStorage.getItem("token");
-	const [movies, setMovies] = useState([]);
-	const [directors, setDirectors] = useState([]);
-	const [actors, setActors] = useState([]);
-	const [genres, setGenres] = useState([]);
 	const [user, setUser] = useState(storedUser ? storedUser : null);
-	const [selectedMovie, setSelectedMovie] = useState(null);
-	const [selectedGenre, setSelectedGenre] = useState(null);
-	const [selectedActor, setSelectedActor] = useState(null);
-	const [selectedDirector, setSelectedDirector] = useState(null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
-	const [isLoggingIn, setIsLoggingIn] = useState(true);
 	const [darkMode, setDarkMode] = useState(() => {
 		const saved = localStorage.getItem("darkMode");
 		const initialValue = JSON.parse(saved);
 		return initialValue || false;
 	});
-	
+
+	// Use custom hooks to fetch data
+	const movies = useFetchMovies(token);
+	const genres = useFetchGenres(token);
+	const directors = useFetchDirectors(token);
+	const actors = useFetchActors(token);
+
 	// Handle Dark Mode
 	useEffect(() => {
 		localStorage.setItem("darkMode", JSON.stringify(darkMode));
@@ -68,34 +70,6 @@ const MainView = () => {
 		localStorage.removeItem("user");
 		localStorage.removeItem("token");
 	};
-	
-	//Fetch Movies
-	useEffect(() => {
-		if (!token) return;
-
-		fetch("https://myflixapi.vanblaricom.dev:9999/movies", {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-			.then((response) => response.json())
-			.then((data) => setMovies(data))
-			.catch((error) => console.error("Error fetching movies:", error));
-	}, [token]);
-
-	// Fetch actors
-	useEffect(() => {
-		if (!token) return;
-
-		fetch("https://myflixapi.vanblaricom.dev:9999/actors", {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-		.then((response) => response.json())
-		.then((data) => setActors(data))
-		.catch((error) => console.error("Error fetching actors:", error));
-	}, [token]);
 
 	return (
 		<Router>
@@ -146,9 +120,8 @@ const MainView = () => {
 							path="/movie/:id"
 							element={
 								<MovieView
-									selectedMovie={selectedMovie}
+									movies={movies}
 									token={token}
-									onBackClick={() => setSelectedMovie(null)}
 								/>
 							}
 						/>
@@ -158,7 +131,12 @@ const MainView = () => {
 						/>
 						<Route
 							path="/actor/:id"
-							element={<ActorView />}
+							element={
+								<ActorView
+									actors={actors}
+									token={token}
+								/>
+							}
 						/>
 						<Route
 							path="/genre/:id"
@@ -168,36 +146,29 @@ const MainView = () => {
 							path="/"
 							element={<Home />}
 						/>
-						
+
 						<Route
 							path="/movies/view"
 							element={
 								<MoviesView
 									movies={movies}
+									token={token}
 									darkMode={darkMode}
-									onMovieClick={(newSelectedMovie) => {
-										setSelectedMovie(newSelectedMovie);
-									}}
 								/>
 							}
 						/>
-						<Route 
-							path="/actors/view" 
+						<Route
+							path="/actors/view"
 							element={
-								<ActorsView 
+								<ActorsView
 									darkMode={darkMode}
+									token={token}
 									actors={actors}
-									onActorClick={(newSelectedActor) => {
-										setSelectedActor(newSelectedActor);
-									}
-							}
 								/>
-							} 
+							}
 						/>
 					</Routes>
-					
 				</div>
-				
 			</div>
 			<Footer darkMode={darkMode} />
 		</Router>
