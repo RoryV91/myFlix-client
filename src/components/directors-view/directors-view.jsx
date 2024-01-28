@@ -4,8 +4,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 import DirectorCard from '../director-card/director-card';
 
 const DirectorsView = ({ directors, darkMode, onDirectorClick }) => {
-    console.log(directors);
-    console.log(darkMode);
     return (
         !directors || directors.length === 0 ? (
             <div>The list is empty!</div>

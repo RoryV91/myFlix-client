@@ -134,7 +134,13 @@ const MainView = () => {
 						/>
 						<Route
 							path="/director/:id"
-							element={<DirectorView />}
+							element={
+								<DirectorView 
+									directors={directors}
+									token={token}
+									darkMode={darkMode}
+								/>
+							}
 						/>
 						<Route
 							path="/actor/:id"
@@ -142,13 +148,19 @@ const MainView = () => {
 								<ActorView
 									actors={actors}
 									token={token}
-									setSelectedActor={setSelectedActor}
+									darkMode={darkMode}
 								/>
 							}
 						/>
 						<Route
 							path="/genre/:id"
-							element={<GenreView />}
+							element={
+								<GenreView
+									genres={genres}
+									token={token}
+									darkMode={darkMode}
+								/>
+							}
 						/>
 
 

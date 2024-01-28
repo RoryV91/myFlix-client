@@ -32,4 +32,12 @@ const ActorsView = ({ actors, darkMode, onActorClick }) => {
 	);
 };
 
+ActorsView.propTypes = {
+	actors: PropTypes.arrayOf(PropTypes.shape({
+		_id: PropTypes.string.isRequired,
+	})).isRequired,
+	darkMode: PropTypes.bool.isRequired,
+	token: PropTypes.string.isRequired
+};
+
 export default ActorsView;

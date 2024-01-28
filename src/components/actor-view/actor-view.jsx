@@ -78,6 +78,7 @@ ActorView.propTypes = {
         movie_ids: PropTypes.arrayOf(PropTypes.string),
     }),
     token: PropTypes.string.isRequired,
+    darkMode: PropTypes.bool.isRequired,
 };
 
 export default ActorView;
