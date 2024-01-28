@@ -12,6 +12,11 @@ const Footer = ({ darkMode }) => {
         <footer className={`${darkMode ? 'bg-dark text-light' : 'bg-light text-dark'} text-center p-3`}>
             <Container className='w-50 w-md-25'>
                 <Row className="justify-content-center">
+                    <Col xs={12} className="text-center">
+                        <p>Follow Me:</p>
+                    </Col>
+                </Row>
+                <Row className="justify-content-center">
                     <Col xs={4} className="text-center">
                         <a href="https://www.linkedin.com/in/rory-van-blaricom/" target="_blank" rel="noopener noreferrer">
                             <img src={linkedInLogo} alt="LinkedIn Logo" style={{width: 'auto', height: '30px'}} />
@@ -29,7 +34,8 @@ const Footer = ({ darkMode }) => {
                     </Col>
                 </Row>
             </Container>
-            <p className="m-3">Special thanks to CareerFoundry</p>
+            <p className="m-3">🙏 Special thanks to <a href="https://www.careerfoundry.com" target="_blank" rel="noopener noreferrer">CareerFoundry</a>!</p>
+            <p>Wanna learn how to do this too? Let me <a href="https://careerfoundry.com/en/referral_registrations/new?referral=xr1xnk7N" target="_blank" rel="noopener noreferrer">refer</a> you!</p>
             <p>&copy; {new Date().getFullYear()} Rory Van Blaricom</p>
         </footer>
     );

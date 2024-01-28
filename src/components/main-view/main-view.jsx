@@ -199,6 +199,16 @@ const MainView = () => {
 								/>
 							}
 						/>
+						<Route
+							path="/genres/view"
+							element={
+								<GenresView
+									darkMode={darkMode}
+									token={token}
+									genres={genres}
+								/>
+							}
+						/>
 					</Routes>
 				</div>
 			</div>
