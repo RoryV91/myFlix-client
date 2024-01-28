@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
 import useFetchDirectors from "../../hooks/use-fetch-directors/use-fetch-directors";
 import useFetchGenres from "../../hooks/use-fetch-genres/use-fetch-genres";
+import ActionButtons from "../action-buttons/action-buttons";
 
 const MovieView = ({ movies, token }) => {
 	const { id } = useParams();
@@ -35,6 +36,20 @@ const MovieView = ({ movies, token }) => {
 		selectedMovie?.genre_ids.includes(genre._id)
 	);
 
+	const handleDelete = () => {
+		// code to handle delete action
+	};
+
+	const handleEdit = () => {
+		// code to handle edit action
+	};
+
+	//Handle Back
+	const handleBack = () => {
+		navigate(-1);
+	};
+
+	// Back if no movie is selected
 	useEffect(() => {
 		if (selectedMovie === null) {
 			navigate(-1);
@@ -70,7 +85,7 @@ const MovieView = ({ movies, token }) => {
 					</p>
 					<p>
 						<strong>📢 Featured: </strong>
-						{selectedMovie.featured ? '✅' : '🚫'}
+						{selectedMovie.featured ? "✅" : "🚫"}
 					</p>
 					<p>
 						<strong>🎬 Director(s): </strong>
@@ -113,27 +128,11 @@ const MovieView = ({ movies, token }) => {
 							</li>
 						))}
 					</ul>
-
-					
-					<Button
-						className="m-3"
-						variant="danger"
-					>
-						Delete ✂️
-					</Button>
-					<Button
-						className="m-3"
-						variant="warning"
-					>
-						Edit 📝
-					</Button>
-					<Button
-						className="m-3"
-						variant="info"
-						onClick={() => navigate(-1)}
-					>
-						Back ⏮️
-					</Button>
+					<ActionButtons
+						onDelete={handleDelete}
+						onEdit={handleEdit}
+						onBack={handleBack}
+					/>
 				</Col>
 			</Row>
 		</Container>

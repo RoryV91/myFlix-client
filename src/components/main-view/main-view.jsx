@@ -16,7 +16,6 @@ import LoginView from "../login-view/login-view";
 import SignupView from "../signup-view/signup-view";
 
 // Movie views
-import MovieCard from "../movie-card/movie-card";
 import MovieView from "../movie-view/movie-view";
 import MoviesView from "../movies-view/movies-view";
 import EditMovieView from "../edit-movie-view/edit-movie-view";
@@ -28,13 +27,11 @@ import GenresView from "../genres-view/genres-view";
 import EditGenreView from "../edit-genre-view/edit-genre-view";
 
 // Actor views
-import ActorCard from "../actor-card/actor-card";
 import ActorsView from "../actors-view/actors-view";
 import ActorView from "../actor-view/actor-view";
 import EditActorView from "../edit-actor-view/edit-actor-view";
 
 // Director views
-import DirectorCard from "../director-card/director-card";
 import DirectorsView from "../directors-view/directors-view";
 import DirectorView from "../director-view/director-view";
 import EditDirectorView from "../edit-director-view/edit-director-view";
@@ -62,8 +59,8 @@ const MainView = () => {
 
 	// Scroll to top on page load
 	useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+		window.scrollTo(0, 0);
+	}, []);
 
 	// Handle Dark Mode
 	useEffect(() => {
@@ -140,7 +137,7 @@ const MainView = () => {
 						<Route
 							path="/director/:id"
 							element={
-								<DirectorView 
+								<DirectorView
 									directors={directors}
 									token={token}
 									darkMode={darkMode}
@@ -160,14 +157,16 @@ const MainView = () => {
 						<Route
 							path="/genre/:id"
 							element={
-								<GenreView
-									genres={genres}
-									token={token}
-									darkMode={darkMode}
-								/>
+								<div className="d-flex justify-content-center align-items-center vh-100">
+									<GenreView
+										genres={genres}
+										movies={movies}
+										token={token}
+										darkMode={darkMode}
+									/>
+								</div>
 							}
 						/>
-
 
 						<Route
 							path="/movies/view"

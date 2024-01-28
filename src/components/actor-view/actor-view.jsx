@@ -3,6 +3,7 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
+import ActionButtons from "../action-buttons/action-buttons";
 
 const ActorView = ({ token }) => {
 	const { id } = useParams();
@@ -21,6 +22,19 @@ const ActorView = ({ token }) => {
 			.then((res) => res.json())
 			.then((actor) => setSelectedActor(actor));
 	}, [id, token]);
+
+	const handleDelete = () => {
+		// code to handle delete action
+	};
+
+	const handleEdit = () => {
+		// code to handle edit action
+	};
+
+	//Handle Back
+	const handleBack = () => {
+		navigate(-1);
+	};
 
 	if (!selectedActor || movies.length === 0) return null;
 
@@ -65,25 +79,11 @@ const ActorView = ({ token }) => {
 							</li>
 						);
 					})}
-					<Button
-						className="m-3"
-						variant="danger"
-					>
-						Delete ✂️
-					</Button>
-					<Button
-						className="m-3"
-						variant="warning"
-					>
-						Edit 📝
-					</Button>
-					<Button
-						className="m-3"
-						variant="info"
-						onClick={() => navigate(-1)}
-					>
-						Back ⏮️
-					</Button>
+					<ActionButtons
+						onDelete={handleDelete}
+						onEdit={handleEdit}
+						onBack={handleBack}
+					/>
 				</Col>
 			</Row>
 		</Container>

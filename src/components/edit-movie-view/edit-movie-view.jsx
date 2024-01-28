@@ -1,46 +1,70 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
 
-const EditMovieView = () => {
-    const [title, setTitle] = useState('');
-    const [genre, setGenre] = useState('');
-    const [description, setDescription] = useState('');
+const EditMovieView = ({ movie, token, onEdit }) => {
+    const { register, handleSubmit, setValue } = useForm();
+    const navigate = useNavigate();
 
-    const handleTitleChange = (event) => {
-        setTitle(event.target.value);
-    };
+    useEffect(() => {
+        setValue("title", movie.title);
+        setValue("description", movie.description);
+        setValue("genres", movie.genre_ids.join(", "));
+        setValue("directors", movie.director_ids.join(", "));
+        setValue("actors", movie.actor_ids.join(", "));
+        setValue("imageurl", movie.imageurl);
+        setValue("featured", movie.featured);
+        setValue("release", movie.release);
+    }, [movie, setValue]);
 
-    const handleGenreChange = (event) => {
-        setGenre(event.target.value);
-    };
+    const onSubmit = (data) => {
+        onEdit({
+            ...movie,
+            ...data
+        });
 
-    const handleDescriptionChange = (event) => {
-        setDescription(event.target.value);
-    };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // TODO: Implement the logic to update the movie with the new values
+        navigate(-1);
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Title:
-                <input type="text" value={title} onChange={handleTitleChange} />
-            </label>
-            <br />
-            <label>
-                Genre:
-                <input type="text" value={genre} onChange={handleGenreChange} />
-            </label>
-            <br />
-            <label>
-                Description:
-                <textarea value={description} onChange={handleDescriptionChange} />
-            </label>
-            <br />
-            <button type="submit">Save</button>
-        </form>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form.Group className="mb-3">
+                <Form.Label>Title</Form.Label>
+                <Form.Control {...register("title")} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Description</Form.Label>
+                <Form.Control {...register("description")} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Genres</Form.Label>
+                <Form.Control {...register("genres")} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Director(s)</Form.Label>
+                <Form.Control {...register("directors")} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Actors</Form.Label>
+                <Form.Control {...register("actors")} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Image URL</Form.Label>
+                <Form.Control {...register("imageurl")} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Featured</Form.Label>
+                <Form.Check {...register("featured")} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Release</Form.Label>
+                <Form.Control {...register("release")} />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+                Save
+            </Button>
+        </Form>
     );
 };
 
