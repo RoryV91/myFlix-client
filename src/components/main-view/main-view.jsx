@@ -98,6 +98,10 @@ const MainView = () => {
 
 					<Routes>
 						<Route
+							path="/"
+							element={<Home />}
+						/>
+						<Route
 							path="/login"
 							element={
 								<div className="d-flex justify-content-center align-items-center vh-100">
@@ -146,10 +150,7 @@ const MainView = () => {
 							path="/genre/:id"
 							element={<GenreView />}
 						/>
-						<Route
-							path="/"
-							element={<Home />}
-						/>
+
 
 						<Route
 							path="/movies/view"
@@ -172,7 +173,7 @@ const MainView = () => {
 							}
 						/>
 						<Route
-							path="/directors"
+							path="/directors/view"
 							element={
 								<DirectorsView
 									darkMode={darkMode}
