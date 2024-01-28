@@ -208,6 +208,16 @@ const MainView = () => {
 								/>
 							}
 						/>
+						<Route
+							path="/movies/edit/:id"
+							element={
+								<EditMovieView
+									movies={movies}
+									token={token}
+									darkMode={darkMode}
+								/>
+							}
+						/>
 					</Routes>
 				</div>
 			</div>

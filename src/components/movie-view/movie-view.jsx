@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
 import useFetchDirectors from "../../hooks/use-fetch-directors/use-fetch-directors";
@@ -41,7 +41,7 @@ const MovieView = ({ movies, token }) => {
 	};
 
 	const handleEdit = () => {
-		// code to handle edit action
+		navigate(`/movies/edit/${selectedMovie._id}`, { state: { movie: selectedMovie } });
 	};
 
 	//Handle Back
