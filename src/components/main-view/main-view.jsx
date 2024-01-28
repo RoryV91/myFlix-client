@@ -171,6 +171,16 @@ const MainView = () => {
 								/>
 							}
 						/>
+						<Route
+							path="/directors"
+							element={
+								<DirectorsView
+									darkMode={darkMode}
+									token={token}
+									directors={directors}
+								/>
+							}
+						/>
 					</Routes>
 				</div>
 			</div>

@@ -13,7 +13,7 @@ const MovieView = ({ movies, token }) => {
     const navigate = useNavigate();
 
     const directorIds = selectedMovie?.director_ids;
-    const allDirectors = useFetchDirectors(directorIds, token);
+const allDirectors = useFetchDirectors(token);
     const allActors = useFetchActors(token);
     const allGenres = useFetchGenres(token);
 
