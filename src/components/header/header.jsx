@@ -6,7 +6,6 @@ import {
 	Nav,
 	Button,
 	Dropdown,
-	DropdownButton,
 	Form,
 } from "react-bootstrap";
 
@@ -36,7 +35,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 				className={`${darkMode ? "text-light" : "text-dark"}`}
 				href="/"
 			>
-				myFlix
+				📼 myFlix
 			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="basic-navbar-nav" className={`${darkMode ? "navbar-dark" : "navbar-light"}`}/>
 			<Navbar.Collapse id="basic-navbar-nav">
@@ -105,7 +104,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 								onClick={handleUserLogout}
 								className="ml-2"
 							>
-								Logout
+								Logout ❌
 							</Button>
 						</>
 					)}

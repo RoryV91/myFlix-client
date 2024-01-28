@@ -1,4 +1,3 @@
-// useFetchActors.js
 import { useState, useEffect } from "react";
 
 const useFetchActors = (token) => {

@@ -1,4 +1,3 @@
-// useFetchMovies.js
 import { useState, useEffect } from "react";
 
 const useFetchMovies = (token) => {

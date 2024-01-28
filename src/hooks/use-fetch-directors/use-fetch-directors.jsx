@@ -1,4 +1,3 @@
-// useFetchDirectors.js
 import { useState, useEffect } from "react";
 
 const useFetchDirectors = (token) => {

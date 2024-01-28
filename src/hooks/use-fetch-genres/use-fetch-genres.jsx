@@ -1,4 +1,3 @@
-// useFetchGenres.js
 import { useState, useEffect } from "react";
 
 const useFetchGenres = (token) => {
