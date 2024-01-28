@@ -1,20 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Card } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 
-const MovieCard = ({ movie, onMovieClick, darkMode }) => {
+const MovieCard = ({ movie, darkMode }) => {
+	const navigate = useNavigate();
+
+	const handleMovieClick = () => {
+		navigate(`/movie/${movie._id}`, { state: { selectedMovie: movie } });
+	};
+
 	return (
-        <Card
-            className={`card ${darkMode ? "bg-dark text-light" : "bg-light text-dark"} movie-card m-1 p-2 border border-3 no-break`}
-            onClick={() => onMovieClick(movie)}
-        >
-            <Card.Img src={movie.imageurl} className="img-fluid" style={{ height: '300px', objectFit: 'contain' }} />
-            <Card.Body>
-                <Card.Title>{movie.title.substring(0, 25)}{movie.title.length > 25 ? "..." : ""}</Card.Title>
-            </Card.Body>
-            <Link to={`/movie/${movie._id}`} className="stretched-link" />
-        </Card>
+		<Card
+			className={`card ${darkMode ? "bg-dark text-light" : "bg-light text-dark"} movie-card m-1 p-2 border border-3 no-break`}
+			onClick={handleMovieClick}
+		>
+			<Card.Img src={movie.imageurl} className="img-fluid" style={{ height: '300px', objectFit: 'contain' }} />
+			<Card.Body>
+				<Card.Title>{movie.title.substring(0, 25)}{movie.title.length > 25 ? "..." : ""}</Card.Title>
+			</Card.Body>
+			<Link to={`/movie/${movie._id}`} className="stretched-link" />
+		</Card>
 	);
 };
 
@@ -29,8 +35,7 @@ MovieCard.propTypes = {
 		director_ids: PropTypes.arrayOf(PropTypes.string),
 		genre_ids: PropTypes.arrayOf(PropTypes.string),
 	}).isRequired,
-	onMovieClick: PropTypes.func.isRequired,
-    darkMode: PropTypes.bool.isRequired,
+	darkMode: PropTypes.bool.isRequired,
 };
 
 export default MovieCard;

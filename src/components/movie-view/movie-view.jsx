@@ -2,19 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-
-const MovieView = ({ selectedMovie: propSelectedMovie, token }) => {
+const MovieView = ({ token }) => {
+	const location = useLocation();
+	const initialSelectedMovie = location.state ? location.state.selectedMovie : null;
 	const [directors, setDirectors] = useState([]);
+	const [selectedMovie, setSelectedMovie] = useState(initialSelectedMovie);
 	const [actors, setActors] = useState([]);
 	const [genres, setGenres] = useState([]);
-	const location = useLocation();
-	const selectedMovie =
-		propSelectedMovie || (location.state && location.state.selectedMovie);
 	const navigate = useNavigate();
-
 	useEffect(() => {
+		if (!selectedMovie) return;
+
 		Promise.all(
 			selectedMovie.director_ids.map((id) =>
 				fetch(`https://myflixapi.vanblaricom.dev:9999/directors/${id}`, {
@@ -47,8 +45,12 @@ const MovieView = ({ selectedMovie: propSelectedMovie, token }) => {
 	}, [selectedMovie, token]);
 
 	useEffect(() => {
-		console.log(directors);
-	}, [directors]);
+		if (selectedMovie === null) {
+			navigate(-1);
+		}
+	}, [selectedMovie, navigate]);
+
+	if (!selectedMovie) return null;
 
 	return (
 		<div className="container mt-5 vh-100">
@@ -111,13 +113,7 @@ const MovieView = ({ selectedMovie: propSelectedMovie, token }) => {
 						))}
 					</ul>
 
-					<button
-						className="btn btn-secondary m-3"
-						onClick={() => navigate(-1)}
-					>
-						Edit
-					</button>
-
+					<button className="btn btn-secondary m-3">Edit</button>
 					<button
 						className="btn btn-secondary m-3"
 						onClick={() => navigate(-1)}
@@ -141,8 +137,7 @@ MovieView.propTypes = {
 		director_ids: PropTypes.arrayOf(PropTypes.string),
 		genre_ids: PropTypes.arrayOf(PropTypes.string),
 	}),
-	onBackClick: PropTypes.func.isRequired,
-	token: PropTypes.string,
+	token: PropTypes.string.isRequired,
 };
 
 export default MovieView;

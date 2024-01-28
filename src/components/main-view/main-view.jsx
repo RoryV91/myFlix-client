@@ -44,6 +44,7 @@ const MainView = () => {
 	// Define state variables
 	const storedUser = JSON.parse(localStorage.getItem("user"));
 	const storedToken = localStorage.getItem("token");
+	const [selectedMovie, setSelectedMovie] = useState(null);
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [darkMode, setDarkMode] = useState(() => {
@@ -122,6 +123,7 @@ const MainView = () => {
 								<MovieView
 									movies={movies}
 									token={token}
+									setSelectedMovie={setSelectedMovie}
 								/>
 							}
 						/>
