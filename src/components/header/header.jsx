@@ -38,7 +38,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 			>
 				myFlix
 			</Navbar.Brand>
-			<Navbar.Toggle aria-controls="basic-navbar-nav" />
+			<Navbar.Toggle aria-controls="basic-navbar-nav" className={`${darkMode ? "navbar-dark" : "navbar-light"}`}/>
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className="w-100 d-flex justify-content-around align-items-center">
 					{!user ? (

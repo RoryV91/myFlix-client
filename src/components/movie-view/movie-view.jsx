@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import PropTypes from "prop-types";
 import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
 import useFetchDirectors from "../../hooks/use-fetch-directors/use-fetch-directors";
@@ -35,15 +36,15 @@ const allDirectors = useFetchDirectors(token);
     if (!selectedMovie) return null;
 
 	return (
-		<div className="container mt-5 vh-100">
-			<div className="row">
-				<div className="col-12 col-md-6">
+		<Container className="mt-5 vh-100">
+			<Row>
+				<Col xs={12} md={6}>
 					<img
 						src={selectedMovie.imageurl}
 						className="img-fluid"
 					/>
-				</div>
-				<div className="col-12 col-md-6">
+				</Col>
+				<Col xs={12} md={6}>
 					<h2 className="mt-3">{selectedMovie.title}</h2>
 					<p>
 						<strong>Description: </strong>
@@ -98,17 +99,18 @@ const allDirectors = useFetchDirectors(token);
 							</li>
 						))}
 					</ul>
-
-					<button className="btn btn-secondary m-3">Edit</button>
-					<button
-						className="btn btn-secondary m-3"
+	
+					<Button className="m-3" variant="secondary">Edit</Button>
+					<Button
+						className="m-3"
+						variant="secondary"
 						onClick={() => navigate(-1)}
 					>
 						Back
-					</button>
-				</div>
-			</div>
-		</div>
+					</Button>
+				</Col>
+			</Row>
+		</Container>
 	);
 };
 
