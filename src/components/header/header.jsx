@@ -35,7 +35,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 				className={`${darkMode ? "text-light" : "text-dark"}`}
 				href="/"
 			>
-				📼 myFlix
+				<span className="spin">📼</span> myFlix
 			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="basic-navbar-nav" className={`${darkMode ? "navbar-dark" : "navbar-light"}`}/>
 			<Navbar.Collapse id="basic-navbar-nav">

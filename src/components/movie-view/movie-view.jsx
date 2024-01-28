@@ -1,65 +1,79 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
 import useFetchDirectors from "../../hooks/use-fetch-directors/use-fetch-directors";
 import useFetchGenres from "../../hooks/use-fetch-genres/use-fetch-genres";
 
 const MovieView = ({ movies, token }) => {
-    const { id } = useParams();
-    const location = useLocation();
-    const initialSelectedMovie = location.state ? location.state.selectedMovie : movies.find(movie => movie._id === id);
-    const [selectedMovie, setSelectedMovie] = useState(initialSelectedMovie);
-    const navigate = useNavigate();
+	const { id } = useParams();
+	const location = useLocation();
+	const initialSelectedMovie = location.state
+		? location.state.selectedMovie
+		: movies.find((movie) => movie._id === id);
+	const [selectedMovie, setSelectedMovie] = useState(initialSelectedMovie);
+	const navigate = useNavigate();
 
-    const directorIds = selectedMovie?.director_ids;
-const allDirectors = useFetchDirectors(token);
-    const allActors = useFetchActors(token);
-    const allGenres = useFetchGenres(token);
+	const directorIds = selectedMovie?.director_ids;
+	const allDirectors = useFetchDirectors(token);
+	const allActors = useFetchActors(token);
+	const allGenres = useFetchGenres(token);
 
-    useEffect(() => {
-        const updatedSelectedMovie = movies.find(movie => movie._id === id);
-        setSelectedMovie(updatedSelectedMovie);
-    }, [movies, id]);
+	useEffect(() => {
+		const updatedSelectedMovie = movies.find((movie) => movie._id === id);
+		setSelectedMovie(updatedSelectedMovie);
+	}, [movies, id]);
 
-    const directors = allDirectors.filter(director => selectedMovie?.director_ids.includes(director._id));
-    const actors = allActors.filter(actor => selectedMovie?.actor_ids.includes(actor._id));
-    const genres = allGenres.filter(genre => selectedMovie?.genre_ids.includes(genre._id));
+	const directors = allDirectors.filter((director) =>
+		selectedMovie?.director_ids.includes(director._id)
+	);
+	const actors = allActors.filter((actor) =>
+		selectedMovie?.actor_ids.includes(actor._id)
+	);
+	const genres = allGenres.filter((genre) =>
+		selectedMovie?.genre_ids.includes(genre._id)
+	);
 
-    useEffect(() => {
-        if (selectedMovie === null) {
-            navigate(-1);
-        }
-    }, [selectedMovie, navigate]);
+	useEffect(() => {
+		if (selectedMovie === null) {
+			navigate(-1);
+		}
+	}, [selectedMovie, navigate]);
 
-    if (!selectedMovie) return null;
+	if (!selectedMovie) return null;
 
 	return (
 		<Container className="mt-5 vh-100">
 			<Row>
-				<Col xs={12} md={6}>
+				<Col
+					xs={12}
+					md={6}
+				>
 					<img
 						src={selectedMovie.imageurl}
 						className="img-fluid"
 					/>
 				</Col>
-				<Col xs={12} md={6}>
+				<Col
+					xs={12}
+					md={6}
+				>
 					<h2 className="mt-3">{selectedMovie.title}</h2>
 					<p>
-						<strong>Description: </strong>
+						<strong>ℹ️ Description: </strong>
 						{selectedMovie.description}
 					</p>
 					<p>
-						<strong>Release: </strong>
+						<strong>🗓️ Release: </strong>
 						{new Date(selectedMovie.release).toLocaleDateString()}
 					</p>
 					<p>
-						<strong>Featured: </strong>
-						{selectedMovie.featured.toString()}
+						<strong>📢 Featured: </strong>
+						{selectedMovie.featured ? '✅' : '🚫'}
 					</p>
 					<p>
-						<strong>Director(s): </strong>
+						<strong>🎬 Director(s): </strong>
 					</p>
 					<ul>
 						{directors && directors.length > 0 ? (
@@ -73,7 +87,7 @@ const allDirectors = useFetchDirectors(token);
 						)}
 					</ul>
 					<p>
-						<strong>Starring:</strong>
+						<strong>🌟 Starring:</strong>
 					</p>
 					<ul>
 						{actors.map((actor, index) => (
@@ -90,7 +104,7 @@ const allDirectors = useFetchDirectors(token);
 						))}
 					</ul>
 					<p>
-						<strong>Genres: </strong>
+						<strong>🎞️ Genres:</strong>
 					</p>
 					<ul>
 						{genres.map((genre, index) => (
@@ -99,14 +113,26 @@ const allDirectors = useFetchDirectors(token);
 							</li>
 						))}
 					</ul>
-	
-					<Button className="m-3" variant="secondary">Edit</Button>
+
+					
 					<Button
 						className="m-3"
-						variant="secondary"
+						variant="danger"
+					>
+						Delete ✂️
+					</Button>
+					<Button
+						className="m-3"
+						variant="warning"
+					>
+						Edit 📝
+					</Button>
+					<Button
+						className="m-3"
+						variant="info"
 						onClick={() => navigate(-1)}
 					>
-						Back
+						Back ⏮️
 					</Button>
 				</Col>
 			</Row>
@@ -115,18 +141,20 @@ const allDirectors = useFetchDirectors(token);
 };
 
 MovieView.propTypes = {
-    movies: PropTypes.arrayOf(PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-        imageurl: PropTypes.string,
-        featured: PropTypes.bool,
-        actor_ids: PropTypes.arrayOf(PropTypes.string),
-        release: PropTypes.string,
-        director_ids: PropTypes.arrayOf(PropTypes.string),
-        genre_ids: PropTypes.arrayOf(PropTypes.string),
-    })),
-    token: PropTypes.string.isRequired,
+	movies: PropTypes.arrayOf(
+		PropTypes.shape({
+			_id: PropTypes.string.isRequired,
+			title: PropTypes.string.isRequired,
+			description: PropTypes.string.isRequired,
+			imageurl: PropTypes.string,
+			featured: PropTypes.bool,
+			actor_ids: PropTypes.arrayOf(PropTypes.string),
+			release: PropTypes.string,
+			director_ids: PropTypes.arrayOf(PropTypes.string),
+			genre_ids: PropTypes.arrayOf(PropTypes.string),
+		})
+	),
+	token: PropTypes.string.isRequired,
 	setSelectedMovie: PropTypes.func.isRequired,
 };
 

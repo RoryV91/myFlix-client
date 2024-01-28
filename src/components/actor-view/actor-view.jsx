@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 

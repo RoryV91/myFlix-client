@@ -60,6 +60,11 @@ const MainView = () => {
 	const directors = useFetchDirectors(token);
 	const actors = useFetchActors(token);
 
+	// Scroll to top on page load
+	useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
 	// Handle Dark Mode
 	useEffect(() => {
 		localStorage.setItem("darkMode", JSON.stringify(darkMode));
