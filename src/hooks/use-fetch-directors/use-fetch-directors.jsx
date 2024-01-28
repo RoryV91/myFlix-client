@@ -1,21 +1,28 @@
 // useFetchDirectors.js
 import { useState, useEffect } from "react";
 
-const useFetchDirectors = (token) => {
+const useFetchDirectors = (directorIds, token) => {
     const [directors, setDirectors] = useState([]);
 
     useEffect(() => {
-        if (!token) return;
+        if (!directorIds || !token) return;
 
-        fetch("https://myflixapi.vanblaricom.dev:9999/directors", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => setDirectors(data))
-            .catch((error) => console.error("Error fetching directors:", error));
-    }, [token]);
+        const fetchDirectors = async () => {
+            const fetchedDirectors = await Promise.all(
+                directorIds.map((id) =>
+                    fetch(`https://myflixapi.vanblaricom.dev:9999/directors/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }).then((response) => response.json())
+                )
+            );
+
+            setDirectors(fetchedDirectors);
+        };
+
+        fetchDirectors();
+    }, [directorIds, token]);
 
     return directors;
 };

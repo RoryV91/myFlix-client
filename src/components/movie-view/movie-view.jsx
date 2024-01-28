@@ -12,17 +12,27 @@ const MovieView = ({ movies, token }) => {
     const [selectedMovie, setSelectedMovie] = useState(initialSelectedMovie);
     const navigate = useNavigate();
 
-    const directors = useFetchDirectors(selectedMovie.director_ids, token);
-    const actors = useFetchActors(selectedMovie.actor_ids, token);
-    const genres = useFetchGenres(selectedMovie.genre_ids, token);
+    const directorIds = selectedMovie?.director_ids;
+    const allDirectors = useFetchDirectors(directorIds, token);
+    const allActors = useFetchActors(token);
+    const allGenres = useFetchGenres(token);
 
-	useEffect(() => {
-		if (selectedMovie === null) {
-			navigate(-1);
-		}
-	}, [selectedMovie, navigate]);
+    useEffect(() => {
+        const updatedSelectedMovie = movies.find(movie => movie._id === id);
+        setSelectedMovie(updatedSelectedMovie);
+    }, [movies, id]);
 
-	if (!selectedMovie) return null;
+    const directors = allDirectors.filter(director => selectedMovie?.director_ids.includes(director._id));
+    const actors = allActors.filter(actor => selectedMovie?.actor_ids.includes(actor._id));
+    const genres = allGenres.filter(genre => selectedMovie?.genre_ids.includes(genre._id));
+
+    useEffect(() => {
+        if (selectedMovie === null) {
+            navigate(-1);
+        }
+    }, [selectedMovie, navigate]);
+
+    if (!selectedMovie) return null;
 
 	return (
 		<div className="container mt-5 vh-100">
@@ -51,11 +61,15 @@ const MovieView = ({ movies, token }) => {
 						<strong>Director(s): </strong>
 					</p>
 					<ul>
-						{directors.map((director, index) => (
-							<li key={index}>
-								<Link to={`/director/${director._id}`}>{director.name}</Link>
-							</li>
-						))}
+						{directors && directors.length > 0 ? (
+							directors.map((director, index) => (
+								<li key={index}>
+									<Link to={`/director/${director._id}`}>{director.name}</Link>
+								</li>
+							))
+						) : (
+							<li>No directors found</li>
+						)}
 					</ul>
 					<p>
 						<strong>Starring:</strong>
@@ -99,17 +113,18 @@ const MovieView = ({ movies, token }) => {
 };
 
 MovieView.propTypes = {
-	selectedMovie: PropTypes.shape({
-		title: PropTypes.string.isRequired,
-		description: PropTypes.string.isRequired,
-		imageurl: PropTypes.string,
-		featured: PropTypes.bool,
-		actor_ids: PropTypes.arrayOf(PropTypes.string),
-		release: PropTypes.string,
-		director_ids: PropTypes.arrayOf(PropTypes.string),
-		genre_ids: PropTypes.arrayOf(PropTypes.string),
-	}),
-	token: PropTypes.string.isRequired,
+    movies: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        imageurl: PropTypes.string,
+        featured: PropTypes.bool,
+        actor_ids: PropTypes.arrayOf(PropTypes.string),
+        release: PropTypes.string,
+        director_ids: PropTypes.arrayOf(PropTypes.string),
+        genre_ids: PropTypes.arrayOf(PropTypes.string),
+    })),
+    token: PropTypes.string.isRequired,
 };
 
 export default MovieView;
