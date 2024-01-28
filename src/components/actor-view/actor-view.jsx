@@ -51,7 +51,6 @@ const ActorView = ({ token }) => {
                         <strong>Movies: </strong>
                     </p>
                     {actorMovies.map((movie, index) => {
-                        console.log(movie._id); // Add this line
                         return (
                             <li key={index}>
                                 <Link to={`/movie/${movie._id}`}>{movie.title}</Link>

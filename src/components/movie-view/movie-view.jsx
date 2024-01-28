@@ -1,49 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
+import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
+import useFetchDirectors from "../../hooks/use-fetch-directors/use-fetch-directors";
+import useFetchGenres from "../../hooks/use-fetch-genres/use-fetch-genres";
 
 const MovieView = ({ movies, token }) => {
     const { id } = useParams();
     const location = useLocation();
     const initialSelectedMovie = location.state ? location.state.selectedMovie : movies.find(movie => movie._id === id);
-    const [directors, setDirectors] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState(initialSelectedMovie);
-	const [actors, setActors] = useState([]);
-	const [genres, setGenres] = useState([]);
-	const navigate = useNavigate();
-	useEffect(() => {
-		if (!selectedMovie) return;
+    const navigate = useNavigate();
 
-		Promise.all(
-			selectedMovie.director_ids.map((id) =>
-				fetch(`https://myflixapi.vanblaricom.dev:9999/directors/${id}`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}).then((res) => res.json())
-			)
-		).then((directors) => setDirectors(directors));
-
-		Promise.all(
-			selectedMovie.actor_ids.map((id) =>
-				fetch(`https://myflixapi.vanblaricom.dev:9999/actors/${id}`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}).then((res) => res.json())
-			)
-		).then((actors) => setActors(actors));
-
-		Promise.all(
-			selectedMovie.genre_ids.map((id) =>
-				fetch(`https://myflixapi.vanblaricom.dev:9999/genres/${id}`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}).then((res) => res.json())
-			)
-		).then((genres) => setGenres(genres));
-	}, [selectedMovie, token]);
+    const directors = useFetchDirectors(selectedMovie.director_ids, token);
+    const actors = useFetchActors(selectedMovie.actor_ids, token);
+    const genres = useFetchGenres(selectedMovie.genre_ids, token);
 
 	useEffect(() => {
 		if (selectedMovie === null) {
