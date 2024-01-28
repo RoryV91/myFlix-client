@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const ActorCard = ({ actor, darkMode, onActorClick }) => {
+const ActorCard = ({ actor, darkMode }) => {
     return (
-        <Card className={`${darkMode ? 'bg-dark text-light' : 'bg-light text-dark'} m-1 p-2 border border-3 no-break`}
-        onClick={()=>onActorClick(actor)}>
+        <Card className={`${darkMode ? 'bg-dark text-light' : 'bg-light text-dark'} m-1 p-2 border border-3 no-break`}>
             <Card.Img variant="top" src={actor.imageurl} />
             <Card.Body>
                 <Card.Title>{actor.name}</Card.Title>

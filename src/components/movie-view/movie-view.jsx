@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const MovieView = ({ token }) => {
-	const location = useLocation();
-	const initialSelectedMovie = location.state ? location.state.selectedMovie : null;
-	const [directors, setDirectors] = useState([]);
-	const [selectedMovie, setSelectedMovie] = useState(initialSelectedMovie);
+const MovieView = ({ movies, token }) => {
+    const { id } = useParams();
+    const location = useLocation();
+    const initialSelectedMovie = location.state ? location.state.selectedMovie : movies.find(movie => movie._id === id);
+    const [directors, setDirectors] = useState([]);
+    const [selectedMovie, setSelectedMovie] = useState(initialSelectedMovie);
 	const [actors, setActors] = useState([]);
 	const [genres, setGenres] = useState([]);
 	const navigate = useNavigate();

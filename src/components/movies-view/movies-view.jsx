@@ -2,15 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Col } from 'react-bootstrap';
 import MovieCard from '../movie-card/movie-card';
-import { useNavigate } from 'react-router-dom';
 
-const MoviesView = ({ movies, darkMode }) => {
-    const navigate = useNavigate();
-
-    const handleMovieClick = (movie) => {
-        navigate(`/movie/${movie._id}`, { state: { selectedMovie: movie } });
-    };
-
+const MoviesView = ({ movies, darkMode, onMovieClick }) => {
     return (
         movies.length === 0 ? (
             <div>The list is empty!</div>
@@ -29,7 +22,7 @@ const MoviesView = ({ movies, darkMode }) => {
                             <MovieCard
                                 movie={movie}
                                 darkMode={darkMode}
-                                onMovieClick={handleMovieClick}
+                                onMovieClick={onMovieClick}
                             />
                         </Col>
                     ))}

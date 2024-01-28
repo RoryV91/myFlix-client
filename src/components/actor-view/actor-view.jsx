@@ -1,39 +1,84 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Container, Row, Col } from 'react-bootstrap';
-import ActorCard from '../actor-card/actor-card';
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link, useParams } from "react-router-dom";
+import PropTypes from "prop-types";
+import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 
-const ActorsView = ({ actors, darkMode }) => {
+const ActorView = ({ token }) => {
+    const { id } = useParams();
+    const [selectedActor, setSelectedActor] = useState(null);
+    const movies = useFetchMovies(token);
+    const actorMovies = movies?.filter(movie => movie.actor_ids.includes(id)) || [];
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        fetch(`https://myflixapi.vanblaricom.dev:9999/actors/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((res) => res.json())
+        .then((actor) => setSelectedActor(actor));
+    }, [id, token]);
+
+    if (!selectedActor || movies.length === 0) return null;
+
     return (
-        actors.length === 0 ? (
-            <div>The list is empty!</div>
-        ) : (
-            <Container>
-                <Row className="d-flex justify-content-center">
-                    {actors.map((actor) => (
-                        <Col
-                            xs={12}
-                            sm={6}
-                            md={4}
-                            lg={3}
-                            key={actor._id}
-                            className="d-flex justify-content-center"
-                        >
-                            <ActorCard
-                                actor={actor}
-                                darkMode={darkMode}
-                            />
-                        </Col>
-                    ))}
-                </Row>
-            </Container>
-        )
+        <div className="container mt-5 vh-100">
+            <div className="row">
+                <div className="col-12 col-md-6">
+                    <img
+                        src={selectedActor.imageurl}
+                        className="img-fluid"
+                    />
+                </div>
+                <div className="col-12 col-md-6">
+                    <h2 className="mt-3">{selectedActor.name}</h2>
+                    <p>
+                        <strong>Biography: </strong>
+                        {selectedActor.bio}
+                    </p>
+                    <p>
+                        <strong>Birth: </strong>
+                        {new Date(selectedActor.birth).toLocaleDateString()}
+                    </p>
+                    {selectedActor.death && (
+                        <p>
+                            <strong>Death: </strong>
+                            {new Date(selectedActor.death).toLocaleDateString()}
+                        </p>
+                    )}
+                    <p>
+                        <strong>Movies: </strong>
+                    </p>
+                    {actorMovies.map((movie, index) => {
+                        console.log(movie._id); // Add this line
+                        return (
+                            <li key={index}>
+                                <Link to={`/movie/${movie._id}`}>{movie.title}</Link>
+                            </li>
+                        );
+                    })}
+                    <button
+                        className="btn btn-secondary m-3"
+                        onClick={() => navigate(-1)}
+                    >
+                        Back
+                    </button>
+                </div>
+            </div>
+        </div>
     );
 };
 
-ActorsView.propTypes = {
-    actors: PropTypes.array.isRequired,
-    darkMode: PropTypes.bool.isRequired,
+ActorView.propTypes = {
+    selectedActor: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        bio: PropTypes.string.isRequired,
+        imageurl: PropTypes.string,
+        birth: PropTypes.string,
+        movie_ids: PropTypes.arrayOf(PropTypes.string),
+    }),
+    token: PropTypes.string.isRequired,
 };
 
-export default ActorsView;
+export default ActorView;
