@@ -76,7 +76,7 @@ const MovieView = ({ movies, token }) => {
 				>
 					<h2 className="mt-3">{selectedMovie.title}</h2>
 					<p>
-						<strong>ℹ️ Description: </strong>
+						<strong>📰 Description: </strong>
 						{selectedMovie.description}
 					</p>
 					<p>

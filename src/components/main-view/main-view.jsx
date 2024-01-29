@@ -97,7 +97,7 @@ const MainView = () => {
 						darkMode={darkMode}
 						setDarkMode={setDarkMode}
 					/>
-
+					<div className="pt-3">
 					<Routes>
 						<Route
 							path="/"
@@ -213,12 +213,16 @@ const MainView = () => {
 							element={
 								<EditMovieView
 									movies={movies}
+									actors={actors}
+									directors={directors}
+									genres={genres}
 									token={token}
 									darkMode={darkMode}
 								/>
 							}
 						/>
 					</Routes>
+					</div>
 				</div>
 			</div>
 			<Footer darkMode={darkMode} />
