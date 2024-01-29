@@ -1,7 +1,5 @@
-$color: steelblue;
-
-.my-flix {
-  color: $color;
+body {
+  padding-top: 70px;
 }
 
 .input-container {
@@ -15,4 +13,23 @@ $color: steelblue;
 
 .red {
   color: red;
+}
+
+.no-break {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.login-view, .signup-view {
+  height: 100vh;
+}
+
+.spin {
+  display: inline-block;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
