@@ -14,7 +14,7 @@ const EditMovieView = ({
 	genres,
 	token,
 	onEdit,
-    darkMode
+	darkMode
 }) => {
 	const { id } = useParams();
 	const [movie, setMovie] = useState(null);
@@ -25,7 +25,10 @@ const EditMovieView = ({
 	const [selectedDirectors, setSelectedDirectors] = useState([]);
 	const [selectedActors, setSelectedActors] = useState([]);
 	const [selectedGenres, setSelectedGenres] = useState([]);
-
+	const [selectedGenre, setSelectedGenre] = useState("");
+	const [selectedDirector, setSelectedDirector] = useState("");
+	const [selectedActor, setSelectedActor] = useState("");
+    console.log(selectedGenres);
 	useEffect(() => {
 		if (movies && directors && actors && genres) {
 			const foundMovie = movies.find((movie) => movie._id === id);
@@ -50,6 +53,14 @@ const EditMovieView = ({
 
 	const onSubmit = async (data) => {
 		try {
+			data.genre_ids = selectedGenres;
+			data.director_ids = selectedDirectors;
+			data.actor_ids = selectedActors;
+            delete data.genres;
+            delete data.directors;
+            delete data.actors;
+            console.log(data);
+            console.log(token)
 			const response = await axios.put(
 				`https://myflixapi.vanblaricom.dev:9999/movies/${movie._id}`,
 				data,
@@ -61,10 +72,10 @@ const EditMovieView = ({
 			);
 
 			if (response.status === 200) {
-				navigate(`/movies/${movie._id}`);
-			}
+                navigate(`/movie/${movie._id}`, { state: { key: Date.now() } });
+              }
 		} catch (error) {
-			console.error("Error updating movie:", error);
+			console.error("Error updating movie:", error.response);
 			setError("Error updating movie");
 		}
 	};
@@ -81,32 +92,55 @@ const EditMovieView = ({
 		);
 	}
 
-    const onDelete = async () => {
-        try {
-          const response = await axios.delete(
-            `https://myflixapi.vanblaricom.dev:9999/movies/${movie._id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-      
-          if (response.status === 200) {
-            console.log("Movie deleted successfully");
-            navigate('/movies'); 
-          }
-        } catch (error) {
-          console.error("Error deleting movie:", error);
-        }
-      };
+	const onDelete = async () => {
+		try {
+			const response = await axios.delete(
+				`https://myflixapi.vanblaricom.dev:9999/movies/${movie._id}`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
 
-	const handleSelectDirector = (event) => {
-		setSelectedDirectors([...selectedDirectors, event.target.value]);
+			if (response.status === 200) {
+				console.log("Movie deleted successfully");
+				navigate("/movies");
+			}
+		} catch (error) {
+			console.error("Error deleting movie:", error);
+		}
 	};
 
+	const handleAddActor = () => {
+		setSelectedActors((prevActors) => [...prevActors, selectedActors]);
+	};
+
+	const handleAddDirector = () => {
+		setSelectedDirectors((prevDirectors) => [
+			...prevDirectors,
+			selectedDirectors,
+		]);
+	};
+
+	const handleAddGenre = () => {
+		if (selectedGenre && !selectedGenres.includes(selectedGenre)) {
+			setSelectedGenres((prevGenres) => [...prevGenres, selectedGenre]);
+			setSelectedGenre(""); // Reset selected genre
+		}
+	};
+
+	// Update selectedActor, selectedDirector, and selectedGenre when an actor, director, or genre is selected from the dropdowns
 	const handleSelectActor = (event) => {
-		setSelectedActors([...selectedActors, event.target.value]);
+		setSelectedActors(event.target.value);
+	};
+
+	const handleSelectDirector = (event) => {
+		setSelectedDirectors(event.target.value);
+	};
+
+	const handleSelectGenre = (event) => {
+		setSelectedGenre(event.target.value);
 	};
 
 	const handleRemoveDirector = (id) => {
@@ -117,10 +151,6 @@ const EditMovieView = ({
 
 	const handleRemoveActor = (id) => {
 		setSelectedActors(selectedActors.filter((actorId) => actorId !== id));
-	};
-
-	const handleSelectGenre = (event) => {
-		setSelectedGenres([...selectedGenres, event.target.value]);
 	};
 
 	const handleRemoveGenre = (id) => {
@@ -139,306 +169,322 @@ const EditMovieView = ({
 	}
 
 	return (
-			<Form onSubmit={handleSubmit(onSubmit)} >
-				<Row>
-					<Col md={6}>
-						<Form.Group className="mb-3">
-							<Form.Label>📼 Title</Form.Label>
-							<Form.Control {...register("title")} />
-						</Form.Group>
-					</Col>
-					<Col md={6}>
-						<Form.Group className="mb-3">
-							<Form.Label>📰 Description</Form.Label>
-							<Form.Control
-								as="textarea"
-								rows={5}
-								{...register("description")}
-							/>
-						</Form.Group>
-					</Col>
-				</Row>
-				<Row>
-					<Col md={6}>
-						<Form.Group className="mb-3">
-							<Form.Label>📚 Genres</Form.Label>
-							<Controller
-								name="genres"
-								control={control}
-								defaultValue=""
-								render={({ field }) => (
-									<Form.Control
-										as="select"
-										className="form-select"
-										{...field}
+		<Form onSubmit={handleSubmit(onSubmit)}>
+			<Row>
+				<Col md={6}>
+					<Form.Group className="mb-3">
+						<Form.Label>📼 Title</Form.Label>
+						<Form.Control {...register("title")} />
+					</Form.Group>
+				</Col>
+				<Col md={6}>
+					<Form.Group className="mb-3">
+						<Form.Label>📰 Description</Form.Label>
+						<Form.Control
+							as="textarea"
+							rows={5}
+							{...register("description")}
+						/>
+					</Form.Group>
+				</Col>
+			</Row>
+			<Row>
+				<Col md={6}>
+					<Form.Group className="mb-3">
+						<Form.Label>📚 Genres</Form.Label>
+						<Controller
+							name="genres"
+							control={control}
+							defaultValue=""
+							render={({ field }) => (
+								<Form.Control
+									as="select"
+									className="form-select"
+									{...field}
+									onChange={(event) => {
+										field.onChange(event);
+										handleSelectGenre(event);
+									}}
+								>
+									<option
+										disabled
+										value=""
 									>
+										Select genre...
+									</option>
+									{genres.map((genre) => (
 										<option
-											disabled
-											value=""
+											key={genre._id}
+											value={genre._id}
 										>
-											Select genre...
+											{genre.name}
 										</option>
-										{genres.map((genre) => (
-											<option
-												key={genre._id}
-												value={genre._id}
-											>
-												{genre.name}
-											</option>
-										))}
-									</Form.Control>
-								)}
-							/>
-							<Button
-								onClick={handleSelectGenre}
-								className="mt-1 btn btn-success"
-							>
-								Add ➕
-							</Button>
-							<table className={`mt-3 table table-striped ${darkMode ? 'table-dark' : 'table-light'}`}>
-								<thead>
-									<tr>
-										<th>Genre name 📽️</th>
-										<th>Remove 🪄</th>
-									</tr>
-								</thead>
-								<tbody>
-									{selectedGenres.map((id) => {
-										const genre = genres.find((genre) => genre._id === id);
-										if (genre) {
-											return (
-												<tr key={id}>
-													<td>{genre.name}</td>
-													<td>
-														<Button
-															onClick={() => handleRemoveGenre(id)}
-															className="btn-danger btn-sm"
-														>
-															➖
-														</Button>
-													</td>
-												</tr>
-											);
-										}
-									})}
-								</tbody>
-							</table>
-						</Form.Group>
-					</Col>
-					<Col md={6}>
-						<Form.Group className="mb-3">
-							<Form.Label>🎬 Director(s)</Form.Label>
-							<Controller
-								name="directors"
-								control={control}
-								defaultValue=""
-								render={({ field }) => (
-									<Form.Control
-										as="select"
-										className="form-select"
-										{...field}
-									>
-										<option
-											disabled
-											value=""
-										>
-											Select director...
-										</option>
-										{directors.map((director) => (
-											<option
-												key={director._id}
-												value={director._id}
-											>
-												{director.name}
-											</option>
-										))}
-									</Form.Control>
-								)}
-							/>
-							<Button
-								onClick={handleSelectDirector}
-								className="mt-1 btn btn-success"
-							>
-								Add ➕
-							</Button>
-							<table className={`mt-3 table table-striped ${darkMode ? 'table-dark' : 'table-light'}`}>
-								<thead>
-									<tr>
-										<th>Name 🪪</th>
-										<th>Remove 🪄</th>
-									</tr>
-								</thead>
-								<tbody>
-									{selectedDirectors.map((id) => {
-										const director = directors.find(
-											(director) => director._id === id
+									))}
+								</Form.Control>
+							)}
+						/>
+						<Button
+							onClick={handleAddGenre}
+							className="mt-1 btn btn-success"
+						>
+							Add ➕
+						</Button>
+						<table
+							className={`mt-3 table table-striped ${
+								darkMode ? "table-dark" : "table-light"
+							}`}
+						>
+							<thead>
+								<tr>
+									<th>Genre name 📽️</th>
+									<th>Remove 🪄</th>
+								</tr>
+							</thead>
+							<tbody>
+								{selectedGenres.map((id) => {
+									const genre = genres.find((genre) => genre._id === id);
+									if (genre) {
+										return (
+											<tr key={id}>
+												<td>{genre.name}</td>
+												<td>
+													<Button
+														onClick={() => handleRemoveGenre(id)}
+														className="btn-danger btn-sm"
+													>
+														➖
+													</Button>
+												</td>
+											</tr>
 										);
-										if (director) {
-											return (
-												<tr key={id}>
-													<td>{director.name}</td>
-													<td>
-														<Button
-															onClick={() => handleRemoveDirector(id)}
-															className="btn-danger btn-sm"
-														>
-															➖
-														</Button>
-													</td>
-												</tr>
-											);
-										}
-										return null;
-									})}
-								</tbody>
-							</table>
-						</Form.Group>
-					</Col>
-				</Row>
-				<Row>
-					<Col md={6}>
-						<Form.Group className="mb-3">
-							<Form.Label>🎭 Actors</Form.Label>
-							<Controller
-								name="actors"
-								control={control}
-								defaultValue=""
-								render={({ field }) => (
-									<Form.Control
-										as="select"
-										className="form-select"
-										{...field}
+									}
+								})}
+							</tbody>
+						</table>
+					</Form.Group>
+				</Col>
+				<Col md={6}>
+					<Form.Group className="mb-3">
+						<Form.Label>🎬 Director(s)</Form.Label>
+						<Controller
+							name="directors"
+							control={control}
+							defaultValue=""
+							render={({ field }) => (
+								<Form.Control
+									as="select"
+									className="form-select"
+									{...field}
+								>
+									<option
+										disabled
+										value=""
 									>
+										Select director...
+									</option>
+									{directors.map((director) => (
 										<option
-											disabled
-											value=""
+											key={director._id}
+											value={director._id}
 										>
-											Select actor...
+											{director.name}
 										</option>
-										{actors.map((actor) => (
-											<option
-												key={actor._id}
-												value={actor._id}
-											>
-												{actor.name}
-											</option>
-										))}
-									</Form.Control>
-								)}
-							/>
-							<Button
-								onClick={handleSelectActor}
-								className="mt-1 btn btn-success"
-							>
-								Add ➕
-							</Button>
-							<table className={`mt-3 table table-striped ${darkMode ? 'table-dark' : 'table-light'}`}>
-								<thead>
-									<tr>
-										<th>Name 🪪</th>
-										<th>Remove 🪄</th>
-									</tr>
-								</thead>
-								<tbody>
-									{selectedActors.map((id) => {
-										const actor = actors.find((actor) => actor._id === id);
-										if (actor) {
-											return (
-												<tr key={id}>
-													<td>{actor.name}</td>
-													<td>
-														<Button
-															onClick={() => handleRemoveActor(id)}
-															className="btn-danger btn-sm"
-														>
-															➖
-														</Button>
-													</td>
-												</tr>
-											);
-										}
-									})}
-								</tbody>
-							</table>
-						</Form.Group>
-					</Col>
-					<Col md={6}>
-						<Form.Group className="mb-3">
-							<Form.Label>🔗 Image URL</Form.Label>
-							<Form.Control {...register("imageurl")} />
-						</Form.Group>
-					</Col>
-				</Row>
-				<Row>
-					<Col md={6}>
-						<Form.Group className="mb-3">
-							<Form.Label>📢 Featured</Form.Label>
-							<Form.Check {...register("featured")} />
-						</Form.Group>
-					</Col>
-					<Col md={6}>
-						<Form.Group className="mb-3">
-							<Form.Label>🗓️ Release</Form.Label>
-							<Controller
-								name="release"
-								control={control}
-								defaultValue=""
-								render={({ field }) => (
-									<DatePicker
-										selected={field.value && new Date(field.value)}
-										onChange={(date) => field.onChange(date.toISOString())}
-										dateFormat="yyyy-MM-dd"
-										className="form-control"
-									/>
-								)}
-							/>
-						</Form.Group>
-					</Col>
-				</Row>
-				<Row className="mt-5">
-					<Col
-						xs={12}
-						md={4}
-						className="mb-3 mb-md-0 text-center"
-					>
+									))}
+								</Form.Control>
+							)}
+						/>
 						<Button
-							variant="danger"
-							type="button"
-							onClick={onDelete}
-							className="w-100"
+							onClick={handleAddDirector}
+							className="mt-1 btn btn-success"
 						>
-							Delete Movie 🗑️
+							Add ➕
 						</Button>
-					</Col>
-					<Col
-						xs={12}
-						md={4}
-						className="mb-3 mb-md-0 text-center"
-					>
+						<table
+							className={`mt-3 table table-striped ${
+								darkMode ? "table-dark" : "table-light"
+							}`}
+						>
+							<thead>
+								<tr>
+									<th>Name 🪪</th>
+									<th>Remove 🪄</th>
+								</tr>
+							</thead>
+							<tbody>
+								{selectedDirectors.map((id) => {
+									const director = directors.find(
+										(director) => director._id === id
+									);
+									if (director) {
+										return (
+											<tr key={id}>
+												<td>{director.name}</td>
+												<td>
+													<Button
+														onClick={() => handleRemoveDirector(id)}
+														className="btn-danger btn-sm"
+													>
+														➖
+													</Button>
+												</td>
+											</tr>
+										);
+									}
+									return null;
+								})}
+							</tbody>
+						</table>
+					</Form.Group>
+				</Col>
+			</Row>
+			<Row>
+				<Col md={6}>
+					<Form.Group className="mb-3">
+						<Form.Label>🎭 Actors</Form.Label>
+						<Controller
+							name="actors"
+							control={control}
+							defaultValue=""
+							render={({ field }) => (
+								<Form.Control
+									as="select"
+									className="form-select"
+									{...field}
+								>
+									<option
+										disabled
+										value=""
+									>
+										Select actor...
+									</option>
+									{actors.map((actor) => (
+										<option
+											key={actor._id}
+											value={actor._id}
+										>
+											{actor.name}
+										</option>
+									))}
+								</Form.Control>
+							)}
+						/>
 						<Button
-							variant="info"
-							type="button"
-							onClick={() => navigate(-1)}
-							className="w-100"
+							onClick={handleAddActor}
+							className="mt-1 btn btn-success"
 						>
-							Back ⏮️
+							Add ➕
 						</Button>
-					</Col>
-					<Col
-						xs={12}
-						md={4}
-						className="text-md-end"
+						<table
+							className={`mt-3 table table-striped ${
+								darkMode ? "table-dark" : "table-light"
+							}`}
+						>
+							<thead>
+								<tr>
+									<th>Name 🪪</th>
+									<th>Remove 🪄</th>
+								</tr>
+							</thead>
+							<tbody>
+								{selectedActors.map((id) => {
+									const actor = actors.find((actor) => actor._id === id);
+									if (actor) {
+										return (
+											<tr key={id}>
+												<td>{actor.name}</td>
+												<td>
+													<Button
+														onClick={() => handleRemoveActor(id)}
+														className="btn-danger btn-sm"
+													>
+														➖
+													</Button>
+												</td>
+											</tr>
+										);
+									}
+								})}
+							</tbody>
+						</table>
+					</Form.Group>
+				</Col>
+				<Col md={6}>
+					<Form.Group className="mb-3">
+						<Form.Label>🔗 Image URL</Form.Label>
+						<Form.Control {...register("imageurl")} />
+					</Form.Group>
+				</Col>
+			</Row>
+			<Row>
+				<Col md={6}>
+					<Form.Group className="mb-3">
+						<Form.Label>📢 Featured</Form.Label>
+						<Form.Check {...register("featured")} />
+					</Form.Group>
+				</Col>
+				<Col md={6}>
+					<Form.Group className="mb-3">
+						<Form.Label>🗓️ Release</Form.Label>
+						<Controller
+							name="release"
+							control={control}
+							defaultValue=""
+							render={({ field }) => (
+								<DatePicker
+									selected={field.value && new Date(field.value)}
+									onChange={(date) => field.onChange(date.toISOString())}
+									dateFormat="yyyy-MM-dd"
+									className="form-control"
+								/>
+							)}
+						/>
+					</Form.Group>
+				</Col>
+			</Row>
+			<Row className="mt-5">
+				<Col
+					xs={12}
+					md={4}
+					className="mb-3 mb-md-0 text-center"
+				>
+					<Button
+						variant="danger"
+						type="button"
+						onClick={onDelete}
+						className="w-100"
 					>
-						<Button
-							variant="success"
-							type="submit"
-							className="w-100"
-						>
-							Save Changes 💾
-						</Button>
-					</Col>
-				</Row>
-			</Form>
+						Delete Movie 🗑️
+					</Button>
+				</Col>
+				<Col
+					xs={12}
+					md={4}
+					className="mb-3 mb-md-0 text-center"
+				>
+					<Button
+						variant="info"
+						type="button"
+						onClick={() => navigate(-1)}
+						className="w-100"
+					>
+						Back ⏮️
+					</Button>
+				</Col>
+				<Col
+					xs={12}
+					md={4}
+					className="text-md-end"
+				>
+					<Button
+						variant="success"
+						type="submit"
+						className="w-100"
+					>
+						Save Changes 💾
+					</Button>
+				</Col>
+			</Row>
+		</Form>
 	);
 };
 

@@ -40,6 +40,7 @@ const MovieView = ({ movies, token }) => {
 		// code to handle delete action
 	};
 
+	// Open edit movie view
 	const handleEdit = () => {
 		navigate(`/movies/edit/${selectedMovie._id}`, { state: { movie: selectedMovie } });
 	};
