@@ -91,6 +91,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 									</Dropdown.Menu>
 								</Dropdown>
 							))}
+							<Nav.Link as={Link} to={`/users/${user._id}`}>Profile</Nav.Link> 
 							<Form.Check
 								type="switch"
 								id="custom-switch"

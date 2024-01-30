@@ -72,7 +72,7 @@ const EditMovieView = ({
 			);
 
 			if (response.status === 200) {
-                navigate(`/movie/${movie._id}`, { state: { key: Date.now() } });
+                window.location.assign(`/movie/${movie._id}`);
               }
 		} catch (error) {
 			console.error("Error updating movie:", error.response);
@@ -93,6 +93,8 @@ const EditMovieView = ({
 	}
 
 	const onDelete = async () => {
+        console.log(movie._id);
+        console.log("onDelete");
 		try {
 			const response = await axios.delete(
 				`https://myflixapi.vanblaricom.dev:9999/movies/${movie._id}`,

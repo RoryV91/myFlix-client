@@ -12,8 +12,11 @@ import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
 import Home from "../home-view/home-view";
 import Header from "../header/header";
 import Footer from "../footer/footer";
+
+//User views
 import LoginView from "../login-view/login-view";
 import SignupView from "../signup-view/signup-view";
+import UserProfileView from "../user-profile-view/user-profile-view";
 
 // Movie views
 import MovieView from "../movie-view/movie-view";
@@ -42,8 +45,12 @@ const MainView = () => {
 	const storedUser = JSON.parse(localStorage.getItem("user"));
 	const storedToken = localStorage.getItem("token");
 	const updateMovie = (updatedMovie) => {
-		setMovies(movies.map(movie => movie._id === updatedMovie._id ? updatedMovie : movie));
-	  };
+		setMovies(
+			movies.map((movie) =>
+				movie._id === updatedMovie._id ? updatedMovie : movie
+			)
+		);
+	};
 	const [selectedMovie, setSelectedMovie] = useState(null);
 	const [selectedActor, setSelectedActor] = useState(null);
 	const [user, setUser] = useState(storedUser ? storedUser : null);
@@ -101,131 +108,135 @@ const MainView = () => {
 						setDarkMode={setDarkMode}
 					/>
 					<div className="pt-3">
-					<Routes>
-						<Route
-							path="/"
-							element={<Home />}
-						/>
-						<Route
-							path="/login"
-							element={
-								<div className="d-flex justify-content-center align-items-center vh-100">
-									<LoginView
-										onLoggedIn={(user, token) => {
-											setUser(user);
-											setToken(token);
-										}}
+						<Routes>
+							<Route
+								path="/"
+								element={<Home />}
+							/>
+							<Route
+								path="/login"
+								element={
+									<div className="d-flex justify-content-center align-items-center vh-100">
+										<LoginView
+											onLoggedIn={(user, token) => {
+												setUser(user);
+												setToken(token);
+											}}
+										/>
+									</div>
+								}
+							/>
+							<Route
+								path="/signup"
+								element={
+									<div className="d-flex justify-content-center align-items-center vh-100">
+										<SignupView />
+									</div>
+								}
+							/>
+							<Route
+								path="/movie/:id"
+								element={
+									<MovieView
+										movies={movies}
+										token={token}
+										setSelectedMovie={setSelectedMovie}
 									/>
-								</div>
-							}
-						/>
-						<Route
-							path="/signup"
-							element={
-								<div className="d-flex justify-content-center align-items-center vh-100">
-									<SignupView />
-								</div>
-							}
-						/>
-						<Route
-							path="/movie/:id"
-							element={
-								<MovieView
-									movies={movies}
-									token={token}
-									setSelectedMovie={setSelectedMovie}
-								/>
-							}
-						/>
-						<Route
-							path="/director/:id"
-							element={
-								<DirectorView
-									directors={directors}
-									token={token}
-									darkMode={darkMode}
-								/>
-							}
-						/>
-						<Route
-							path="/actor/:id"
-							element={
-								<ActorView
-									actors={actors}
-									token={token}
-									darkMode={darkMode}
-								/>
-							}
-						/>
-						<Route
-							path="/genre/:id"
-							element={
-								<div className="d-flex justify-content-center align-items-center vh-100">
-									<GenreView
-										genres={genres}
+								}
+							/>
+							<Route
+								path="/director/:id"
+								element={
+									<DirectorView
+										directors={directors}
+										token={token}
+										darkMode={darkMode}
+									/>
+								}
+							/>
+							<Route
+								path="/actor/:id"
+								element={
+									<ActorView
+										actors={actors}
+										token={token}
+										darkMode={darkMode}
+									/>
+								}
+							/>
+							<Route
+								path="/genre/:id"
+								element={
+									<div className="d-flex justify-content-center align-items-center vh-100">
+										<GenreView
+											genres={genres}
+											movies={movies}
+											token={token}
+											darkMode={darkMode}
+										/>
+									</div>
+								}
+							/>
+
+							<Route
+								path="/movies/view"
+								element={
+									<MoviesView
 										movies={movies}
 										token={token}
 										darkMode={darkMode}
 									/>
-								</div>
-							}
-						/>
-
-						<Route
-							path="/movies/view"
-							element={
-								<MoviesView
-									movies={movies}
-									token={token}
-									darkMode={darkMode}
-								/>
-							}
-						/>
-						<Route
-							path="/actors/view"
-							element={
-								<ActorsView
-									darkMode={darkMode}
-									token={token}
-									actors={actors}
-								/>
-							}
-						/>
-						<Route
-							path="/directors/view"
-							element={
-								<DirectorsView
-									darkMode={darkMode}
-									token={token}
-									directors={directors}
-								/>
-							}
-						/>
-						<Route
-							path="/genres/view"
-							element={
-								<GenresView
-									darkMode={darkMode}
-									token={token}
-									genres={genres}
-								/>
-							}
-						/>
-						<Route
-							path="/movies/edit/:id"
-							element={
-								<EditMovieView
-									movies={movies}
-									actors={actors}
-									directors={directors}
-									genres={genres}
-									token={token}
-									darkMode={darkMode}
-									updateMovie={updateMovie}
-								/>
-							}
-						/>
-					</Routes>
+								}
+							/>
+							<Route
+								path="/actors/view"
+								element={
+									<ActorsView
+										darkMode={darkMode}
+										token={token}
+										actors={actors}
+									/>
+								}
+							/>
+							<Route
+								path="/directors/view"
+								element={
+									<DirectorsView
+										darkMode={darkMode}
+										token={token}
+										directors={directors}
+									/>
+								}
+							/>
+							<Route
+								path="/genres/view"
+								element={
+									<GenresView
+										darkMode={darkMode}
+										token={token}
+										genres={genres}
+									/>
+								}
+							/>
+							<Route
+								path="/movies/edit/:id"
+								element={
+									<EditMovieView
+										movies={movies}
+										actors={actors}
+										directors={directors}
+										genres={genres}
+										token={token}
+										darkMode={darkMode}
+										updateMovie={updateMovie}
+									/>
+								}
+							/>
+							<Route
+								path="/users/:id"
+								element={<UserProfileView user={user} token={token} movies={movies}/>}
+							/>
+						</Routes>
 					</div>
 				</div>
 			</div>
