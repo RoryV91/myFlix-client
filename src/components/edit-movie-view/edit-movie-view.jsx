@@ -536,7 +536,7 @@ EditMovieView.propTypes = {
 			name: PropTypes.string.isRequired,
 		})
 	),
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string
 };
 
 export default EditMovieView;
