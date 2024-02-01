@@ -15,7 +15,7 @@ const EditMovieView = ({
 	token,
 	onEdit,
 	darkMode,
-	updateMovie
+	updateMovie,
 }) => {
 	const { id } = useParams();
 	const [movie, setMovie] = useState(null);
@@ -29,7 +29,7 @@ const EditMovieView = ({
 	const [selectedGenre, setSelectedGenre] = useState("");
 	const [selectedDirector, setSelectedDirector] = useState("");
 	const [selectedActor, setSelectedActor] = useState("");
-    console.log(selectedGenres);
+	console.log(selectedGenres);
 	useEffect(() => {
 		if (movies && directors && actors && genres) {
 			const foundMovie = movies.find((movie) => movie._id === id);
@@ -57,11 +57,11 @@ const EditMovieView = ({
 			data.genre_ids = selectedGenres;
 			data.director_ids = selectedDirectors;
 			data.actor_ids = selectedActors;
-            delete data.genres;
-            delete data.directors;
-            delete data.actors;
-            console.log(data);
-            console.log(token)
+			delete data.genres;
+			delete data.directors;
+			delete data.actors;
+			console.log(data);
+			console.log(token);
 			const response = await axios.put(
 				`https://myflixapi.vanblaricom.dev:9999/movies/${movie._id}`,
 				data,
@@ -73,8 +73,8 @@ const EditMovieView = ({
 			);
 
 			if (response.status === 200) {
-                window.location.assign(`/movie/${movie._id}`);
-              }
+				window.location.assign(`/movie/${movie._id}`);
+			}
 		} catch (error) {
 			console.error("Error updating movie:", error.response);
 			setError("Error updating movie");
@@ -94,8 +94,8 @@ const EditMovieView = ({
 	}
 
 	const onDelete = async () => {
-        console.log(movie._id);
-        console.log("onDelete");
+		console.log(movie._id);
+		console.log("onDelete");
 		try {
 			const response = await axios.delete(
 				`https://myflixapi.vanblaricom.dev:9999/movies/${movie._id}`,
@@ -116,30 +116,33 @@ const EditMovieView = ({
 	};
 
 	const handleAddActor = () => {
-		setSelectedActors((prevActors) => [...prevActors, selectedActors]);
+		if (selectedActor && !selectedActors.includes(selectedActor)) {
+			setSelectedActors((prevActors) => [...prevActors, selectedActor]);
+			setSelectedActor(""); 
+		}
 	};
-
+	
 	const handleAddDirector = () => {
-		setSelectedDirectors((prevDirectors) => [
-			...prevDirectors,
-			selectedDirectors,
-		]);
+		if (selectedDirector && !selectedDirectors.includes(selectedDirector)) {
+			setSelectedDirectors((prevDirectors) => [...prevDirectors, selectedDirector]);
+			setSelectedDirector(""); 
+		}
 	};
 
 	const handleAddGenre = () => {
 		if (selectedGenre && !selectedGenres.includes(selectedGenre)) {
 			setSelectedGenres((prevGenres) => [...prevGenres, selectedGenre]);
-			setSelectedGenre(""); // Reset selected genre
+			setSelectedGenre(""); 
 		}
 	};
 
 	// Update selectedActor, selectedDirector, and selectedGenre when an actor, director, or genre is selected from the dropdowns
 	const handleSelectActor = (event) => {
-		setSelectedActors(event.target.value);
+		setSelectedActor(event.target.value);
 	};
 
 	const handleSelectDirector = (event) => {
-		setSelectedDirectors(event.target.value);
+		setSelectedDirector(event.target.value);
 	};
 
 	const handleSelectGenre = (event) => {
@@ -278,6 +281,10 @@ const EditMovieView = ({
 									as="select"
 									className="form-select"
 									{...field}
+									onChange={(event) => {
+										field.onChange(event);
+										handleSelectDirector(event);
+									}}
 								>
 									<option
 										disabled
@@ -353,6 +360,10 @@ const EditMovieView = ({
 									as="select"
 									className="form-select"
 									{...field}
+									onChange={(event) => {
+										field.onChange(event);
+										handleSelectActor(event);
+									}}
 								>
 									<option
 										disabled

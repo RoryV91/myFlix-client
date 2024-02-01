@@ -112,7 +112,7 @@ const MainView = () => {
 						darkMode={darkMode}
 						setDarkMode={setDarkMode}
 					/>
-					<div className="pt-3">
+					<div className="pt-3 container-min-vh-100">
 						<Routes>
 							<Route
 								path="/"
@@ -172,7 +172,7 @@ const MainView = () => {
 							<Route
 								path="/genre/:id"
 								element={
-									<div className="d-flex justify-content-center align-items-center vh-100">
+									<div className="d-flex justify-content-center align-items-center">
 										<GenreView
 											genres={genres}
 											movies={movies}

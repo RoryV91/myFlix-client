@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col } from "react-bootstrap";
 import MovieCard from "../movie-card/movie-card";
-import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
+
 
 const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 	return movies.length === 0 ? (
