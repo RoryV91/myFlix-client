@@ -2,12 +2,44 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MovieCard from "../movie-card/movie-card";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import axios from "axios";
+import PropTypes from "prop-types";
 
-function UserProfileView({ user, movies, darkMode, updateUserFavorites, token }) {
+function UserProfileView({
+	user,
+	movies,
+	darkMode,
+	updateUserFavorites,
+	updateUser,
+	token,
+	handleLogout,
+}) {
 	const navigate = useNavigate();
 	const favoriteMovies = movies.filter((movie) =>
 		user.user_movie_ids.includes(movie._id)
 	);
+	const handleUserLogout = () => {
+		handleLogout();
+		navigate("/");
+	};
+
+	const deleteProfile = () => {
+		axios
+			.delete(
+				`https://myflixapi.vanblaricom.dev:9999/users/${user._id}/delete`,
+				{
+					headers: { Authorization: `Bearer ${token}` },
+				}
+			)
+			.then(() => {
+				alert("Profile deleted successfully");
+				handleUserLogout();
+			})
+			.catch((error) => {
+				console.error("Error deleting profile", error);
+				alert("Failed to delete profile");
+			});
+	};
 
 	return (
 		<Container className="mt-5 mb-5 container-min-vh-100">
@@ -25,7 +57,7 @@ function UserProfileView({ user, movies, darkMode, updateUserFavorites, token })
 					</p>
 					<p className="mt-3">
 						<strong>Date of Birth:</strong>{" "}
-						{new Date(user?.dob)?.toLocaleDateString()}
+						{user?.dob && new Date(user.dob).toLocaleDateString('en-US')}
 					</p>
 				</Col>
 				<Col
@@ -61,8 +93,7 @@ function UserProfileView({ user, movies, darkMode, updateUserFavorites, token })
 					>
 						<Button
 							variant="danger"
-							as={Link}
-							to={`/users/${user._id}/deregister`}
+							onClick={deleteProfile}
 						>
 							Delete Profile 🚫
 						</Button>
@@ -75,20 +106,20 @@ function UserProfileView({ user, movies, darkMode, updateUserFavorites, token })
 					<Row>
 						{favoriteMovies?.map((movie) => (
 							<Col
-						xs={12}
-						sm={6}
-						md={4}
-						lg={3}
-						key={movie._id}
-						className="d-flex justify-content-center"
+								xs={12}
+								sm={6}
+								md={4}
+								lg={3}
+								key={movie._id}
+								className="d-flex justify-content-center"
 							>
 								<MovieCard
 									key={movie._id}
 									movie={movie}
 									darkMode={darkMode}
 									user={user}
-                                    token={token}
-                                    updateUserFavorites={updateUserFavorites}
+									token={token}
+									updateUserFavorites={updateUserFavorites}
 								/>
 							</Col>
 						))}

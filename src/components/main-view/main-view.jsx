@@ -65,6 +65,13 @@ const MainView = () => {
 			user_movie_ids: updatedFavorites,
 		}));
 	};
+	const updateUser = (updatedUser) => {
+		setUser((prevUser) => ({
+			...prevUser,
+			...updatedUser,
+			dob: new Date(updatedUser.dob),
+		}));
+	};
 
 	// Use custom hooks to fetch data
 	const movies = useFetchMovies(token);
@@ -234,6 +241,8 @@ const MainView = () => {
 										token={token}
 										movies={movies}
 										updateUserFavorites={updateUserFavorites}
+										updateUser={updateUser}
+										handleLogout={handleLogout}
 									/>
 								}
 							/>
@@ -258,6 +267,7 @@ const MainView = () => {
 										user={user}
 										darkMode={darkMode}
 										token={token}
+										updateUser={updateUser}
 									/>
 								}
 							/>

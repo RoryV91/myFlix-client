@@ -115,6 +115,7 @@ const EditMovieView = ({
 		}
 	};
 
+	// Add an actor, director, or genre to the selectedActors, selectedDirectors, or selectedGenres arrays
 	const handleAddActor = () => {
 		if (selectedActor && !selectedActors.includes(selectedActor)) {
 			setSelectedActors((prevActors) => [...prevActors, selectedActor]);
@@ -149,6 +150,7 @@ const EditMovieView = ({
 		setSelectedGenre(event.target.value);
 	};
 
+	// Remove an actor, director, or genre from the selectedActors, selectedDirectors, or selectedGenres arrays
 	const handleRemoveDirector = (id) => {
 		setSelectedDirectors(
 			selectedDirectors.filter((directorId) => directorId !== id)
