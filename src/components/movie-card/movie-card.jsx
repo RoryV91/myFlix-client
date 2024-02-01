@@ -3,21 +3,38 @@ import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
-const MovieCard = ({ movie, darkMode, user }) => {
-	console.log("movie._id:", movie._id);
-	console.log("user._id:", user._id);
-	console.log("user.user_movie_ids:", user.user_movie_ids);
-	const navigate = useNavigate();
-	const [isFavorite, setIsFavorite] = useState(false);
+const MovieCard = ({ movie, darkMode, user, token }) => {
+    console.log("movie._id:", movie._id);
+    console.log("user._id:", user._id);
+    console.log("user.user_movie_ids:", user.user_movie_ids);
+    const navigate = useNavigate();
+    const [isFavorite, setIsFavorite] = useState(false);
 
-	useEffect(() => {
-		setIsFavorite(user.user_movie_ids.includes(movie._id));
-	}, [user.user_movie_ids, movie._id]);
+    useEffect(() => {
+        setIsFavorite(user.user_movie_ids.includes(movie._id));
+    }, [user.user_movie_ids, movie._id]);
 
-	const handleToggleFavorite = (event) => {
-		event.stopPropagation();
-		setIsFavorite(!isFavorite);
-	};
+    const handleToggleFavorite = async (event) => {
+        event.stopPropagation();
+        setIsFavorite(!isFavorite);
+
+        const method = isFavorite ? "DELETE" : "POST";
+        const apiEndpoint = `https://myflixapi.vanblaricom.dev:9999/users/${user._id}/movies`;
+
+        const response = await fetch(apiEndpoint, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ movieId: movie._id }),
+        });
+
+        if (!response.ok) {
+            console.error("Failed to update favorites");
+            setIsFavorite(!isFavorite); // Revert the state change
+        }
+    };
 
 	return (
 		<Card

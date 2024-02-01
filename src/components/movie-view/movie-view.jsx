@@ -154,8 +154,7 @@ MovieView.propTypes = {
 			genre_ids: PropTypes.arrayOf(PropTypes.string),
 		})
 	),
-	token: PropTypes.string.isRequired,
-	setSelectedMovie: PropTypes.func.isRequired,
+	token: PropTypes.string.isRequired
 };
 
 export default MovieView;

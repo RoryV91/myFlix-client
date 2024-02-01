@@ -32,6 +32,10 @@ body {
   text-align: end;
 }
 
+.container-min-vh-100 {
+  min-height: 100vh;
+}
+
 .spin {
   display: inline-block;
   animation: spin 2s linear infinite;

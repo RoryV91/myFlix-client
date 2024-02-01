@@ -14,7 +14,8 @@ const EditMovieView = ({
 	genres,
 	token,
 	onEdit,
-	darkMode
+	darkMode,
+	updateMovie
 }) => {
 	const { id } = useParams();
 	const [movie, setMovie] = useState(null);

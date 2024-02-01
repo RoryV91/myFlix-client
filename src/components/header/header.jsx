@@ -11,13 +11,13 @@ import {
 
 const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 	const navigate = useNavigate();
-	const navItems = [
+	const navItems = user ? [
 		{ title: "Movies", view: "movies/view", add: "movies/add" },
 		{ title: "Genres", view: "genres/view", add: "genres/add" },
 		{ title: "Directors", view: "directors/view", add: "directors/add" },
 		{ title: "Actors", view: "actors/view", add: "actors/add" },
 		{ title: "Profile", view: `profile/view/${user._id}`, edit: `profile/edit/${user._id}` },
-	];
+	] : [];
 	const handleUserLogout = () => {
 		handleLogout();
 		navigate("/login");

@@ -52,8 +52,6 @@ const MainView = () => {
 			)
 		);
 	};
-	const [selectedMovie, setSelectedMovie] = useState(null);
-	const [selectedActor, setSelectedActor] = useState(null);
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [darkMode, setDarkMode] = useState(() => {
@@ -141,7 +139,7 @@ const MainView = () => {
 									<MovieView
 										movies={movies}
 										token={token}
-										setSelectedMovie={setSelectedMovie}
+										updateMovie={updateMovie}
 									/>
 								}
 							/>
