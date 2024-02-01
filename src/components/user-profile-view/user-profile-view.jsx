@@ -64,6 +64,7 @@ function UserProfileView({ user, movies, darkMode }) {
 							key={movie._id}
 							movie={movie}
 							darkMode={darkMode}
+                            user={user}
 						/>
 					))}
 				</Col>

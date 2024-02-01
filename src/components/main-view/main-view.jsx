@@ -186,6 +186,7 @@ const MainView = () => {
 										movies={movies}
 										token={token}
 										darkMode={darkMode}
+										user={user}
 									/>
 								}
 							/>
