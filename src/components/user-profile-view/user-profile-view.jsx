@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import MovieCard from "../movie-card/movie-card";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
-function UserProfileView({ user, movies, darkMode }) {
+function UserProfileView({ user, movies, darkMode, updateUserFavorites, token }) {
 	const navigate = useNavigate();
 	const favoriteMovies = movies.filter((movie) =>
 		user.user_movie_ids.includes(movie._id)
@@ -87,6 +87,8 @@ function UserProfileView({ user, movies, darkMode }) {
 									movie={movie}
 									darkMode={darkMode}
 									user={user}
+                                    token={token}
+                                    updateUserFavorites={updateUserFavorites}
 								/>
 							</Col>
 						))}

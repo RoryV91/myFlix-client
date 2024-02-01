@@ -45,13 +45,6 @@ const MainView = () => {
 	// Define state variables
 	const storedUser = JSON.parse(localStorage.getItem("user"));
 	const storedToken = localStorage.getItem("token");
-	const updateMovie = (updatedMovie) => {
-		setMovies(
-			movies.map((movie) =>
-				movie._id === updatedMovie._id ? updatedMovie : movie
-			)
-		);
-	};
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [darkMode, setDarkMode] = useState(() => {
@@ -59,6 +52,19 @@ const MainView = () => {
 		const initialValue = JSON.parse(saved);
 		return initialValue || false;
 	});
+	const updateMovie = (updatedMovie) => {
+		setMovies(
+			movies.map((movie) =>
+				movie._id === updatedMovie._id ? updatedMovie : movie
+			)
+		);
+	};
+	const updateUserFavorites = (updatedFavorites) => {
+		setUser((prevUser) => ({
+			...prevUser,
+			user_movie_ids: updatedFavorites,
+		}));
+	};
 
 	// Use custom hooks to fetch data
 	const movies = useFetchMovies(token);
@@ -185,6 +191,7 @@ const MainView = () => {
 										token={token}
 										darkMode={darkMode}
 										user={user}
+										updateUserFavorites={updateUserFavorites}
 									/>
 								}
 							/>
@@ -226,6 +233,7 @@ const MainView = () => {
 										darkMode={darkMode}
 										token={token}
 										movies={movies}
+										updateUserFavorites={updateUserFavorites}
 									/>
 								}
 							/>

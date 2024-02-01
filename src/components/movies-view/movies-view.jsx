@@ -4,7 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import MovieCard from "../movie-card/movie-card";
 import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 
-const MoviesView = ({ darkMode, movies, token, user }) => {
+const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 	return movies.length === 0 ? (
 		<div>The list is empty!</div>
 	) : (
@@ -23,6 +23,8 @@ const MoviesView = ({ darkMode, movies, token, user }) => {
 							movie={movie}
 							darkMode={darkMode}
 							user={user}
+							token={token}
+							updateUserFavorites={updateUserFavorites}
 						/>
 					</Col>
 				))}
