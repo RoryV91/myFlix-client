@@ -90,7 +90,7 @@ DirectorView.propTypes = {
 		})
 	).isRequired,
 	darkMode: PropTypes.bool.isRequired,
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string
 };
 
 export default DirectorView;

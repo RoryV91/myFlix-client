@@ -35,7 +35,7 @@ const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 
 MoviesView.propTypes = {
 	darkMode: PropTypes.bool.isRequired,
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string,
 	movies: PropTypes.arrayOf(PropTypes.shape({
 		_id: PropTypes.string.isRequired,
 	})).isRequired,

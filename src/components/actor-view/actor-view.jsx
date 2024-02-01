@@ -98,7 +98,7 @@ ActorView.propTypes = {
 		birth: PropTypes.string,
 		movie_ids: PropTypes.arrayOf(PropTypes.string),
 	}),
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string,
 	darkMode: PropTypes.bool.isRequired,
 };
 
