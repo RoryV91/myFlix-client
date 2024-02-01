@@ -17,6 +17,7 @@ import Footer from "../footer/footer";
 import LoginView from "../login-view/login-view";
 import SignupView from "../signup-view/signup-view";
 import UserProfileView from "../user-profile-view/user-profile-view";
+import EditProfileView from "../edit-profile-view/edit-profile-view";
 
 // Movie views
 import MovieView from "../movie-view/movie-view";
@@ -219,6 +220,17 @@ const MainView = () => {
 								}
 							/>
 							<Route
+								path="/profile/view/:id"
+								element={
+									<UserProfileView
+										user={user}
+										darkMode={darkMode}
+										token={token}
+										movies={movies}
+									/>
+								}
+							/>
+							<Route
 								path="/movies/edit/:id"
 								element={
 									<EditMovieView
@@ -233,8 +245,14 @@ const MainView = () => {
 								}
 							/>
 							<Route
-								path="/users/:id"
-								element={<UserProfileView user={user} token={token} movies={movies}/>}
+								path="/profile/edit/:id"
+								element={
+									<EditProfileView
+										user={user}
+										darkMode={darkMode}
+										token={token}
+									/>
+								}
 							/>
 						</Routes>
 					</div>

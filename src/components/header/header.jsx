@@ -16,6 +16,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 		{ title: "Genres", view: "genres/view", add: "genres/add" },
 		{ title: "Directors", view: "directors/view", add: "directors/add" },
 		{ title: "Actors", view: "actors/view", add: "actors/add" },
+		{ title: "Profile", view: `profile/view/${user._id}`, edit: `profile/edit/${user._id}` },
 	];
 	const handleUserLogout = () => {
 		handleLogout();
@@ -82,16 +83,25 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 										>
 											View
 										</Dropdown.Item>
-										<Dropdown.Item
-											as={Link}
-											to={item.add}
-										>
-											Add...
-										</Dropdown.Item>
+										{item.title !== 'Profile' && item.add && (
+											<Dropdown.Item
+												as={Link}
+												to={item.add}
+											>
+												Add...
+											</Dropdown.Item>
+										)}
+										{item.title === 'Profile' && item.edit && (
+											<Dropdown.Item
+												as={Link}
+												to={item.edit}
+											>
+												Edit...
+											</Dropdown.Item>
+										)}
 									</Dropdown.Menu>
 								</Dropdown>
 							))}
-							<Nav.Link as={Link} to={`/users/${user._id}`}>Profile</Nav.Link> 
 							<Form.Check
 								type="switch"
 								id="custom-switch"
@@ -105,7 +115,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 								onClick={handleUserLogout}
 								className="ml-2"
 							>
-								Logout ❌
+								Logout 🔐
 							</Button>
 						</>
 					)}
