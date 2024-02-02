@@ -9,6 +9,7 @@ const GenresView = ({ genres, darkMode }) => {
             <div>The list is empty!</div>
         ) : (
             <Container>
+                <h1>All Genres 🎞️</h1>
                 <Row className="d-flex justify-content-center">
                     {genres.map((genre) => (
                         <Col

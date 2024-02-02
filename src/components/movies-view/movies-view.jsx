@@ -9,6 +9,7 @@ const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 		<div>The list is empty!</div>
 	) : (
 		<Container>
+			<h1>All Movies 📼</h1>
 			<Row className="d-flex justify-content-center">
 				{movies.map((movie) => (
 					<Col
@@ -17,7 +18,7 @@ const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 						md={4}
 						lg={3}
 						key={movie._id}
-						className="d-flex justify-content-center"
+						className="d-flex justify-content-center moviecard"
 					>
 						<MovieCard
 							movie={movie}

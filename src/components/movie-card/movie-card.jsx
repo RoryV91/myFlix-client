@@ -53,13 +53,15 @@ const handleToggleFavorite = async (event) => {
 				darkMode ? "bg-dark text-light" : "bg-light text-dark"
 			} movie-card m-1 p-2 border border-3 no-break`}
 		>
-			<Button variant="link" className="favorite" onClick={handleToggleFavorite}>
+			<div className="favorite-btn-container">
+				<Button className="favorite-button" variant="link" onClick={handleToggleFavorite}>
 					{isFavorite ? (
 						<i className={`bi bi-bookmark-heart-fill ${darkMode ? 'text-light' : 'text-dark'}`} />
 					) : (
 						<i className={`bi bi-bookmark-heart ${darkMode ? 'text-light' : 'text-dark'}`} />
 					)}
 				</Button>
+			</div>
 			<Link to={`/movie/${movie._id}`}>
 				<Card.Img
 					src={movie.imageurl}

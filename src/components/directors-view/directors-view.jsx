@@ -9,6 +9,7 @@ const DirectorsView = ({ directors, darkMode, onDirectorClick }) => {
             <div>The list is empty!</div>
         ) : (
             <Container>
+                <h1>All Directors 🎬</h1>
                 <Row className="d-flex justify-content-center">
                     {directors.map((director) => (
                         <Col

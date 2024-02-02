@@ -48,7 +48,7 @@ function UserProfileView({
 					xs={12}
 					md={6}
 				>
-					<h1>Profile View</h1>
+					<h1>Profile</h1>
 					<p className="mt-3">
 						<strong>Username:</strong> {user.username}
 					</p>
@@ -102,8 +102,8 @@ function UserProfileView({
 			</Row>
 			<Row>
 				<Col xs={12}>
-					<h2>Favorite Movies</h2>
-					<Row>
+					<h2>Your Favorites</h2>
+					<Row className="d-flex justify-content-center">
 						{favoriteMovies?.map((movie) => (
 							<Col
 								xs={12}
@@ -111,7 +111,7 @@ function UserProfileView({
 								md={4}
 								lg={3}
 								key={movie._id}
-								className="d-flex justify-content-center"
+								className="d-flex justify-content-center moviecard"
 							>
 								<MovieCard
 									key={movie._id}

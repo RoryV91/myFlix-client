@@ -25,7 +25,6 @@ import MoviesView from "../movies-view/movies-view";
 import EditMovieView from "../edit-movie-view/edit-movie-view";
 
 // Genre views
-import GenreCard from "../genre-card/genre-card";
 import GenreView from "../genre-view/genre-view";
 import GenresView from "../genres-view/genres-view";
 import EditGenreView from "../edit-genre-view/edit-genre-view";
