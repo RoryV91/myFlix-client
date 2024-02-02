@@ -40,6 +40,7 @@ const MovieView = ({ movies, token }) => {
 		// code to handle delete action
 	};
 
+	// Open edit movie view
 	const handleEdit = () => {
 		navigate(`/movies/edit/${selectedMovie._id}`, { state: { movie: selectedMovie } });
 	};
@@ -76,7 +77,7 @@ const MovieView = ({ movies, token }) => {
 				>
 					<h2 className="mt-3">{selectedMovie.title}</h2>
 					<p>
-						<strong>ℹ️ Description: </strong>
+						<strong>📰 Description: </strong>
 						{selectedMovie.description}
 					</p>
 					<p>
@@ -153,8 +154,7 @@ MovieView.propTypes = {
 			genre_ids: PropTypes.arrayOf(PropTypes.string),
 		})
 	),
-	token: PropTypes.string.isRequired,
-	setSelectedMovie: PropTypes.func.isRequired,
+	token: PropTypes.string
 };
 
 export default MovieView;

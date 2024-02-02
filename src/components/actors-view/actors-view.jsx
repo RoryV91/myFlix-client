@@ -9,6 +9,7 @@ const ActorsView = ({ actors, darkMode, onActorClick }) => {
 			<div>The list is empty!</div>
 		) : (
 			<Container>
+				<h1>All Actors 🎭</h1>
 				<Row className="d-flex justify-content-center">
 					{actors.map((actor) => (
 						<Col
@@ -37,7 +38,7 @@ ActorsView.propTypes = {
 		_id: PropTypes.string.isRequired,
 	})).isRequired,
 	darkMode: PropTypes.bool.isRequired,
-	token: PropTypes.string.isRequired
+	token: PropTypes.string
 };
 
 export default ActorsView;

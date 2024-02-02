@@ -11,12 +11,13 @@ import {
 
 const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 	const navigate = useNavigate();
-	const navItems = [
+	const navItems = user ? [
 		{ title: "Movies", view: "movies/view", add: "movies/add" },
 		{ title: "Genres", view: "genres/view", add: "genres/add" },
 		{ title: "Directors", view: "directors/view", add: "directors/add" },
 		{ title: "Actors", view: "actors/view", add: "actors/add" },
-	];
+		{ title: "Profile", view: `profile/view/${user._id}`, edit: `profile/edit/${user._id}` },
+	] : [];
 	const handleUserLogout = () => {
 		handleLogout();
 		navigate("/login");
@@ -82,12 +83,22 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 										>
 											View
 										</Dropdown.Item>
-										<Dropdown.Item
-											as={Link}
-											to={item.add}
-										>
-											Add...
-										</Dropdown.Item>
+										{item.title !== 'Profile' && item.add && (
+											<Dropdown.Item
+												as={Link}
+												to={item.add}
+											>
+												Add...
+											</Dropdown.Item>
+										)}
+										{item.title === 'Profile' && item.edit && (
+											<Dropdown.Item
+												as={Link}
+												to={item.edit}
+											>
+												Edit...
+											</Dropdown.Item>
+										)}
 									</Dropdown.Menu>
 								</Dropdown>
 							))}
@@ -104,7 +115,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 								onClick={handleUserLogout}
 								className="ml-2"
 							>
-								Logout ❌
+								Logout 🔐
 							</Button>
 						</>
 					)}

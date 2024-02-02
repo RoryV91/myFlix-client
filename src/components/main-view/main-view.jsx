@@ -12,8 +12,12 @@ import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
 import Home from "../home-view/home-view";
 import Header from "../header/header";
 import Footer from "../footer/footer";
+
+//User views
 import LoginView from "../login-view/login-view";
 import SignupView from "../signup-view/signup-view";
+import UserProfileView from "../user-profile-view/user-profile-view";
+import EditProfileView from "../edit-profile-view/edit-profile-view";
 
 // Movie views
 import MovieView from "../movie-view/movie-view";
@@ -21,7 +25,6 @@ import MoviesView from "../movies-view/movies-view";
 import EditMovieView from "../edit-movie-view/edit-movie-view";
 
 // Genre views
-import GenreCard from "../genre-card/genre-card";
 import GenreView from "../genre-view/genre-view";
 import GenresView from "../genres-view/genres-view";
 import EditGenreView from "../edit-genre-view/edit-genre-view";
@@ -41,8 +44,6 @@ const MainView = () => {
 	// Define state variables
 	const storedUser = JSON.parse(localStorage.getItem("user"));
 	const storedToken = localStorage.getItem("token");
-	const [selectedMovie, setSelectedMovie] = useState(null);
-	const [selectedActor, setSelectedActor] = useState(null);
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [darkMode, setDarkMode] = useState(() => {
@@ -50,6 +51,26 @@ const MainView = () => {
 		const initialValue = JSON.parse(saved);
 		return initialValue || false;
 	});
+	const updateMovie = (updatedMovie) => {
+		setMovies(
+			movies.map((movie) =>
+				movie._id === updatedMovie._id ? updatedMovie : movie
+			)
+		);
+	};
+	const updateUserFavorites = (updatedFavorites) => {
+		setUser((prevUser) => ({
+			...prevUser,
+			user_movie_ids: updatedFavorites,
+		}));
+	};
+	const updateUser = (updatedUser) => {
+		setUser((prevUser) => ({
+			...prevUser,
+			...updatedUser,
+			dob: new Date(updatedUser.dob),
+		}));
+	};
 
 	// Use custom hooks to fetch data
 	const movies = useFetchMovies(token);
@@ -97,128 +118,160 @@ const MainView = () => {
 						darkMode={darkMode}
 						setDarkMode={setDarkMode}
 					/>
-
-					<Routes>
-						<Route
-							path="/"
-							element={<Home />}
-						/>
-						<Route
-							path="/login"
-							element={
-								<div className="d-flex justify-content-center align-items-center vh-100">
-									<LoginView
-										onLoggedIn={(user, token) => {
-											setUser(user);
-											setToken(token);
-										}}
-									/>
-								</div>
-							}
-						/>
-						<Route
-							path="/signup"
-							element={
-								<div className="d-flex justify-content-center align-items-center vh-100">
-									<SignupView />
-								</div>
-							}
-						/>
-						<Route
-							path="/movie/:id"
-							element={
-								<MovieView
-									movies={movies}
-									token={token}
-									setSelectedMovie={setSelectedMovie}
-								/>
-							}
-						/>
-						<Route
-							path="/director/:id"
-							element={
-								<DirectorView
-									directors={directors}
-									token={token}
-									darkMode={darkMode}
-								/>
-							}
-						/>
-						<Route
-							path="/actor/:id"
-							element={
-								<ActorView
-									actors={actors}
-									token={token}
-									darkMode={darkMode}
-								/>
-							}
-						/>
-						<Route
-							path="/genre/:id"
-							element={
-								<div className="d-flex justify-content-center align-items-center vh-100">
-									<GenreView
-										genres={genres}
+					<div className="pt-3 container-min-vh-100">
+						<Routes>
+							<Route
+								path="/"
+								element={<Home />}
+							/>
+							<Route
+								path="/login"
+								element={
+									<div className="d-flex justify-content-center align-items-center vh-100">
+										<LoginView
+											onLoggedIn={(user, token) => {
+												setUser(user);
+												setToken(token);
+											}}
+										/>
+									</div>
+								}
+							/>
+							<Route
+								path="/signup"
+								element={
+									<div className="d-flex justify-content-center align-items-center vh-100">
+										<SignupView />
+									</div>
+								}
+							/>
+							<Route
+								path="/movie/:id"
+								element={
+									<MovieView
 										movies={movies}
+										token={token}
+										updateMovie={updateMovie}
+									/>
+								}
+							/>
+							<Route
+								path="/director/:id"
+								element={
+									<DirectorView
+										directors={directors}
 										token={token}
 										darkMode={darkMode}
 									/>
-								</div>
-							}
-						/>
+								}
+							/>
+							<Route
+								path="/actor/:id"
+								element={
+									<ActorView
+										actors={actors}
+										token={token}
+										darkMode={darkMode}
+									/>
+								}
+							/>
+							<Route
+								path="/genre/:id"
+								element={
+									<div className="d-flex justify-content-center align-items-center">
+										<GenreView
+											genres={genres}
+											movies={movies}
+											token={token}
+											darkMode={darkMode}
+										/>
+									</div>
+								}
+							/>
 
-						<Route
-							path="/movies/view"
-							element={
-								<MoviesView
-									movies={movies}
-									token={token}
-									darkMode={darkMode}
-								/>
-							}
-						/>
-						<Route
-							path="/actors/view"
-							element={
-								<ActorsView
-									darkMode={darkMode}
-									token={token}
-									actors={actors}
-								/>
-							}
-						/>
-						<Route
-							path="/directors/view"
-							element={
-								<DirectorsView
-									darkMode={darkMode}
-									token={token}
-									directors={directors}
-								/>
-							}
-						/>
-						<Route
-							path="/genres/view"
-							element={
-								<GenresView
-									darkMode={darkMode}
-									token={token}
-									genres={genres}
-								/>
-							}
-						/>
-						<Route
-							path="/movies/edit/:id"
-							element={
-								<EditMovieView
-									movies={movies}
-									token={token}
-									darkMode={darkMode}
-								/>
-							}
-						/>
-					</Routes>
+							<Route
+								path="/movies/view"
+								element={
+									<MoviesView
+										movies={movies}
+										token={token}
+										darkMode={darkMode}
+										user={user}
+										updateUserFavorites={updateUserFavorites}
+									/>
+								}
+							/>
+							<Route
+								path="/actors/view"
+								element={
+									<ActorsView
+										darkMode={darkMode}
+										token={token}
+										actors={actors}
+									/>
+								}
+							/>
+							<Route
+								path="/directors/view"
+								element={
+									<DirectorsView
+										darkMode={darkMode}
+										token={token}
+										directors={directors}
+									/>
+								}
+							/>
+							<Route
+								path="/genres/view"
+								element={
+									<GenresView
+										darkMode={darkMode}
+										token={token}
+										genres={genres}
+									/>
+								}
+							/>
+							<Route
+								path="/profile/view/:id"
+								element={
+									<UserProfileView
+										user={user}
+										darkMode={darkMode}
+										token={token}
+										movies={movies}
+										updateUserFavorites={updateUserFavorites}
+										updateUser={updateUser}
+										handleLogout={handleLogout}
+									/>
+								}
+							/>
+							<Route
+								path="/movies/edit/:id"
+								element={
+									<EditMovieView
+										movies={movies}
+										actors={actors}
+										directors={directors}
+										genres={genres}
+										token={token}
+										darkMode={darkMode}
+										updateMovie={updateMovie}
+									/>
+								}
+							/>
+							<Route
+								path="/profile/edit/:id"
+								element={
+									<EditProfileView
+										user={user}
+										darkMode={darkMode}
+										token={token}
+										updateUser={updateUser}
+									/>
+								}
+							/>
+						</Routes>
+					</div>
 				</div>
 			</div>
 			<Footer darkMode={darkMode} />

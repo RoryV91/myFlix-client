@@ -1,10 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 const SignupView = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate();
 
     const onSubmit = (data) => {
         console.log("Sending fetch request with data: ", data);
@@ -26,7 +28,7 @@ const SignupView = () => {
                 console.log("Response data: ", data);
                 if (data._id) {
                     alert("Signup successful");
-                    window.location.reload();
+                    navigate("/login");
                 } else {
                     alert("Signup failed");
                 }

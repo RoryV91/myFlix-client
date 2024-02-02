@@ -2,13 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col } from "react-bootstrap";
 import MovieCard from "../movie-card/movie-card";
-import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 
-const MoviesView = ({ darkMode, movies, token }) => {
+
+const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 	return movies.length === 0 ? (
 		<div>The list is empty!</div>
 	) : (
 		<Container>
+			<h1>All Movies 📼</h1>
 			<Row className="d-flex justify-content-center">
 				{movies.map((movie) => (
 					<Col
@@ -17,11 +18,14 @@ const MoviesView = ({ darkMode, movies, token }) => {
 						md={4}
 						lg={3}
 						key={movie._id}
-						className="d-flex justify-content-center"
+						className="d-flex justify-content-center moviecard"
 					>
 						<MovieCard
 							movie={movie}
 							darkMode={darkMode}
+							user={user}
+							token={token}
+							updateUserFavorites={updateUserFavorites}
 						/>
 					</Col>
 				))}
@@ -32,7 +36,7 @@ const MoviesView = ({ darkMode, movies, token }) => {
 
 MoviesView.propTypes = {
 	darkMode: PropTypes.bool.isRequired,
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string,
 	movies: PropTypes.arrayOf(PropTypes.shape({
 		_id: PropTypes.string.isRequired,
 	})).isRequired,
