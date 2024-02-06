@@ -259,6 +259,16 @@ const MainView = () => {
 									/>
 								}
 							/>
+							<Route 
+								path="/genres/edit/:id"
+								element={
+									<EditGenreView
+										genres={genres}
+										token={token}
+										darkMode={darkMode}
+									/>
+								}
+							/>
 							<Route
 								path="/profile/edit/:id"
 								element={

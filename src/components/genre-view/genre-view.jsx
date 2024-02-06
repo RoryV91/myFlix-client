@@ -30,7 +30,9 @@ const GenreView = ({ genres, token }) => {
 	};
 
 	const handleEdit = () => {
-		// code to handle edit action
+		navigate(`/genres/edit/${selectedGenre._id}`, {
+			state: { selectedGenre },
+		});
 	};
 
 	//Handle Back
