@@ -29,7 +29,7 @@ const EditMovieView = ({
 	const [selectedGenre, setSelectedGenre] = useState("");
 	const [selectedDirector, setSelectedDirector] = useState("");
 	const [selectedActor, setSelectedActor] = useState("");
-	console.log(selectedGenres);
+
 	useEffect(() => {
 		if (movies && directors && actors && genres) {
 			const foundMovie = movies.find((movie) => movie._id === id);
@@ -73,7 +73,7 @@ const EditMovieView = ({
 			);
 
 			if (response.status === 200) {
-				window.location.assign(`/movie/${movie._id}`);
+				navigate(`/movie/${movie._id}`);
 			}
 		} catch (error) {
 			console.error("Error updating movie:", error.response);

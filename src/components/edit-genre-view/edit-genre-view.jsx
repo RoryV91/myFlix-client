@@ -5,44 +5,43 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Form, Button, Col, Row } from "react-bootstrap";
 import axios from "axios";
 
-const EditGenreView = ({ token, onEdit, darkMode, updateGenre }) => {
+const EditGenreView = ({ genres, token, onEdit, darkMode, updateGenre }) => {
     const { id } = useParams();
     const [genre, setGenre] = useState(null);
-    const [isLoading, setIsLoading] = useState(!genre);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { register, handleSubmit, setValue } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`/genres/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
+        if (genres) {
+            const foundGenre = genres.find((genre) => genre._id === id);
+            if (foundGenre) {
+                setValue("name", foundGenre.name);
+                setValue("description", foundGenre.description);
+                setGenre(foundGenre);
+                console.log(foundGenre);
             }
-        })
-        .then(response => {
-            setGenre(response.data);
-            setValue("name", response.data.name);
-            setValue("description", response.data.description);
-            setIsLoading(false);
-        })
-        .catch(error => {
-            setError(error.message);
-            setIsLoading(false);
-        });
-    }, [id, setValue, token]);
+        }
+        
+        setIsLoading(false);
+    }, [genres, setValue, id]);
 
     const onSubmit = (data) => {
-        axios.put(`/genres/${id}`, data, {
+        axios.put(`https://myflixapi.vanblaricom.dev:9999/genres/${genre._id}`, data, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
         .then(response => {
-            onEdit(response.data);
-            navigate(-1);
+            const updatedGenre = response.data;
+            alert("Genre updated successfully");
+            navigate(`/genre/${genre._id}`);
+            updateGenre(updatedGenre);
         })
         .catch(error => {
-            setError(error.message);
+            console.log(error);
+            alert("An error occurred while updating the genre");
         });
     };
 
@@ -60,13 +59,24 @@ const EditGenreView = ({ token, onEdit, darkMode, updateGenre }) => {
         });
     };
 
+    if (isLoading) {
+		return (
+			<div className="d-flex justify-content-center align-items-center vh-100">
+				<div className="progress w-50">
+					<div className="indeterminate"></div>
+				</div>
+			</div>
+		);
+	}
+
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Row>
                 <Col md={6}>
-                    <Form.Group className="mb-3">
+                <Form.Group className="mb-3">
                         <Form.Label>📚 Genre Name</Form.Label>
-                        <Form.Control {...register("name")} />
+                        <Form.Control {...register("name", { required: true })} />
+                        {errors.name && <p>This field is required</p>}
                     </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -75,8 +85,9 @@ const EditGenreView = ({ token, onEdit, darkMode, updateGenre }) => {
                         <Form.Control
                             as="textarea"
                             rows={5}
-                            {...register("description")}
+                            {...register("description", { required: true })}
                         />
+                        {errors.description && <p>This field is required</p>}
                     </Form.Group>
                 </Col>
             </Row>
@@ -129,7 +140,7 @@ const EditGenreView = ({ token, onEdit, darkMode, updateGenre }) => {
 
 EditGenreView.propTypes = {
     token: PropTypes.string.isRequired,
-    onEdit: PropTypes.func.isRequired,
+    onEdit: PropTypes.func,
     darkMode: PropTypes.bool.isRequired,
     updateGenre: PropTypes.func.isRequired,
 };

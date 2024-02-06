@@ -16,7 +16,7 @@ const useFetchGenres = (token) => {
             .catch((error) => console.error("Error fetching genres:", error));
     }, [token]);
 
-    return genres;
+    return [genres, setGenres];
 };
 
 export default useFetchGenres;

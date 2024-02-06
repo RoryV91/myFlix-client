@@ -58,6 +58,17 @@ const MainView = () => {
 			)
 		);
 	};
+	const updateGenre = (updatedGenre) => {
+		setGenres((prevGenres) => {
+			return prevGenres.map((genre) => {
+				if (genre._id === updatedGenre._id) {
+					return updatedGenre;
+				} else {
+					return genre;
+				}
+			});
+		});
+	};
 	const updateUserFavorites = (updatedFavorites) => {
 		setUser((prevUser) => ({
 			...prevUser,
@@ -74,7 +85,7 @@ const MainView = () => {
 
 	// Use custom hooks to fetch data
 	const movies = useFetchMovies(token);
-	const genres = useFetchGenres(token);
+	const [genres, setGenres] = useFetchGenres(token);
 	const directors = useFetchDirectors(token);
 	const actors = useFetchActors(token);
 
@@ -266,6 +277,7 @@ const MainView = () => {
 										genres={genres}
 										token={token}
 										darkMode={darkMode}
+										updateGenre={updateGenre}
 									/>
 								}
 							/>
