@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Col } from 'react-bootstrap';
 import ActorCard from '../actor-card/actor-card';
+import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
 const ActorsView = ({ actors, darkMode, onActorClick }) => {
+	useScrollToTop();
 	return (
 		actors.length === 0 ? (
 			<div>The list is empty!</div>

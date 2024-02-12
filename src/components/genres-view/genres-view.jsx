@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Col } from 'react-bootstrap';
 import GenreCard from '../genre-card/genre-card';
+import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
 const GenresView = ({ genres, darkMode }) => {
+    useScrollToTop();
     return (
         genres.length === 0 ? (
             <div>The list is empty!</div>

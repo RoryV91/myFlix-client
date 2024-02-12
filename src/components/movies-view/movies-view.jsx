@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col } from "react-bootstrap";
 import MovieCard from "../movie-card/movie-card";
-
+import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
 const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
+	useScrollToTop();
 	return movies.length === 0 ? (
 		<div>The list is empty!</div>
 	) : (

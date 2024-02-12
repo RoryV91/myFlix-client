@@ -4,8 +4,10 @@ import { Container, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 import ActionButtons from "../action-buttons/action-buttons";
+import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
 const DirectorView = ({ token, directors }) => {
+	useScrollToTop();
 	const { id } = useParams();
 	const location = useLocation();
 	const initialSelectedDirector = location.state

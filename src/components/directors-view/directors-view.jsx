@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Col } from 'react-bootstrap';
 import DirectorCard from '../director-card/director-card';
+import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
 const DirectorsView = ({ directors, darkMode, onDirectorClick }) => {
+    useScrollToTop();
     return (
         !directors || directors.length === 0 ? (
             <div>The list is empty!</div>

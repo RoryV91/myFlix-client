@@ -7,6 +7,7 @@ import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 import useFetchGenres from "../../hooks/use-fetch-genres/use-fetch-genres";
 import useFetchDirectors from "../../hooks/use-fetch-directors/use-fetch-directors";
 import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
+import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
 //General views
 import Home from "../home-view/home-view";

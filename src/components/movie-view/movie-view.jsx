@@ -3,11 +3,11 @@ import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
-import useFetchDirectors from "../../hooks/use-fetch-directors/use-fetch-directors";
-import useFetchGenres from "../../hooks/use-fetch-genres/use-fetch-genres";
 import ActionButtons from "../action-buttons/action-buttons";
+import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
 const MovieView = ({ movies, token, genres, directors }) => {
+	useScrollToTop();
 	const { id } = useParams();
 	const location = useLocation();
 	const initialSelectedMovie = location.state

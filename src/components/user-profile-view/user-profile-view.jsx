@@ -4,6 +4,7 @@ import MovieCard from "../movie-card/movie-card";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import axios from "axios";
 import PropTypes from "prop-types";
+import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
 function UserProfileView({
 	user,
@@ -14,6 +15,7 @@ function UserProfileView({
 	token,
 	handleLogout,
 }) {
+	useScrollToTop();
 	const navigate = useNavigate();
 	const favoriteMovies = movies.filter((movie) =>
 		user.user_movie_ids.includes(movie._id)

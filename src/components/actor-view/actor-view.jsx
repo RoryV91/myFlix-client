@@ -4,8 +4,10 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 import ActionButtons from "../action-buttons/action-buttons";
+import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
 const ActorView = ({ token }) => {
+	useScrollToTop();
 	const { id } = useParams();
 	const [selectedActor, setSelectedActor] = useState(null);
 	const movies = useFetchMovies(token);
