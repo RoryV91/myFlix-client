@@ -19,8 +19,7 @@ const EditDirectorView = ({ directors, token, updateDirector }) => {
             if (foundDirector) {
                 setValue("name", foundDirector.name);
                 setValue("bio", foundDirector.bio);
-                setDirector(foundDirector);
-                console.log(foundDirector);
+                setValue("imageurl", foundDirector.imageurl);
             }
         }
         
@@ -88,6 +87,12 @@ const EditDirectorView = ({ directors, token, updateDirector }) => {
                             {...register("bio", { required: true })}
                         />
                         {errors.bio && <p>This field is required</p>}
+                    </Form.Group>
+                </Col>
+                <Col md={6}>
+                    <Form.Group className="mb-3">
+                        <Form.Label>🖼️ Image URL</Form.Label>
+                        <Form.Control {...register("imageurl")} />
                     </Form.Group>
                 </Col>
             </Row>

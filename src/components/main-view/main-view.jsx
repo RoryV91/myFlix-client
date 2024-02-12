@@ -50,8 +50,6 @@ const MainView = () => {
 	const movies = useFetchMovies(token);
 	const [genres, setGenres] = useFetchGenres(token);
 	const [directors, setDirectors] = useFetchDirectors(token);
-	console.log(directors);
-	console.log(genres);
 	const actors = useFetchActors(token);
 
 	const [darkMode, setDarkMode] = useState(() => {
@@ -73,6 +71,17 @@ const MainView = () => {
 					return updatedGenre;
 				} else {
 					return genre;
+				}
+			});
+		});
+	};
+	const updateDirector = (updatedDirector) => {
+		setDirectors((prevDirectors) => {
+			return prevDirectors.map((director) => {
+				if (director._id === updatedDirector._id) {
+					return updatedDirector;
+				} else {
+					return director;
 				}
 			});
 		});
@@ -112,7 +121,6 @@ const MainView = () => {
 	};
 
 	return (
-		console.log("directors: ", directors),
 		<Router>
 			<div
 				className={
@@ -276,6 +284,17 @@ const MainView = () => {
 										token={token}
 										darkMode={darkMode}
 										updateMovie={updateMovie}
+									/>
+								}
+							/>
+							<Route
+								path="/directors/edit/:id"
+								element={
+									<EditDirectorView
+										directors={directors}
+										token={token}
+										darkMode={darkMode}
+										updateDirector={updateDirector}
 									/>
 								}
 							/>
