@@ -13,7 +13,6 @@ const useFetchGenres = (token) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log('Fetched genres:', data); // Log the fetched data
                 setGenres(data);
             })
             .catch((error) => console.error("Error fetching genres:", error));
