@@ -20,6 +20,7 @@ const EditDirectorView = ({ directors, token, updateDirector }) => {
                 setValue("name", foundDirector.name);
                 setValue("bio", foundDirector.bio);
                 setValue("imageurl", foundDirector.imageurl);
+                setDirector(foundDirector);
             }
         }
         

@@ -30,7 +30,9 @@ const ActorView = ({ token }) => {
 	};
 
 	const handleEdit = () => {
-		// code to handle edit action
+		navigate(`/actors/edit/${selectedActor._id}`, {
+			state: { selectedActor },
+		});
 	};
 
 	//Handle Back

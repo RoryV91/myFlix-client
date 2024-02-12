@@ -18,7 +18,7 @@ const useFetchActors = (token) => {
 			.catch((error) => console.error("Error fetching actors:", error));
 	}, [token]);
 
-	return actors;
+	return [actors, setActors];
 };
 
 export default useFetchActors;
