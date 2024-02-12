@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const useFetchDirectors = (token) => {
     const [directors, setDirectors] = useState([]);
-
+    
     useEffect(() => {
         if (!token) return;
 
@@ -12,11 +12,13 @@ const useFetchDirectors = (token) => {
             },
         })
             .then((response) => response.json())
-            .then((data) => setDirectors(data))
+            .then((data) => {
+            setDirectors(data)
+            console.log('Fetched directors:', directors);})
             .catch((error) => console.error("Error fetching directors:", error));
     }, [token]);
 
-    return directors;
+    return [directors, setDirectors] 
 };
 
 export default useFetchDirectors;

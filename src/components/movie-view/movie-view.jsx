@@ -7,7 +7,7 @@ import useFetchDirectors from "../../hooks/use-fetch-directors/use-fetch-directo
 import useFetchGenres from "../../hooks/use-fetch-genres/use-fetch-genres";
 import ActionButtons from "../action-buttons/action-buttons";
 
-const MovieView = ({ movies, token }) => {
+const MovieView = ({ movies, token, genres, directors }) => {
 	const { id } = useParams();
 	const location = useLocation();
 	const initialSelectedMovie = location.state
@@ -16,23 +16,20 @@ const MovieView = ({ movies, token }) => {
 	const [selectedMovie, setSelectedMovie] = useState(initialSelectedMovie);
 	const navigate = useNavigate();
 
-	const directorIds = selectedMovie?.director_ids;
-	const allDirectors = useFetchDirectors(token);
 	const allActors = useFetchActors(token);
-	const allGenres = useFetchGenres(token);
 
 	useEffect(() => {
 		const updatedSelectedMovie = movies.find((movie) => movie._id === id);
 		setSelectedMovie(updatedSelectedMovie);
 	}, [movies, id]);
 
-	const directors = allDirectors.filter((director) =>
+	const thisMovieDirectors = directors.filter((director) =>
 		selectedMovie?.director_ids.includes(director._id)
 	);
 	const actors = allActors.filter((actor) =>
 		selectedMovie?.actor_ids.includes(actor._id)
 	);
-	const genres = allGenres.filter((genre) =>
+	const thisMovieGenres = genres.filter((genre) =>
 		selectedMovie?.genre_ids.includes(genre._id)
 	);
 
@@ -92,8 +89,8 @@ const MovieView = ({ movies, token }) => {
 						<strong>🎬 Director(s): </strong>
 					</p>
 					<ul>
-						{directors && directors.length > 0 ? (
-							directors.map((director, index) => (
+						{thisMovieDirectors && thisMovieDirectors.length > 0 ? (
+							thisMovieDirectors.map((director, index) => (
 								<li key={index}>
 									<Link to={`/director/${director._id}`}>{director.name}</Link>
 								</li>
@@ -123,7 +120,7 @@ const MovieView = ({ movies, token }) => {
 						<strong>🎞️ Genres:</strong>
 					</p>
 					<ul>
-						{genres.map((genre, index) => (
+						{thisMovieGenres.map((genre, index) => (
 							<li key={index}>
 								<Link to={`/genre/${genre._id}`}>{genre.name}</Link>
 							</li>

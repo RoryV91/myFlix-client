@@ -46,6 +46,14 @@ const MainView = () => {
 	const storedToken = localStorage.getItem("token");
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
+	// Use custom hooks to fetch data
+	const movies = useFetchMovies(token);
+	const [genres, setGenres] = useFetchGenres(token);
+	const [directors, setDirectors] = useFetchDirectors(token);
+	console.log(directors);
+	console.log(genres);
+	const actors = useFetchActors(token);
+
 	const [darkMode, setDarkMode] = useState(() => {
 		const saved = localStorage.getItem("darkMode");
 		const initialValue = JSON.parse(saved);
@@ -83,11 +91,7 @@ const MainView = () => {
 		}));
 	};
 
-	// Use custom hooks to fetch data
-	const movies = useFetchMovies(token);
-	const [genres, setGenres] = useFetchGenres(token);
-	const directors = useFetchDirectors(token);
-	const actors = useFetchActors(token);
+
 
 	// Scroll to top on page load
 	useEffect(() => {
@@ -108,6 +112,7 @@ const MainView = () => {
 	};
 
 	return (
+		console.log("directors: ", directors),
 		<Router>
 			<div
 				className={
@@ -163,6 +168,8 @@ const MainView = () => {
 										movies={movies}
 										token={token}
 										updateMovie={updateMovie}
+										directors={directors}
+										genres={genres}
 									/>
 								}
 							/>
@@ -205,6 +212,8 @@ const MainView = () => {
 								element={
 									<MoviesView
 										movies={movies}
+										directors={directors}
+										genres={genres}
 										token={token}
 										darkMode={darkMode}
 										user={user}

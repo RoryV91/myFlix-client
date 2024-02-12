@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { useNavigate, Link, useParams, useLocation } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 import ActionButtons from "../action-buttons/action-buttons";
 
-const DirectorView = ({ token }) => {
+const DirectorView = ({ token, directors }) => {
 	const { id } = useParams();
-	const [selectedDirector, setSelectedDirector] = useState(null);
+	const location = useLocation();
+	const initialSelectedDirector = location.state
+	? location.state.selectedDirector
+	: directors.find((director) => director._id === id);
+	const [selectedDirector, setSelectedDirector] = useState(initialSelectedDirector);
 	const movies = useFetchMovies(token);
 	const directorMovies =
 		movies?.filter((movie) => movie.director_ids.includes(id)) || [];
@@ -28,7 +32,9 @@ const DirectorView = ({ token }) => {
 	};
 
 	const handleEdit = () => {
-		// code to handle edit action
+		navigate(`/directors/edit/${selectedDirector._id}`, {
+			state: { selectedDirector },
+		});
 	};
 
 	//Handle Back
