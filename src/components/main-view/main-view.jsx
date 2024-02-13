@@ -8,12 +8,12 @@ import useFetchGenres from "../../hooks/use-fetch-genres/use-fetch-genres";
 import useFetchDirectors from "../../hooks/use-fetch-directors/use-fetch-directors";
 import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
 
-//General views
+// General views
 import Home from "../home-view/home-view";
 import Header from "../header/header";
 import Footer from "../footer/footer";
 
-//User views
+// User views
 import LoginView from "../login-view/login-view";
 import SignupView from "../signup-view/signup-view";
 import UserProfileView from "../user-profile-view/user-profile-view";
@@ -41,22 +41,27 @@ import EditDirectorView from "../edit-director-view/edit-director-view";
 
 // MainView component
 const MainView = () => {
+	
 	// Define state variables
 	const storedUser = JSON.parse(localStorage.getItem("user"));
 	const storedToken = localStorage.getItem("token");
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
+
 	// Use custom hooks to fetch data
 	const [movies, setMovies] = useFetchMovies(token);
 	const [genres, setGenres] = useFetchGenres(token);
 	const [directors, setDirectors] = useFetchDirectors(token);
 	const [actors, setActors] = useFetchActors(token);
 
+	// Dark mode state and setter
 	const [darkMode, setDarkMode] = useState(() => {
 		const saved = localStorage.getItem("darkMode");
 		const initialValue = JSON.parse(saved);
 		return initialValue || false;
 	});
+
+	// Define functions to handle updates
 	const updateMovie = (updatedMovie) => {
 		setMovies(
 			movies.map((movie) =>

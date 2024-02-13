@@ -1,33 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link, useParams, useLocation } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
+import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 import ActionButtons from "../action-buttons/action-buttons";
 import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
-const DirectorView = ({ token, directors }) => {
+const DirectorView = ({ directors, movies }) => {
 	useScrollToTop();
 	const { id } = useParams();
 	const location = useLocation();
 	const initialSelectedDirector = location.state
-	? location.state.selectedDirector
-	: directors.find((director) => director._id === id);
+		? location.state.selectedDirector
+		: directors.find((director) => director._id === id);
 	const [selectedDirector, setSelectedDirector] = useState(initialSelectedDirector);
-	const movies = useFetchMovies(token);
-	const directorMovies =
-		movies?.filter((movie) => movie.director_ids.includes(id)) || [];
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		fetch(`https://myflixapi.vanblaricom.dev:9999/directors/${id}`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-			.then((res) => res.json())
-			.then((director) => setSelectedDirector(director));
-	}, [id, token]);
+		const updatedSelectedDirector = directors.find((director) => director._id === id);
+		setSelectedDirector(updatedSelectedDirector);
+	}, [directors, id]);
+
+	const thisDirectorMovies = movies.filter((movie) =>
+		movie.director_ids.includes(selectedDirector?._id)
+	);
 
 	const handleDelete = () => {
 		// code to handle delete action
@@ -44,39 +39,45 @@ const DirectorView = ({ token, directors }) => {
 		navigate(-1);
 	};
 
-	if (!selectedDirector || movies.length === 0) return null;
+	if (!selectedDirector) return null;
 
 	return (
-		<Container className="mt-5 vh-100">
+		<Container className="mt-5">
 			<Row>
-				<Col
-					xs={12}
-					md={6}
-				>
+				<Col xs={12} md={6}>
 					<img
 						src={selectedDirector.imageurl}
 						className="img-fluid"
 					/>
 				</Col>
-				<Col
-					xs={12}
-					md={6}
-				>
+				<Col xs={12} md={6}>
 					<h2 className="mt-3">{selectedDirector.name}</h2>
 					<p>
-						<strong>Biography: </strong>
+						<strong>📓 Biography: </strong>
 						{selectedDirector.bio}
 					</p>
 					<p>
-						<strong>Movies: </strong>
+						<strong>🍼 Birth: </strong>
+						{new Date(selectedDirector.birth).toLocaleDateString()}
 					</p>
-					{directorMovies.map((movie, index) => {
-						return (
+					{selectedDirector.death && (
+						<p>
+							<strong>💀 Death: </strong>
+							{new Date(selectedDirector.death).toLocaleDateString()}
+						</p>
+					)}
+					<p>
+						<strong>🍿 Movies: </strong>
+					</p>
+					{thisDirectorMovies.length > 0 ? (
+						thisDirectorMovies.map((movie, index) => (
 							<li key={index}>
 								<Link to={`/movie/${movie._id}`}>{movie.title}</Link>
 							</li>
-						);
-					})}
+						))
+					) : (
+						<p>No movies found for this director yet.</p>
+					)}
 					<ActionButtons
 						onDelete={handleDelete}
 						onEdit={handleEdit}
@@ -86,19 +87,6 @@ const DirectorView = ({ token, directors }) => {
 			</Row>
 		</Container>
 	);
-};
-
-DirectorView.propTypes = {
-	directors: PropTypes.arrayOf(
-		PropTypes.shape({
-			_id: PropTypes.string.isRequired,
-			name: PropTypes.string.isRequired,
-			bio: PropTypes.string.isRequired,
-			imageurl: PropTypes.string,
-		})
-	).isRequired,
-	darkMode: PropTypes.bool.isRequired,
-	token: PropTypes.string
 };
 
 export default DirectorView;
