@@ -23,6 +23,7 @@ import EditProfileView from "../edit-profile-view/edit-profile-view";
 import MovieView from "../movie-view/movie-view";
 import MoviesView from "../movies-view/movies-view";
 import EditMovieView from "../edit-movie-view/edit-movie-view";
+import NewMovieView from "../new-movie-view/new-movie-view";
 
 // Genre views
 import GenreView from "../genre-view/genre-view";
@@ -41,7 +42,7 @@ import EditDirectorView from "../edit-director-view/edit-director-view";
 
 // MainView component
 const MainView = () => {
-	
+
 	// Define state variables
 	const storedUser = JSON.parse(localStorage.getItem("user"));
 	const storedToken = localStorage.getItem("token");
@@ -116,12 +117,22 @@ const MainView = () => {
 		}));
 	};
 
+	// Define functions to add new documents
+	const addMovie = (newMovie) => {
+		setMovies((prevMovies) => [...prevMovies, newMovie]);
+	};
 
+	const addGenre = (newGenre) => {
+		setGenres((prevGenres) => [...prevGenres, newGenre]);
+	};
 
-	// Scroll to top on page load
-	useEffect(() => {
-		window.scrollTo(0, 0);
-	}, []);
+	const addDirector = (newDirector) => {
+		setDirectors((prevDirectors) => [...prevDirectors, newDirector]);
+	};
+
+	const addActor = (newActor) => {
+		setActors((prevActors) => [...prevActors, newActor]);
+	};
 
 	// Handle Dark Mode
 	useEffect(() => {
@@ -346,6 +357,16 @@ const MainView = () => {
 										darkMode={darkMode}
 										token={token}
 										updateUser={updateUser}
+									/>
+								}
+							/>
+							<Route
+								path="/movies/add"
+								element={
+									<NewMovieView
+										addMovie={addMovie}
+										darkMode={darkMode}
+										token={token}
 									/>
 								}
 							/>
