@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
+import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 import ActionButtons from "../action-buttons/action-buttons";
 import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
-const ActorView = ({ token }) => {
+const ActorView = ({ actors, movies }) => {
 	useScrollToTop();
 	const { id } = useParams();
-	const [selectedActor, setSelectedActor] = useState(null);
-	const movies = useFetchMovies(token);
-	const actorMovies =
-		movies?.filter((movie) => movie.actor_ids.includes(id)) || [];
+	const location = useLocation();
+	const initialSelectedActor = location.state
+		? location.state.selectedActor
+		: actors.find((actor) => actor._id === id);
+	const [selectedActor, setSelectedActor] = useState(initialSelectedActor);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		fetch(`https://myflixapi.vanblaricom.dev:9999/actors/${id}`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-			.then((res) => res.json())
-			.then((actor) => setSelectedActor(actor));
-	}, [id, token]);
+		const updatedSelectedActor = actors.find((actor) => actor._id === id);
+		setSelectedActor(updatedSelectedActor);
+	}, [actors, id]);
+
+	const thisActorMovies = movies.filter((movie) =>
+		movie.actor_ids.includes(selectedActor?._id)
+	);
 
 	const handleDelete = () => {
 		// code to handle delete action
@@ -40,10 +39,10 @@ const ActorView = ({ token }) => {
 		navigate(-1);
 	};
 
-	if (!selectedActor || movies.length === 0) return null;
+	if (!selectedActor) return null;
 
 	return (
-		<Container className="mt-5 vh-100">
+		<Container className="mt-5">
 			<Row>
 				<Col
 					xs={12}
@@ -76,34 +75,25 @@ const ActorView = ({ token }) => {
 					<p>
 						<strong>🍿 Movies: </strong>
 					</p>
-					{actorMovies.map((movie, index) => {
-						return (
+					{thisActorMovies.length > 0 ? (
+						thisActorMovies.map((movie, index) => (
 							<li key={index}>
 								<Link to={`/movie/${movie._id}`}>{movie.title}</Link>
 							</li>
-						);
-					})}
+						))
+					) : (
+						<p>No movies found for this actor yet.</p>
+					)}
 					<ActionButtons
 						onDelete={handleDelete}
 						onEdit={handleEdit}
 						onBack={handleBack}
 					/>
 				</Col>
+					
 			</Row>
 		</Container>
 	);
-};
-
-ActorView.propTypes = {
-	selectedActor: PropTypes.shape({
-		name: PropTypes.string.isRequired,
-		bio: PropTypes.string.isRequired,
-		imageurl: PropTypes.string,
-		birth: PropTypes.string,
-		movie_ids: PropTypes.arrayOf(PropTypes.string),
-	}),
-	token: PropTypes.string,
-	darkMode: PropTypes.bool.isRequired,
 };
 
 export default ActorView;

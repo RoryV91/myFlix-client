@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 import ActionButtons from "../action-buttons/action-buttons";
 import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
-const GenreView = ({ genres, token, movies }) => {
+const GenreView = ({ genres, movies }) => {
 	useScrollToTop();
 	const { id } = useParams();
 	const location = useLocation();
@@ -16,8 +15,6 @@ const GenreView = ({ genres, token, movies }) => {
 	const [selectedGenre, setSelectedGenre] = useState(initialSelectedGenre);
 	const navigate = useNavigate();
 
-	// const allMovies = useFetchMovies(token);
-	// console.log(allMovies);
 	useEffect(() => {
 		const updatedSelectedGenre = genres.find((genre) => genre._id === id);
 		setSelectedGenre(updatedSelectedGenre);

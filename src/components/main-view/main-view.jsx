@@ -198,6 +198,7 @@ const MainView = () => {
 								element={
 									<DirectorView
 										directors={directors}
+										movies={movies}
 										token={token}
 										darkMode={darkMode}
 									/>
@@ -208,7 +209,7 @@ const MainView = () => {
 								element={
 									<ActorView
 										actors={actors}
-										token={token}
+										movies={movies}
 										darkMode={darkMode}
 									/>
 								}
@@ -220,7 +221,6 @@ const MainView = () => {
 										<GenreView
 											genres={genres}
 											movies={movies}
-											token={token}
 											darkMode={darkMode}
 										/>
 									</div>
@@ -267,7 +267,6 @@ const MainView = () => {
 								element={
 									<GenresView
 										darkMode={darkMode}
-										token={token}
 										genres={genres}
 										movies={movies}
 									/>
