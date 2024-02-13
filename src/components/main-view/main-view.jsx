@@ -7,7 +7,6 @@ import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 import useFetchGenres from "../../hooks/use-fetch-genres/use-fetch-genres";
 import useFetchDirectors from "../../hooks/use-fetch-directors/use-fetch-directors";
 import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
-import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
 //General views
 import Home from "../home-view/home-view";
@@ -48,7 +47,7 @@ const MainView = () => {
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	// Use custom hooks to fetch data
-	const movies = useFetchMovies(token);
+	const [movies, setMovies] = useFetchMovies(token);
 	const [genres, setGenres] = useFetchGenres(token);
 	const [directors, setDirectors] = useFetchDirectors(token);
 	const [actors, setActors] = useFetchActors(token);
@@ -270,6 +269,7 @@ const MainView = () => {
 										darkMode={darkMode}
 										token={token}
 										genres={genres}
+										movies={movies}
 									/>
 								}
 							/>

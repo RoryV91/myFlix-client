@@ -6,7 +6,7 @@ import useFetchMovies from "../../hooks/use-fetch-movies/use-fetch-movies";
 import ActionButtons from "../action-buttons/action-buttons";
 import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
-const GenreView = ({ genres, token }) => {
+const GenreView = ({ genres, token, movies }) => {
 	useScrollToTop();
 	const { id } = useParams();
 	const location = useLocation();
@@ -16,14 +16,14 @@ const GenreView = ({ genres, token }) => {
 	const [selectedGenre, setSelectedGenre] = useState(initialSelectedGenre);
 	const navigate = useNavigate();
 
-	const allMovies = useFetchMovies(token);
-
+	// const allMovies = useFetchMovies(token);
+	// console.log(allMovies);
 	useEffect(() => {
 		const updatedSelectedGenre = genres.find((genre) => genre._id === id);
 		setSelectedGenre(updatedSelectedGenre);
 	}, [genres, id]);
 
-	const movies = allMovies.filter((movie) =>
+	const thisGenreMovies = movies.filter((movie) =>
 		movie.genre_ids.includes(selectedGenre?._id)
 	);
 
@@ -60,8 +60,8 @@ const GenreView = ({ genres, token }) => {
 					<p>
                     <strong>🍿 Movies: </strong>
                 </p>
-                {movies.length > 0 ? (
-                    movies.map((movie, index) => (
+                {thisGenreMovies.length > 0 ? (
+                    thisGenreMovies.map((movie, index) => (
                         <li key={index}>
                             <Link to={`/movie/${movie._id}`}>{movie.title}</Link>
                         </li>
