@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
-import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
 import ActionButtons from "../action-buttons/action-buttons";
 import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 

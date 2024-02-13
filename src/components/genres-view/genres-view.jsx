@@ -13,7 +13,7 @@ const GenresView = ({ genres, darkMode }) => {
             <Container>
                 <h1>All Genres 🎞️</h1>
                 <Row className="d-flex justify-content-center">
-                    {genres.map((genre) => (
+                    {genres.sort((a, b) => a.name.localeCompare(b.name)).map((genre) => (
                         <Col
                             xs={12}
                             sm={6}

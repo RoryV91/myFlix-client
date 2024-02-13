@@ -35,6 +35,8 @@ const handleSubmit = async (event) => {
 
 	return (
 		<Form onSubmit={handleSubmit}>
+            <h1>Add a New Movie ➕ 📼</h1>
+            <p>📝 Fill out the form below to add a new movie to the database.</p>
 			<Row className="mb-3">
 				<Col>
 					<Form.Group controlId="title">
