@@ -6,7 +6,7 @@ import useFetchActors from "../../hooks/use-fetch-actors/use-fetch-actors";
 import ActionButtons from "../action-buttons/action-buttons";
 import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 
-const MovieView = ({ movies, token, genres, directors }) => {
+const MovieView = ({ movies, genres, directors, actors }) => {
 	useScrollToTop();
 	const { id } = useParams();
 	const location = useLocation();
@@ -16,8 +16,6 @@ const MovieView = ({ movies, token, genres, directors }) => {
 	const [selectedMovie, setSelectedMovie] = useState(initialSelectedMovie);
 	const navigate = useNavigate();
 
-	const allActors = useFetchActors(token);
-
 	useEffect(() => {
 		const updatedSelectedMovie = movies.find((movie) => movie._id === id);
 		setSelectedMovie(updatedSelectedMovie);
@@ -26,7 +24,7 @@ const MovieView = ({ movies, token, genres, directors }) => {
 	const thisMovieDirectors = directors.filter((director) =>
 		selectedMovie?.director_ids.includes(director._id)
 	);
-	const actors = allActors.filter((actor) =>
+	const thisMovieActors = actors.filter((actor) =>
 		selectedMovie?.actor_ids.includes(actor._id)
 	);
 	const thisMovieGenres = genres.filter((genre) =>
@@ -103,7 +101,7 @@ const MovieView = ({ movies, token, genres, directors }) => {
 						<strong>🌟 Starring:</strong>
 					</p>
 					<ul>
-						{actors.map((actor, index) => (
+						{thisMovieActors.map((actor, index) => (
 							<li key={index}>
 								<Link
 									to={{

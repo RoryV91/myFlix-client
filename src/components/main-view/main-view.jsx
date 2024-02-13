@@ -34,6 +34,7 @@ import EditGenreView from "../edit-genre-view/edit-genre-view";
 import ActorsView from "../actors-view/actors-view";
 import ActorView from "../actor-view/actor-view";
 import EditActorView from "../edit-actor-view/edit-actor-view";
+import NewGenreView from "../new-genre-view/new-genre-view";
 
 // Director views
 import DirectorsView from "../directors-view/directors-view";
@@ -365,6 +366,16 @@ const MainView = () => {
 								element={
 									<NewMovieView
 										addMovie={addMovie}
+										darkMode={darkMode}
+										token={token}
+									/>
+								}
+							/>
+							<Route
+								path="/genres/add"
+								element={
+									<NewGenreView
+										addGenre={addGenre}
 										darkMode={darkMode}
 										token={token}
 									/>
