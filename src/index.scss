@@ -17,6 +17,28 @@ body {
 	color: red;
 }
 
+.pagination-dark .page-link {
+	background-color: var(--bs-dark);
+	color: var(--bs-light);
+}
+
+.pagination-dark .active .page-link {
+	background-color: var(--bs-primary);
+	color: var(--bs-light);
+	border-color: var(--bs-primary);
+}
+
+.pagination-light .page-link {
+	background-color: var(--bs-light);
+	color: var(--bs-dark);
+}
+
+.pagination-light .active .page-link {
+	background-color: var(--bs-primary);
+	color: var(--bs-light);
+	border-color: var(--bs-primary);
+}
+
 .no-break {
 	word-wrap: break-word;
 	overflow-wrap: break-word;
