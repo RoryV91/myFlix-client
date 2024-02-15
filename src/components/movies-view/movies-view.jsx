@@ -13,6 +13,7 @@ const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 
 	const displayedMovies = movies
 		.sort((a, b) => {
+			{/* Sort movies by title, but disregard preceding "The " in the title */}
 			const titleA = a.title.replace(/^The /i, '');
 			const titleB = b.title.replace(/^The /i, '');
 			return titleA.localeCompare(titleB);
