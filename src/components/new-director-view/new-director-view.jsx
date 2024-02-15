@@ -61,7 +61,7 @@ const NewDirectorView = ({ addDirector, token }) => {
             <Form.Group className="mb-3">
                 <Row className="mb-3">
                     <Col sm={3}>
-                        <Form.Label>🎂 Birth</Form.Label>
+                        <Form.Label>🍼 Birth</Form.Label>
                     </Col>
                     <Col sm={10}>
                         <Controller

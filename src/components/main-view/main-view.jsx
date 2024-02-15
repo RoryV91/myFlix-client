@@ -35,7 +35,7 @@ import NewGenreView from "../new-genre-view/new-genre-view";
 import ActorsView from "../actors-view/actors-view";
 import ActorView from "../actor-view/actor-view";
 import EditActorView from "../edit-actor-view/edit-actor-view";
-
+import NewActorView from "../new-actor-view/new-actor-view";
 
 // Director views
 import DirectorsView from "../directors-view/directors-view";
@@ -45,7 +45,6 @@ import NewDirectorView from "../new-director-view/new-director-view";
 
 // MainView component
 const MainView = () => {
-
 	// Define state variables
 	const storedUser = JSON.parse(localStorage.getItem("user"));
 	const storedToken = localStorage.getItem("token");
@@ -174,6 +173,7 @@ const MainView = () => {
 					/>
 					<div className="pt-3 container-min-vh-100">
 						<Routes>
+							{/* General Views */}
 							<Route
 								path="/"
 								element={<Home />}
@@ -199,6 +199,33 @@ const MainView = () => {
 									</div>
 								}
 							/>
+							{/* User Views */}
+							<Route
+								path="/profile/view/:id"
+								element={
+									<UserProfileView
+										user={user}
+										darkMode={darkMode}
+										token={token}
+										movies={movies}
+										updateUserFavorites={updateUserFavorites}
+										updateUser={updateUser}
+										handleLogout={handleLogout}
+									/>
+								}
+							/>
+							<Route
+								path="/profile/edit/:id"
+								element={
+									<EditProfileView
+										user={user}
+										darkMode={darkMode}
+										token={token}
+										updateUser={updateUser}
+									/>
+								}
+							/>
+							{/* Movie Views */}
 							<Route
 								path="/movie/:id"
 								element={
@@ -213,40 +240,6 @@ const MainView = () => {
 								}
 							/>
 							<Route
-								path="/director/:id"
-								element={
-									<DirectorView
-										directors={directors}
-										movies={movies}
-										token={token}
-										darkMode={darkMode}
-									/>
-								}
-							/>
-							<Route
-								path="/actor/:id"
-								element={
-									<ActorView
-										actors={actors}
-										movies={movies}
-										darkMode={darkMode}
-									/>
-								}
-							/>
-							<Route
-								path="/genre/:id"
-								element={
-									<div className="d-flex justify-content-center align-items-center">
-										<GenreView
-											genres={genres}
-											movies={movies}
-											darkMode={darkMode}
-										/>
-									</div>
-								}
-							/>
-
-							<Route
 								path="/movies/view"
 								element={
 									<MoviesView
@@ -258,50 +251,6 @@ const MainView = () => {
 										darkMode={darkMode}
 										user={user}
 										updateUserFavorites={updateUserFavorites}
-									/>
-								}
-							/>
-							<Route
-								path="/actors/view"
-								element={
-									<ActorsView
-										darkMode={darkMode}
-										token={token}
-										actors={actors}
-									/>
-								}
-							/>
-							<Route
-								path="/directors/view"
-								element={
-									<DirectorsView
-										darkMode={darkMode}
-										token={token}
-										directors={directors}
-									/>
-								}
-							/>
-							<Route
-								path="/genres/view"
-								element={
-									<GenresView
-										darkMode={darkMode}
-										genres={genres}
-										movies={movies}
-									/>
-								}
-							/>
-							<Route
-								path="/profile/view/:id"
-								element={
-									<UserProfileView
-										user={user}
-										darkMode={darkMode}
-										token={token}
-										movies={movies}
-										updateUserFavorites={updateUserFavorites}
-										updateUser={updateUser}
-										handleLogout={handleLogout}
 									/>
 								}
 							/>
@@ -320,13 +269,77 @@ const MainView = () => {
 								}
 							/>
 							<Route
-								path="/directors/edit/:id"
+								path="/movies/add"
 								element={
-									<EditDirectorView
-										directors={directors}
+									<NewMovieView
+										addMovie={addMovie}
+										darkMode={darkMode}
+										token={token}
+									/>
+								}
+							/>
+							{/* Genre Views */}
+							<Route
+								path="/genre/:id"
+								element={
+									<div className="d-flex justify-content-center align-items-center">
+										<GenreView
+											genres={genres}
+											movies={movies}
+											darkMode={darkMode}
+										/>
+									</div>
+								}
+							/>
+							<Route
+								path="/genres/view"
+								element={
+									<GenresView
+										darkMode={darkMode}
+										genres={genres}
+										movies={movies}
+									/>
+								}
+							/>
+							<Route
+								path="/genres/edit/:id"
+								element={
+									<EditGenreView
+										genres={genres}
 										token={token}
 										darkMode={darkMode}
-										updateDirector={updateDirector}
+										updateGenre={updateGenre}
+									/>
+								}
+							/>
+							<Route
+								path="/genres/add"
+								element={
+									<NewGenreView
+										addGenre={addGenre}
+										darkMode={darkMode}
+										token={token}
+									/>
+								}
+							/>
+							{/* Actor Views */}
+							<Route
+								path="/actor/:id"
+								element={
+									<ActorView
+										actors={actors}
+										movies={movies}
+										darkMode={darkMode}
+									/>
+								}
+							/>
+							<Route
+								path="/actors/view"
+								element={
+									<ActorsView
+										darkMode={darkMode}
+										token={token}
+										actors={actors}
 									/>
 								}
 							/>
@@ -341,45 +354,46 @@ const MainView = () => {
 									/>
 								}
 							/>
-							<Route 
-								path="/genres/edit/:id"
-								element={
-									<EditGenreView
-										genres={genres}
-										token={token}
-										darkMode={darkMode}
-										updateGenre={updateGenre}
-									/>
-								}
-							/>
 							<Route
-								path="/profile/edit/:id"
+								path="/actors/add"
 								element={
-									<EditProfileView
-										user={user}
-										darkMode={darkMode}
-										token={token}
-										updateUser={updateUser}
-									/>
-								}
-							/>
-							<Route
-								path="/movies/add"
-								element={
-									<NewMovieView
-										addMovie={addMovie}
+									<NewActorView
+										addActor={addActor}
 										darkMode={darkMode}
 										token={token}
 									/>
 								}
 							/>
+							{/* Director Views */}
 							<Route
-								path="/genres/add"
+								path="/director/:id"
 								element={
-									<NewGenreView
-										addGenre={addGenre}
+									<DirectorView
+										directors={directors}
+										movies={movies}
+										token={token}
+										darkMode={darkMode}
+									/>
+								}
+							/>
+							<Route
+								path="/directors/view"
+								element={
+									<DirectorsView
 										darkMode={darkMode}
 										token={token}
+										directors={directors}
+									/>
+								}
+							/>
+							<Route
+								path="/directors/edit/:id"
+								element={
+									<EditDirectorView
+										directors={directors}
+										token={token}
+										darkMode={darkMode}
+										updateDirector={updateDirector}
 									/>
 								}
 							/>
