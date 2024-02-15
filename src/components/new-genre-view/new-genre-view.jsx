@@ -34,6 +34,8 @@ const NewGenreView = ({ addGenre, token }) => {
 
     return (
         <Form onSubmit={handleSubmit}>
+                        <h1>Add a New Genre ➕ 🎞️</h1>
+            <p>📝 Fill out the form below to add a new genre to the database.</p>
             <Row className="mb-3">
                 <Col>
                     <Form.Group controlId="name">
