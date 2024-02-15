@@ -9,7 +9,6 @@ function useScrollToTop(delay = 100) {
             window.scrollTo(0, 0);
         }, delay);
 
-        // Cleanup function to clear the timeout
         return () => clearTimeout(timer);
     }, [pathname]);
 }

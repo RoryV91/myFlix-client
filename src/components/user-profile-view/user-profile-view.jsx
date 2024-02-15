@@ -26,21 +26,23 @@ function UserProfileView({
 	};
 
 	const deleteProfile = () => {
-		axios
-			.delete(
-				`https://myflixapi.vanblaricom.dev:9999/users/${user._id}/delete`,
-				{
-					headers: { Authorization: `Bearer ${token}` },
-				}
-			)
-			.then(() => {
-				alert("Profile deleted successfully");
-				handleUserLogout();
-			})
-			.catch((error) => {
-				console.error("Error deleting profile", error);
-				alert("Failed to delete profile");
-			});
+		if (window.confirm("Are you sure you want to delete your profile? This action cannot be undone.")) {
+			axios
+				.delete(
+					`https://myflixapi.vanblaricom.dev:9999/users/${user._id}/delete`,
+					{
+						headers: { Authorization: `Bearer ${token}` },
+					}
+				)
+				.then(() => {
+					alert("Profile deleted successfully");
+					handleUserLogout();
+				})
+				.catch((error) => {
+					console.error("Error deleting profile", error);
+					alert("Failed to delete profile");
+				});
+		}
 	};
 
 	return (
