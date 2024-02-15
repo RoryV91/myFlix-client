@@ -29,17 +29,19 @@ import NewMovieView from "../new-movie-view/new-movie-view";
 import GenreView from "../genre-view/genre-view";
 import GenresView from "../genres-view/genres-view";
 import EditGenreView from "../edit-genre-view/edit-genre-view";
+import NewGenreView from "../new-genre-view/new-genre-view";
 
 // Actor views
 import ActorsView from "../actors-view/actors-view";
 import ActorView from "../actor-view/actor-view";
 import EditActorView from "../edit-actor-view/edit-actor-view";
-import NewGenreView from "../new-genre-view/new-genre-view";
+
 
 // Director views
 import DirectorsView from "../directors-view/directors-view";
 import DirectorView from "../director-view/director-view";
 import EditDirectorView from "../edit-director-view/edit-director-view";
+import NewDirectorView from "../new-director-view/new-director-view";
 
 // MainView component
 const MainView = () => {
@@ -376,6 +378,16 @@ const MainView = () => {
 								element={
 									<NewGenreView
 										addGenre={addGenre}
+										darkMode={darkMode}
+										token={token}
+									/>
+								}
+							/>
+							<Route
+								path="/directors/add"
+								element={
+									<NewDirectorView
+										addDirector={addDirector}
 										darkMode={darkMode}
 										token={token}
 									/>
