@@ -4,8 +4,9 @@ import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import ActionButtons from "../action-buttons/action-buttons";
 import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
+import axios from "axios";
 
-const ActorView = ({ actors, movies }) => {
+const ActorView = ({ actors, movies, token, deleteActor }) => {
 	useScrollToTop();
 	const { id } = useParams();
 	const location = useLocation();
@@ -23,9 +24,32 @@ const ActorView = ({ actors, movies }) => {
 	const thisActorMovies = movies.filter((movie) =>
 		movie.actor_ids.includes(selectedActor?._id)
 	);
-
 	const handleDelete = () => {
-		// code to handle delete action
+		if (window.confirm("Are you sure you want to delete this actor? This action cannot be undone.")) {
+			console.log(selectedActor._id, token);
+			axios
+				.delete(
+					`https://myflixapi.vanblaricom.dev:9999/actors/${selectedActor._id}`,
+					{
+						headers: { Authorization: `Bearer ${token}` },
+					}
+				)
+				.then((response) => {
+					if (response.status === 200) {
+						alert("Actor deleted successfully");
+						deleteActor(selectedActor._id);
+					} else {
+						alert("Failed to delete actor");
+					}
+				})
+				.catch((error) => {
+					console.error("Error deleting actor", error);
+					alert("Failed to delete actor: " + error.message);
+				})
+				.finally(() => {
+					navigate('/actors/view');
+				});
+		}
 	};
 
 	const handleEdit = () => {

@@ -136,6 +136,23 @@ const MainView = () => {
 		setActors((prevActors) => [...prevActors, newActor]);
 	};
 
+	// Define functions to delete documents
+	const deleteMovie = (deletedMovieId) => {
+		setMovies((prevMovies) => prevMovies.filter((movie) => movie._id !== deletedMovieId));
+	};
+	
+	const deleteGenre = (deletedGenreId) => {
+		setGenres((prevGenres) => prevGenres.filter((genre) => genre._id !== deletedGenreId));
+	};
+	
+	const deleteDirector = (deletedDirectorId) => {
+		setDirectors((prevDirectors) => prevDirectors.filter((director) => director._id !== deletedDirectorId));
+	};
+
+	const deleteActor = (deletedActorId) => {
+		setActors((prevActors) => prevActors.filter((actor) => actor._id !== deletedActorId));
+	};
+
 	// Handle Dark Mode
 	useEffect(() => {
 		localStorage.setItem("darkMode", JSON.stringify(darkMode));
@@ -330,6 +347,8 @@ const MainView = () => {
 										actors={actors}
 										movies={movies}
 										darkMode={darkMode}
+										token={token}
+										deleteActor={deleteActor}
 									/>
 								}
 							/>
@@ -351,6 +370,7 @@ const MainView = () => {
 										token={token}
 										darkMode={darkMode}
 										updateActor={updateActor}
+										deleteActor={deleteActor}
 									/>
 								}
 							/>
