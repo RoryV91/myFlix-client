@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const NewMovieView = ({ addMovie, token }) => {
 	const [title, setTitle] = useState("");
@@ -107,6 +108,11 @@ const handleSubmit = async (event) => {
 			</Row>
 		</Form>
 	);
+};
+
+NewMovieView.propTypes = {
+    addMovie: PropTypes.func.isRequired,
+    token: PropTypes.string.isRequired,
 };
 
 export default NewMovieView;
