@@ -8,9 +8,7 @@ const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 	useScrollToTop();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(5);
-
 	const totalPages = Math.ceil(movies.length / itemsPerPage);
-
 	const displayedMovies = movies
 		.sort((a, b) => {
 			{/* Sort movies by title, but disregard preceding "The " in the title */}
