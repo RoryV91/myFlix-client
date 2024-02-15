@@ -11,7 +11,6 @@ function UserProfileView({
 	movies,
 	darkMode,
 	updateUserFavorites,
-	updateUser,
 	token,
 	handleLogout,
 }) {
@@ -132,6 +131,33 @@ function UserProfileView({
 			</Row>
 		</Container>
 	);
-}
+};
+
+UserProfileView.propTypes = {
+	user: PropTypes.shape({
+		_id: PropTypes.string.isRequired,
+		username: PropTypes.string.isRequired,
+		email: PropTypes.string.isRequired,
+		dob: PropTypes.string,
+		user_movie_ids: PropTypes.arrayOf(PropTypes.string).isRequired,
+	}).isRequired,
+	movies: PropTypes.arrayOf(
+		PropTypes.shape({
+			_id: PropTypes.string.isRequired,
+			title: PropTypes.string.isRequired,
+			description: PropTypes.string.isRequired,
+			imageurl: PropTypes.string,
+			featured: PropTypes.bool,
+			actor_ids: PropTypes.arrayOf(PropTypes.string),
+			release: PropTypes.string,
+			director_ids: PropTypes.arrayOf(PropTypes.string),
+			genre_ids: PropTypes.arrayOf(PropTypes.string),
+		})
+	).isRequired,
+	darkMode: PropTypes.bool.isRequired,
+	updateUserFavorites: PropTypes.func.isRequired,
+	token: PropTypes.string.isRequired,
+	handleLogout: PropTypes.func.isRequired,
+};
 
 export default UserProfileView;
