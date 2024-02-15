@@ -12,7 +12,11 @@ const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 	const totalPages = Math.ceil(movies.length / itemsPerPage);
 
 	const displayedMovies = movies
-		.sort((a, b) => a.title.localeCompare(b.title))
+		.sort((a, b) => {
+			const titleA = a.title.replace(/^The /i, '');
+			const titleB = b.title.replace(/^The /i, '');
+			return titleA.localeCompare(titleB);
+		})
 		.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
 	const handleItemsPerPageChange = (event) => {
