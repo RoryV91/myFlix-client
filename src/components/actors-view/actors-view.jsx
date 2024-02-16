@@ -8,7 +8,7 @@ const ActorsView = ({ actors, darkMode, onActorClick }) => {
 	useScrollToTop();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(5);
-
+	const [searchTerm, setSearchTerm] = useState("");
 	const totalPages = Math.ceil(actors.length / itemsPerPage);
 
 	const displayedActors = actors
@@ -95,7 +95,7 @@ const ActorsView = ({ actors, darkMode, onActorClick }) => {
 						md={4}
 						lg={3}
 						key={actor._id}
-						className="d-flex justify-content-center"
+						className="d-flex justify-content-center actorcard"
 					>
 						<ActorCard
 							actor={actor}

@@ -8,7 +8,7 @@ const DirectorsView = ({ directors, darkMode, onDirectorClick }) => {
 	useScrollToTop();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(5);
-
+	const [searchTerm, setSearchTerm] = useState("");
 	const totalPages = Math.ceil(directors.length / itemsPerPage);
 
 	const displayedDirectors = directors
@@ -95,7 +95,7 @@ const DirectorsView = ({ directors, darkMode, onDirectorClick }) => {
 						md={4}
 						lg={3}
 						key={director._id}
-						className="d-flex justify-content-center"
+						className="d-flex justify-content-center directorcard"
 					>
 						<DirectorCard
 							director={director}

@@ -8,10 +8,13 @@ const GenresView = ({ genres, darkMode }) => {
 	useScrollToTop();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(5);
-
+	const [searchTerm, setSearchTerm] = useState("");
 	const totalPages = Math.ceil(genres.length / itemsPerPage);
 
 	const displayedGenres = genres
+		.filter((genre) =>
+			genre.name.toLowerCase().includes(searchTerm.toLowerCase())
+		)
 		.sort((a, b) => a.name.localeCompare(b.name))
 		.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
@@ -87,23 +90,37 @@ const GenresView = ({ genres, darkMode }) => {
 					</Pagination>
 				</Col>
 			</Row>
-			<Row className="d-flex justify-content-center">
-				{displayedGenres.map((genre) => (
-					<Col
-						xs={12}
-						sm={6}
-						md={4}
-						lg={3}
-						key={genre._id}
-						className="d-flex justify-content-center"
-					>
-						<GenreCard
-							genre={genre}
-							darkMode={darkMode}
-						/>
-					</Col>
-				))}
+			<Row className="mb-3">
+				<Col md={{ span: 6, offset: 3 }}>
+					<Form.Control
+						type="text"
+						placeholder="Search for a genre..."
+						value={searchTerm}
+						onChange={(event) => setSearchTerm(event.target.value)}
+					/>
+				</Col>
 			</Row>
+			{displayedGenres.length === 0 ? (
+				<div>No genres matched your search!</div>
+			) : (
+				<Row className={`d-flex justify-content-center ${displayedGenres.length === 1 ? 'single-result' : ''}`}>
+					{displayedGenres.map((genre) => (
+						<Col
+							xs={12}
+							sm={6}
+							md={4}
+							lg={3}
+							key={genre._id}
+							className="d-flex justify-content-center genrecard"
+						>
+							<GenreCard
+								genre={genre}
+								darkMode={darkMode}
+							/>
+						</Col>
+					))}
+				</Row>
+			)}
 		</Container>
 	);
 };
