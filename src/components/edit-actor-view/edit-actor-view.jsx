@@ -155,10 +155,17 @@ const EditActorView = ({ actors, token, updateActor, deleteActor }) => {
 };
 
 EditActorView.propTypes = {
+    actors: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            bio: PropTypes.string.isRequired,
+            imageurl: PropTypes.string.isRequired,
+        })
+    ).isRequired,
     token: PropTypes.string.isRequired,
-    onEdit: PropTypes.func,
-    darkMode: PropTypes.bool.isRequired,
     updateActor: PropTypes.func.isRequired,
+    deleteActor: PropTypes.func.isRequired,
 };
 
 export default EditActorView;
