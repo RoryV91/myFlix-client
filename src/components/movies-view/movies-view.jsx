@@ -8,8 +8,12 @@ const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 	useScrollToTop();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(5);
+	const [searchTerm, setSearchTerm] = useState("");
 	const totalPages = Math.ceil(movies.length / itemsPerPage);
 	const displayedMovies = movies
+		.filter((movie) =>
+			movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+		)
 		.sort((a, b) => {
 			{
 				/* Sort movies by title, but disregard preceding "The " in the title */
@@ -48,6 +52,7 @@ const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 							<Form.Select
 								value={itemsPerPage}
 								onChange={handleItemsPerPageChange}
+								style={{ minWidth: "100px" }}
 							>
 								<option value={5}>5</option>
 								<option value={10}>10</option>
@@ -60,36 +65,48 @@ const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 					md={6}
 					className="d-flex justify-content-end"
 				>
-					<Pagination
-						className={darkMode ? "pagination-dark" : "pagination-light"}
-					>
-						<Pagination.Prev
-							onClick={() => setCurrentPage(currentPage - 1)}
-							disabled={currentPage === 1}
-						/>
+					<div className="pagination-container">
+						<Pagination
+							className={darkMode ? "pagination-dark" : "pagination-light"}
+						>
+							<Pagination.Prev
+								onClick={() => setCurrentPage(currentPage - 1)}
+								disabled={currentPage === 1}
+							/>
 
-						{Array.from({ length: totalPages }, (_, i) => i + 1)
-							.filter(
-								(page) =>
-									page === 1 ||
-									page === totalPages ||
-									(page >= currentPage - 2 && page <= currentPage + 2)
-							)
-							.map((page) => (
-								<Pagination.Item
-									key={page}
-									active={page === currentPage}
-									onClick={() => setCurrentPage(page)}
-								>
-									{page}
-								</Pagination.Item>
-							))}
+							{Array.from({ length: totalPages }, (_, i) => i + 1)
+								.filter(
+									(page) =>
+										page === 1 ||
+										page === totalPages ||
+										(page >= currentPage - 2 && page <= currentPage + 2)
+								)
+								.map((page) => (
+									<Pagination.Item
+										key={page}
+										active={page === currentPage}
+										onClick={() => setCurrentPage(page)}
+									>
+										{page}
+									</Pagination.Item>
+								))}
 
-						<Pagination.Next
-							onClick={() => setCurrentPage(currentPage + 1)}
-							disabled={currentPage === totalPages}
-						/>
-					</Pagination>
+							<Pagination.Next
+								onClick={() => setCurrentPage(currentPage + 1)}
+								disabled={currentPage === totalPages}
+							/>
+						</Pagination>
+					</div>
+				</Col>
+			</Row>
+			<Row className="mb-3">
+				<Col md={{ span: 6, offset: 3 }}>
+					<Form.Control
+						type="text"
+						placeholder="Search"
+						value={searchTerm}
+						onChange={(event) => setSearchTerm(event.target.value)}
+					/>
 				</Col>
 			</Row>
 			<Row className="d-flex justify-content-center">
