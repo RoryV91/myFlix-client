@@ -98,7 +98,7 @@ const MovieView = ({ movies, genres, directors, actors, deleteMovie, token }) =>
 					</p>
 					<p>
 						<strong>🗓️ Release: </strong>
-						{new Date(selectedMovie.release).toLocaleDateString()}
+						{selectedMovie.release ? new Date(selectedMovie.release).toLocaleDateString() : "Release date not set"}
 					</p>
 					<p>
 						<strong>📢 Featured: </strong>
@@ -122,28 +122,36 @@ const MovieView = ({ movies, genres, directors, actors, deleteMovie, token }) =>
 						<strong>🌟 Starring:</strong>
 					</p>
 					<ul>
-						{thisMovieActors.map((actor, index) => (
-							<li key={index}>
-								<Link
-									to={{
-										pathname: `/actor/${actor._id}`,
-										state: { selectedActor: actor },
-									}}
-								>
-									{actor.name}
-								</Link>
-							</li>
-						))}
+						{thisMovieActors && thisMovieActors.length > 0 ? (
+							thisMovieActors.map((actor, index) => (
+								<li key={index}>
+									<Link
+										to={{
+											pathname: `/actor/${actor._id}`,
+											state: { selectedActor: actor },
+										}}
+									>
+										{actor.name}
+									</Link>
+								</li>
+							))
+						) : (
+							<li>No actors found</li>
+						)}
 					</ul>
 					<p>
 						<strong>🎞️ Genres:</strong>
 					</p>
 					<ul>
-						{thisMovieGenres.map((genre, index) => (
-							<li key={index}>
-								<Link to={`/genre/${genre._id}`}>{genre.name}</Link>
-							</li>
-						))}
+						{thisMovieGenres && thisMovieGenres.length > 0 ? (
+							thisMovieGenres.map((genre, index) => (
+								<li key={index}>
+									<Link to={`/genre/${genre._id}`}>{genre.name}</Link>
+								</li>
+							))
+						) : (
+							<li>No genres found</li>
+						)}
 					</ul>
 					<ActionButtons
 						onDelete={handleDelete}
