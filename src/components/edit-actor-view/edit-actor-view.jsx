@@ -5,11 +5,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Form, Button, Col, Row } from "react-bootstrap";
 import axios from "axios";
 
-const EditActorView = ({ actors, token, updateActor }) => {
+const EditActorView = ({ actors, token, updateActor, deleteActor }) => {
     const { id } = useParams();
     const [actor, setActor] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const navigate = useNavigate();
 
@@ -46,17 +45,28 @@ const EditActorView = ({ actors, token, updateActor }) => {
     };
 
     const onDelete = () => {
-        axios.delete(`/actors/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        .then(() => {
-            navigate(-1);
-        })
-        .catch(error => {
-            setError(error.message);
-        });
+        if (window.confirm("Are you sure you want to delete this actor? This action cannot be undone.")) {
+            axios
+                .delete(`https://myflixapi.vanblaricom.dev:9999/actors/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        alert("Actor deleted successfully");
+
+                        deleteActor(id);
+                    } else {
+                        alert("Failed to delete actor");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error deleting actor", error);
+                    alert("Failed to delete actor: " + error.message);
+                })
+                .finally(() => {
+                    navigate('/actors/view');
+                });
+        }
     };
 
     if (isLoading) {
