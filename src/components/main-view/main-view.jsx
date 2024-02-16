@@ -253,6 +253,7 @@ const MainView = () => {
 										directors={directors}
 										genres={genres}
 										actors={actors}
+										deleteMovie={deleteMovie}
 									/>
 								}
 							/>
@@ -282,6 +283,7 @@ const MainView = () => {
 										token={token}
 										darkMode={darkMode}
 										updateMovie={updateMovie}
+										deleteMovie={deleteMovie}
 									/>
 								}
 							/>
@@ -304,6 +306,7 @@ const MainView = () => {
 											genres={genres}
 											movies={movies}
 											darkMode={darkMode}
+											deleteGenre={deleteGenre}
 										/>
 									</div>
 								}
@@ -326,6 +329,7 @@ const MainView = () => {
 										token={token}
 										darkMode={darkMode}
 										updateGenre={updateGenre}
+										deleteGenre={deleteGenre}
 									/>
 								}
 							/>
@@ -393,6 +397,7 @@ const MainView = () => {
 										movies={movies}
 										token={token}
 										darkMode={darkMode}
+										deleteDirector={deleteDirector}
 									/>
 								}
 							/>
@@ -414,6 +419,7 @@ const MainView = () => {
 										token={token}
 										darkMode={darkMode}
 										updateDirector={updateDirector}
+										deleteDirector={deleteDirector}
 									/>
 								}
 							/>
