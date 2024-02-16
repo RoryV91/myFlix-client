@@ -120,4 +120,26 @@ const ActorView = ({ actors, movies, token, deleteActor }) => {
 	);
 };
 
+ActorView.propTypes = {
+	actors: PropTypes.arrayOf(
+		PropTypes.shape({
+			_id: PropTypes.string.isRequired,
+			name: PropTypes.string.isRequired,
+			bio: PropTypes.string.isRequired,
+			birth: PropTypes.string.isRequired,
+			death: PropTypes.string,
+			imageurl: PropTypes.string.isRequired,
+		})
+	).isRequired,
+	movies: PropTypes.arrayOf(
+		PropTypes.shape({
+			_id: PropTypes.string.isRequired,
+			title: PropTypes.string.isRequired,
+			actor_ids: PropTypes.arrayOf(PropTypes.string).isRequired,
+		})
+	).isRequired,
+	deleteActor: PropTypes.func.isRequired,
+	token: PropTypes.string.isRequired,
+};
+
 export default ActorView;
