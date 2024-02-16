@@ -102,4 +102,23 @@ const GenreView = ({ genres, movies, token, deleteGenre }) => {
 	);
 };
 
+GenreView.propTypes = {
+	genres: PropTypes.arrayOf(
+		PropTypes.shape({
+			_id: PropTypes.string.isRequired,
+			name: PropTypes.string.isRequired,
+			description: PropTypes.string.isRequired,
+		})
+	).isRequired,
+	movies: PropTypes.arrayOf(
+		PropTypes.shape({
+			_id: PropTypes.string.isRequired,
+			title: PropTypes.string.isRequired,
+			genre_ids: PropTypes.arrayOf(PropTypes.string).isRequired,
+		})
+	).isRequired,
+	token: PropTypes.string.isRequired,
+	deleteGenre: PropTypes.func.isRequired,
+};
+
 export default GenreView;
