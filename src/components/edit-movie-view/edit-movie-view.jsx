@@ -13,9 +13,9 @@ const EditMovieView = ({
 	directors,
 	genres,
 	token,
-	onEdit,
 	darkMode,
 	updateMovie,
+	deleteMovie,
 }) => {
 	const { id } = useParams();
 	const [movie, setMovie] = useState(null);
@@ -95,23 +95,27 @@ const EditMovieView = ({
 		);
 	}
 
-	const onDelete = async () => {
-		try {
-			const response = await axios.delete(
-				`https://myflixapi.vanblaricom.dev:9999/movies/${movie._id}`,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			);
-
-			if (response.status === 200) {
-				console.log("Movie deleted successfully");
-				navigate("/movies");
-			}
-		} catch (error) {
-			console.error("Error deleting movie:", error);
+	const onDelete = () => {
+		if (window.confirm("Are you sure you want to delete this movie? This action cannot be undone.")) {
+			axios
+				.delete(`https://myflixapi.vanblaricom.dev:9999/movies/${movie._id}`, {
+					headers: { Authorization: `Bearer ${token}` },
+				})
+				.then((response) => {
+					if (response.status === 200) {
+						alert("Movie deleted successfully");
+						deleteMovie(movie._id);
+					} else {
+						alert("Failed to delete movie");
+					}
+				})
+				.catch((error) => {
+					console.error("Error deleting movie", error);
+					alert("Failed to delete movie: " + error.message);
+				})
+				.finally(() => {
+					navigate('/movies/view');
+				});
 		}
 	};
 

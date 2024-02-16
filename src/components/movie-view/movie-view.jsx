@@ -4,8 +4,9 @@ import { Container, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import ActionButtons from "../action-buttons/action-buttons";
 import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
+import axios from "axios";
 
-const MovieView = ({ movies, genres, directors, actors }) => {
+const MovieView = ({ movies, genres, directors, actors, deleteMovie, token }) => {
 	useScrollToTop();
 	const { id } = useParams();
 	const location = useLocation();
@@ -31,7 +32,28 @@ const MovieView = ({ movies, genres, directors, actors }) => {
 	);
 
 	const handleDelete = () => {
-		// code to handle delete action
+		if (window.confirm("Are you sure you want to delete this movie? This action cannot be undone.")) {
+			axios
+				.delete(`https://myflixapi.vanblaricom.dev:9999/movies/${selectedMovie._id}`, {
+					headers: { Authorization: `Bearer ${token}` },
+				})
+				.then((response) => {
+					if (response.status === 200) {
+						alert("Movie deleted successfully");
+
+						deleteMovie(selectedMovie._id);
+					} else {
+						alert("Failed to delete movie");
+					}
+				})
+				.catch((error) => {
+					console.error("Error deleting movie", error);
+					alert("Failed to delete movie: " + error.message);
+				})
+				.finally(() => {
+					navigate('/movies/view');
+				});
+		}
 	};
 
 	// Open edit movie view
