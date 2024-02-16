@@ -96,7 +96,11 @@ const EditMovieView = ({
 	}
 
 	const onDelete = () => {
-		if (window.confirm("Are you sure you want to delete this movie? This action cannot be undone.")) {
+		if (
+			window.confirm(
+				"Are you sure you want to delete this movie? This action cannot be undone."
+			)
+		) {
 			axios
 				.delete(`https://myflixapi.vanblaricom.dev:9999/movies/${movie._id}`, {
 					headers: { Authorization: `Bearer ${token}` },
@@ -114,7 +118,7 @@ const EditMovieView = ({
 					alert("Failed to delete movie: " + error.message);
 				})
 				.finally(() => {
-					navigate('/movies/view');
+					navigate("/movies/view");
 				});
 		}
 	};
@@ -123,21 +127,24 @@ const EditMovieView = ({
 	const handleAddActor = () => {
 		if (selectedActor && !selectedActors.includes(selectedActor)) {
 			setSelectedActors((prevActors) => [...prevActors, selectedActor]);
-			setSelectedActor(""); 
+			setSelectedActor("");
 		}
 	};
-	
+
 	const handleAddDirector = () => {
 		if (selectedDirector && !selectedDirectors.includes(selectedDirector)) {
-			setSelectedDirectors((prevDirectors) => [...prevDirectors, selectedDirector]);
-			setSelectedDirector(""); 
+			setSelectedDirectors((prevDirectors) => [
+				...prevDirectors,
+				selectedDirector,
+			]);
+			setSelectedDirector("");
 		}
 	};
 
 	const handleAddGenre = () => {
 		if (selectedGenre && !selectedGenres.includes(selectedGenre)) {
 			setSelectedGenres((prevGenres) => [...prevGenres, selectedGenre]);
-			setSelectedGenre(""); 
+			setSelectedGenre("");
 		}
 	};
 
@@ -540,7 +547,7 @@ EditMovieView.propTypes = {
 			name: PropTypes.string.isRequired,
 		})
 	),
-	token: PropTypes.string
+	token: PropTypes.string,
 };
 
 export default EditMovieView;

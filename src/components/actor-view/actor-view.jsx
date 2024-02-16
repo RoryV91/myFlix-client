@@ -25,7 +25,11 @@ const ActorView = ({ actors, movies, token, deleteActor }) => {
 		movie.actor_ids.includes(selectedActor?._id)
 	);
 	const handleDelete = () => {
-		if (window.confirm("Are you sure you want to delete this actor? This action cannot be undone.")) {
+		if (
+			window.confirm(
+				"Are you sure you want to delete this actor? This action cannot be undone."
+			)
+		) {
 			console.log(selectedActor._id, token);
 			axios
 				.delete(
@@ -47,7 +51,7 @@ const ActorView = ({ actors, movies, token, deleteActor }) => {
 					alert("Failed to delete actor: " + error.message);
 				})
 				.finally(() => {
-					navigate('/actors/view');
+					navigate("/actors/view");
 				});
 		}
 	};
@@ -114,7 +118,6 @@ const ActorView = ({ actors, movies, token, deleteActor }) => {
 						onBack={handleBack}
 					/>
 				</Col>
-					
 			</Row>
 		</Container>
 	);

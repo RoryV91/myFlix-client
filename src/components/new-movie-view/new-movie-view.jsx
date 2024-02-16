@@ -9,35 +9,38 @@ const NewMovieView = ({ addMovie, token }) => {
 	const [imageUrl, setImageUrl] = useState("");
 	const navigate = useNavigate();
 
-const handleSubmit = async (event) => {
-    event.preventDefault();
-    const newMovie = { title, description, imageurl: imageUrl  };
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		const newMovie = { title, description, imageurl: imageUrl };
 
-    const response = await fetch('https://myflixapi.vanblaricom.dev:9999/movies/new', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(newMovie)
-    });
+		const response = await fetch(
+			"https://myflixapi.vanblaricom.dev:9999/movies/new",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify(newMovie),
+			}
+		);
 
-    if (!response.ok) {
-        const message = await response.text();
-        alert(`Failed to add movie: ${message}`);
-        return;
-    }
+		if (!response.ok) {
+			const message = await response.text();
+			alert(`Failed to add movie: ${message}`);
+			return;
+		}
 
-    const addedMovie = await response.json();
-    addMovie(addedMovie);
-    alert('Movie added successfully!');
-    navigate("/movies/view");
-};
+		const addedMovie = await response.json();
+		addMovie(addedMovie);
+		alert("Movie added successfully!");
+		navigate("/movies/view");
+	};
 
 	return (
 		<Form onSubmit={handleSubmit}>
-            <h1>Add a New Movie ➕ 📼</h1>
-            <p>📝 Fill out the form below to add a new movie to the database.</p>
+			<h1>Add a New Movie ➕ 📼</h1>
+			<p>📝 Fill out the form below to add a new movie to the database.</p>
 			<Row className="mb-3">
 				<Col>
 					<Form.Group controlId="title">
@@ -111,8 +114,8 @@ const handleSubmit = async (event) => {
 };
 
 NewMovieView.propTypes = {
-    addMovie: PropTypes.func.isRequired,
-    token: PropTypes.string.isRequired,
+	addMovie: PropTypes.func.isRequired,
+	token: PropTypes.string.isRequired,
 };
 
 export default NewMovieView;

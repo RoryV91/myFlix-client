@@ -13,11 +13,15 @@ const DirectorView = ({ directors, movies, deleteDirector, token }) => {
 	const initialSelectedDirector = location.state
 		? location.state.selectedDirector
 		: directors.find((director) => director._id === id);
-	const [selectedDirector, setSelectedDirector] = useState(initialSelectedDirector);
+	const [selectedDirector, setSelectedDirector] = useState(
+		initialSelectedDirector
+	);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const updatedSelectedDirector = directors.find((director) => director._id === id);
+		const updatedSelectedDirector = directors.find(
+			(director) => director._id === id
+		);
 		setSelectedDirector(updatedSelectedDirector);
 	}, [directors, id]);
 
@@ -26,7 +30,11 @@ const DirectorView = ({ directors, movies, deleteDirector, token }) => {
 	);
 
 	const handleDelete = () => {
-		if (window.confirm("Are you sure you want to delete this director? This action cannot be undone.")) {
+		if (
+			window.confirm(
+				"Are you sure you want to delete this director? This action cannot be undone."
+			)
+		) {
 			axios
 				.delete(`https://myflixapi.vanblaricom.dev:9999/directors/${id}`, {
 					headers: { Authorization: `Bearer ${token}` },
@@ -45,7 +53,7 @@ const DirectorView = ({ directors, movies, deleteDirector, token }) => {
 					alert("Failed to delete director: " + error.message);
 				})
 				.finally(() => {
-					navigate('/directors/view');
+					navigate("/directors/view");
 				});
 		}
 	};
@@ -65,13 +73,19 @@ const DirectorView = ({ directors, movies, deleteDirector, token }) => {
 	return (
 		<Container className="mt-5">
 			<Row>
-				<Col xs={12} md={6}>
+				<Col
+					xs={12}
+					md={6}
+				>
 					<img
 						src={selectedDirector.imageurl}
 						className="img-fluid"
 					/>
 				</Col>
-				<Col xs={12} md={6}>
+				<Col
+					xs={12}
+					md={6}
+				>
 					<h2 className="mt-3">{selectedDirector.name}</h2>
 					<p>
 						<strong>📓 Biography: </strong>

@@ -25,7 +25,11 @@ function UserProfileView({
 	};
 
 	const deleteProfile = () => {
-		if (window.confirm("Are you sure you want to delete your profile? This action cannot be undone.")) {
+		if (
+			window.confirm(
+				"Are you sure you want to delete your profile? This action cannot be undone."
+			)
+		) {
 			axios
 				.delete(
 					`https://myflixapi.vanblaricom.dev:9999/users/${user._id}/delete`,
@@ -60,7 +64,7 @@ function UserProfileView({
 					</p>
 					<p className="mt-3">
 						<strong>Date of Birth:</strong>{" "}
-						{user?.dob && new Date(user.dob).toLocaleDateString('en-US')}
+						{user?.dob && new Date(user.dob).toLocaleDateString("en-US")}
 					</p>
 				</Col>
 				<Col
@@ -131,7 +135,7 @@ function UserProfileView({
 			</Row>
 		</Container>
 	);
-};
+}
 
 UserProfileView.propTypes = {
 	user: PropTypes.shape({

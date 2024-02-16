@@ -26,11 +26,18 @@ const GenreView = ({ genres, movies, token, deleteGenre }) => {
 	);
 
 	const handleDelete = () => {
-		if (window.confirm("Are you sure you want to delete this genre? This action cannot be undone.")) {
+		if (
+			window.confirm(
+				"Are you sure you want to delete this genre? This action cannot be undone."
+			)
+		) {
 			axios
-				.delete(`https://myflixapi.vanblaricom.dev:9999/genres/${selectedGenre._id}`, {
-					headers: { Authorization: `Bearer ${token}` },
-				})
+				.delete(
+					`https://myflixapi.vanblaricom.dev:9999/genres/${selectedGenre._id}`,
+					{
+						headers: { Authorization: `Bearer ${token}` },
+					}
+				)
 				.then((response) => {
 					if (response.status === 200) {
 						alert("Genre deleted successfully");
@@ -45,7 +52,7 @@ const GenreView = ({ genres, movies, token, deleteGenre }) => {
 					alert("Failed to delete genre: " + error.message);
 				})
 				.finally(() => {
-					navigate('/genres/view');
+					navigate("/genres/view");
 				});
 		}
 	};
@@ -60,7 +67,6 @@ const GenreView = ({ genres, movies, token, deleteGenre }) => {
 	const handleBack = () => {
 		navigate(-1);
 	};
-	
 
 	if (!selectedGenre) return null;
 
@@ -77,26 +83,25 @@ const GenreView = ({ genres, movies, token, deleteGenre }) => {
 						{selectedGenre.description}
 					</p>
 					<p>
-                    <strong>🍿 Movies: </strong>
-                </p>
-                {thisGenreMovies.length > 0 ? (
-                    thisGenreMovies.map((movie, index) => (
-                        <li key={index}>
-                            <Link to={`/movie/${movie._id}`}>{movie.title}</Link>
-                        </li>
-                    ))
-                ) : (
-                    <p>No movies found for this genre yet.</p>
-                )}
-					
+						<strong>🍿 Movies: </strong>
+					</p>
+					{thisGenreMovies.length > 0 ? (
+						thisGenreMovies.map((movie, index) => (
+							<li key={index}>
+								<Link to={`/movie/${movie._id}`}>{movie.title}</Link>
+							</li>
+						))
+					) : (
+						<p>No movies found for this genre yet.</p>
+					)}
 				</Col>
-                <Col>
-                    <ActionButtons
-                            onDelete={handleDelete}
-                            onEdit={handleEdit}
-                            onBack={handleBack}
-                        />
-                </Col>
+				<Col>
+					<ActionButtons
+						onDelete={handleDelete}
+						onEdit={handleEdit}
+						onBack={handleBack}
+					/>
+				</Col>
 			</Row>
 		</Container>
 	);

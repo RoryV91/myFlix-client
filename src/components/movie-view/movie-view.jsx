@@ -6,7 +6,14 @@ import ActionButtons from "../action-buttons/action-buttons";
 import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
 import axios from "axios";
 
-const MovieView = ({ movies, genres, directors, actors, deleteMovie, token }) => {
+const MovieView = ({
+	movies,
+	genres,
+	directors,
+	actors,
+	deleteMovie,
+	token,
+}) => {
 	useScrollToTop();
 	const { id } = useParams();
 	const location = useLocation();
@@ -32,11 +39,18 @@ const MovieView = ({ movies, genres, directors, actors, deleteMovie, token }) =>
 	);
 
 	const handleDelete = () => {
-		if (window.confirm("Are you sure you want to delete this movie? This action cannot be undone.")) {
+		if (
+			window.confirm(
+				"Are you sure you want to delete this movie? This action cannot be undone."
+			)
+		) {
 			axios
-				.delete(`https://myflixapi.vanblaricom.dev:9999/movies/${selectedMovie._id}`, {
-					headers: { Authorization: `Bearer ${token}` },
-				})
+				.delete(
+					`https://myflixapi.vanblaricom.dev:9999/movies/${selectedMovie._id}`,
+					{
+						headers: { Authorization: `Bearer ${token}` },
+					}
+				)
 				.then((response) => {
 					if (response.status === 200) {
 						alert("Movie deleted successfully");
@@ -51,14 +65,16 @@ const MovieView = ({ movies, genres, directors, actors, deleteMovie, token }) =>
 					alert("Failed to delete movie: " + error.message);
 				})
 				.finally(() => {
-					navigate('/movies/view');
+					navigate("/movies/view");
 				});
 		}
 	};
 
 	// Open edit movie view
 	const handleEdit = () => {
-		navigate(`/movies/edit/${selectedMovie._id}`, { state: { movie: selectedMovie } });
+		navigate(`/movies/edit/${selectedMovie._id}`, {
+			state: { movie: selectedMovie },
+		});
 	};
 
 	//Handle Back
@@ -98,7 +114,9 @@ const MovieView = ({ movies, genres, directors, actors, deleteMovie, token }) =>
 					</p>
 					<p>
 						<strong>🗓️ Release: </strong>
-						{selectedMovie.release ? new Date(selectedMovie.release).toLocaleDateString() : "Release date not set"}
+						{selectedMovie.release
+							? new Date(selectedMovie.release).toLocaleDateString()
+							: "Release date not set"}
 					</p>
 					<p>
 						<strong>📢 Featured: </strong>
@@ -178,7 +196,7 @@ MovieView.propTypes = {
 			genre_ids: PropTypes.arrayOf(PropTypes.string),
 		})
 	),
-	token: PropTypes.string
+	token: PropTypes.string,
 };
 
 export default MovieView;
