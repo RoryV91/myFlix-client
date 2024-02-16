@@ -156,10 +156,17 @@ const EditDirectorView = ({ directors, token, updateDirector, deleteDirector }) 
 };
 
 EditDirectorView.propTypes = {
+    directors: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            bio: PropTypes.string.isRequired,
+            imageurl: PropTypes.string.isRequired,
+        })
+    ).isRequired,
     token: PropTypes.string.isRequired,
-    onEdit: PropTypes.func,
-    darkMode: PropTypes.bool.isRequired,
     updateDirector: PropTypes.func.isRequired,
+    deleteDirector: PropTypes.func.isRequired,
 };
 
 export default EditDirectorView;
