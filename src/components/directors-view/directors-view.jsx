@@ -12,6 +12,9 @@ const DirectorsView = ({ directors, darkMode, onDirectorClick }) => {
 	const totalPages = Math.ceil(directors.length / itemsPerPage);
 
 	const displayedDirectors = directors
+		.filter((director) =>
+			director.name.toLowerCase().includes(searchTerm.toLowerCase())
+		)
 		.sort((a, b) => a.name.localeCompare(b.name))
 		.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
@@ -27,7 +30,7 @@ const DirectorsView = ({ directors, darkMode, onDirectorClick }) => {
 			<Row className="gx-3">
 				<Col
 					md={6}
-					className="mb-3 mb-md-0"
+					className="mb-3 md-0"
 				>
 					<Form.Group
 						controlId="itemsPerPage"
@@ -87,24 +90,38 @@ const DirectorsView = ({ directors, darkMode, onDirectorClick }) => {
 					</Pagination>
 				</Col>
 			</Row>
-			<Row className="d-flex justify-content-center">
-				{displayedDirectors.map((director) => (
-					<Col
-						xs={12}
-						sm={6}
-						md={4}
-						lg={3}
-						key={director._id}
-						className="d-flex justify-content-center directorcard"
-					>
-						<DirectorCard
-							director={director}
-							darkMode={darkMode}
-							onDirectorClick={onDirectorClick}
-						/>
-					</Col>
-				))}
+			<Row className="mb-3">
+				<Col md={{ span: 6, offset: 3 }}>
+					<Form.Control
+						type="text"
+						placeholder="Search for a director..."
+						value={searchTerm}
+						onChange={(event) => setSearchTerm(event.target.value)}
+					/>
+				</Col>
 			</Row>
+			{displayedDirectors.length === 0 ? (
+				<div>No directors found!</div>
+			) : (
+				<Row className="d-flex justify-content-center">
+					{displayedDirectors.map((director) => (
+						<Col
+							xs={12}
+							sm={6}
+							md={4}
+							lg={3}
+							key={director._id}
+							className="d-flex justify-content-center directorcard"
+						>
+							<DirectorCard
+								director={director}
+								darkMode={darkMode}
+								onDirectorClick={onDirectorClick}
+							/>
+						</Col>
+					))}
+				</Row>
+			)}
 		</Container>
 	);
 };
