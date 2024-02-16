@@ -1,23 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate, Link } from "react-router-dom";
-import {
-	Navbar,
-	Nav,
-	Button,
-	Dropdown,
-	Form,
-} from "react-bootstrap";
+import { Navbar, Nav, Button, Dropdown, Form } from "react-bootstrap";
 
 const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 	const navigate = useNavigate();
-	const navItems = user ? [
-		{ title: "Movies", view: "movies/view", add: "movies/add" },
-		{ title: "Genres", view: "genres/view", add: "genres/add" },
-		{ title: "Directors", view: "directors/view", add: "directors/add" },
-		{ title: "Actors", view: "actors/view", add: "actors/add" },
-		{ title: "Profile", view: `profile/view/${user._id}`, edit: `profile/edit/${user._id}` },
-	] : [];
+	const navItems = user
+		? [
+				{ title: "Movies", view: "movies/view", add: "movies/add" },
+				{ title: "Genres", view: "genres/view", add: "genres/add" },
+				{ title: "Directors", view: "directors/view", add: "directors/add" },
+				{ title: "Actors", view: "actors/view", add: "actors/add" },
+				{
+					title: "Profile",
+					view: `profile/view/${user._id}`,
+					edit: `profile/edit/${user._id}`,
+				},
+		  ]
+		: [];
 	const handleUserLogout = () => {
 		handleLogout();
 		navigate("/login");
@@ -38,7 +38,10 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 			>
 				<span className="spin">📼</span> myFlix
 			</Navbar.Brand>
-			<Navbar.Toggle aria-controls="basic-navbar-nav" className={`${darkMode ? "navbar-dark" : "navbar-light"}`}/>
+			<Navbar.Toggle
+				aria-controls="basic-navbar-nav"
+				className={`${darkMode ? "navbar-dark" : "navbar-light"}`}
+			/>
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className="w-100 d-flex justify-content-around align-items-center">
 					{!user ? (
@@ -83,7 +86,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 										>
 											View
 										</Dropdown.Item>
-										{item.title !== 'Profile' && item.add && (
+										{item.title !== "Profile" && item.add && (
 											<Dropdown.Item
 												as={Link}
 												to={item.add}
@@ -91,7 +94,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 												Add...
 											</Dropdown.Item>
 										)}
-										{item.title === 'Profile' && item.edit && (
+										{item.title === "Profile" && item.edit && (
 											<Dropdown.Item
 												as={Link}
 												to={item.edit}
@@ -123,18 +126,18 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 			</Navbar.Collapse>
 		</Navbar>
 	);
+};
 
-	Header.propTypes = {
-		handleLogout: PropTypes.func.isRequired,
-		darkMode: PropTypes.bool.isRequired,
-		setDarkMode: PropTypes.func.isRequired,
-		user: PropTypes.shape({
-			username: PropTypes.string,
-			password: PropTypes.string,
-			email: PropTypes.string,
-			birthday: PropTypes.string,
-		}).isRequired,
-	};
+Header.propTypes = {
+	handleLogout: PropTypes.func.isRequired,
+	darkMode: PropTypes.bool.isRequired,
+	setDarkMode: PropTypes.func.isRequired,
+	user: PropTypes.shape({
+		username: PropTypes.string,
+		password: PropTypes.string,
+		email: PropTypes.string,
+		birthday: PropTypes.string,
+	}).isRequired,
 };
 
 export default Header;
