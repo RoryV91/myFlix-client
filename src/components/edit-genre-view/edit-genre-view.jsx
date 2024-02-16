@@ -9,7 +9,6 @@ const EditGenreView = ({ genres, token, updateGenre, deleteGenre }) => {
     const { id } = useParams();
     const [genre, setGenre] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const navigate = useNavigate();
 
@@ -150,10 +149,16 @@ const EditGenreView = ({ genres, token, updateGenre, deleteGenre }) => {
 };
 
 EditGenreView.propTypes = {
+    genres: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+        })
+    ).isRequired,
     token: PropTypes.string.isRequired,
-    onEdit: PropTypes.func,
-    darkMode: PropTypes.bool.isRequired,
     updateGenre: PropTypes.func.isRequired,
+    deleteGenre: PropTypes.func.isRequired,
 };
 
 export default EditGenreView;
