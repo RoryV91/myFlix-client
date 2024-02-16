@@ -91,7 +91,7 @@ const Header = ({ handleLogout, darkMode, setDarkMode, user }) => {
 												as={Link}
 												to={item.add}
 											>
-												Add...
+												Add New...
 											</Dropdown.Item>
 										)}
 										{item.title === "Profile" && item.edit && (
