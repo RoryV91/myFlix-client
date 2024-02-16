@@ -138,19 +138,27 @@ const MainView = () => {
 
 	// Define functions to delete documents
 	const deleteMovie = (deletedMovieId) => {
-		setMovies((prevMovies) => prevMovies.filter((movie) => movie._id !== deletedMovieId));
+		setMovies((prevMovies) =>
+			prevMovies.filter((movie) => movie._id !== deletedMovieId)
+		);
 	};
-	
+
 	const deleteGenre = (deletedGenreId) => {
-		setGenres((prevGenres) => prevGenres.filter((genre) => genre._id !== deletedGenreId));
+		setGenres((prevGenres) =>
+			prevGenres.filter((genre) => genre._id !== deletedGenreId)
+		);
 	};
-	
+
 	const deleteDirector = (deletedDirectorId) => {
-		setDirectors((prevDirectors) => prevDirectors.filter((director) => director._id !== deletedDirectorId));
+		setDirectors((prevDirectors) =>
+			prevDirectors.filter((director) => director._id !== deletedDirectorId)
+		);
 	};
 
 	const deleteActor = (deletedActorId) => {
-		setActors((prevActors) => prevActors.filter((actor) => actor._id !== deletedActorId));
+		setActors((prevActors) =>
+			prevActors.filter((actor) => actor._id !== deletedActorId)
+		);
 	};
 
 	// Handle Dark Mode
