@@ -173,7 +173,7 @@ EditActorView.propTypes = {
 			imageurl: PropTypes.string.isRequired,
 		})
 	).isRequired,
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string,
 	updateActor: PropTypes.func.isRequired,
 	deleteActor: PropTypes.func.isRequired,
 };

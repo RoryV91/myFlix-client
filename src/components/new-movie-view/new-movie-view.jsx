@@ -115,7 +115,7 @@ const NewMovieView = ({ addMovie, token }) => {
 
 NewMovieView.propTypes = {
 	addMovie: PropTypes.func.isRequired,
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string
 };
 
 export default NewMovieView;

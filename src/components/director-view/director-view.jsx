@@ -143,7 +143,7 @@ DirectorView.propTypes = {
 		})
 	).isRequired,
 	deleteDirector: PropTypes.func.isRequired,
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string
 };
 
 export default DirectorView;

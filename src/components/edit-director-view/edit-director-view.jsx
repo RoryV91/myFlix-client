@@ -183,7 +183,7 @@ EditDirectorView.propTypes = {
 			imageurl: PropTypes.string.isRequired,
 		})
 	).isRequired,
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string,
 	updateDirector: PropTypes.func.isRequired,
 	deleteDirector: PropTypes.func.isRequired,
 };

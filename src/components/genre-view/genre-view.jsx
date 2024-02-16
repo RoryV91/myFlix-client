@@ -122,7 +122,7 @@ GenreView.propTypes = {
 			genre_ids: PropTypes.arrayOf(PropTypes.string).isRequired,
 		})
 	).isRequired,
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string,
 	deleteGenre: PropTypes.func.isRequired,
 };
 

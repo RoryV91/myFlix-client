@@ -142,7 +142,7 @@ ActorView.propTypes = {
 		})
 	).isRequired,
 	deleteActor: PropTypes.func.isRequired,
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string
 };
 
 export default ActorView;

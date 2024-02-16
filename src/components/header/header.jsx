@@ -137,7 +137,7 @@ Header.propTypes = {
 		password: PropTypes.string,
 		email: PropTypes.string,
 		birthday: PropTypes.string,
-	}).isRequired,
+	})
 };
 
 export default Header;

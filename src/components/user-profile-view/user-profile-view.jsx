@@ -144,7 +144,7 @@ UserProfileView.propTypes = {
 		email: PropTypes.string.isRequired,
 		dob: PropTypes.string,
 		user_movie_ids: PropTypes.arrayOf(PropTypes.string).isRequired,
-	}).isRequired,
+	}),
 	movies: PropTypes.arrayOf(
 		PropTypes.shape({
 			_id: PropTypes.string.isRequired,
@@ -160,7 +160,7 @@ UserProfileView.propTypes = {
 	).isRequired,
 	darkMode: PropTypes.bool.isRequired,
 	updateUserFavorites: PropTypes.func.isRequired,
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string,
 	handleLogout: PropTypes.func.isRequired,
 };
 

@@ -166,7 +166,7 @@ EditGenreView.propTypes = {
 			description: PropTypes.string.isRequired,
 		})
 	).isRequired,
-	token: PropTypes.string.isRequired,
+	token: PropTypes.string,
 	updateGenre: PropTypes.func.isRequired,
 	deleteGenre: PropTypes.func.isRequired,
 };
