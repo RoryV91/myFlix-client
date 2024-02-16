@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
 
 const App = () => {
-  return <MainView />;
+	return <MainView />;
 };
 
 const container = document.querySelector("#root");
