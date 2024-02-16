@@ -12,6 +12,9 @@ const ActorsView = ({ actors, darkMode, onActorClick }) => {
 	const totalPages = Math.ceil(actors.length / itemsPerPage);
 
 	const displayedActors = actors
+		.filter((actor) =>
+			actor.name.toLowerCase().includes(searchTerm.toLowerCase())
+		)
 		.sort((a, b) => a.name.localeCompare(b.name))
 		.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
@@ -87,24 +90,38 @@ const ActorsView = ({ actors, darkMode, onActorClick }) => {
 					</Pagination>
 				</Col>
 			</Row>
-			<Row className="d-flex justify-content-center">
-				{displayedActors.map((actor) => (
-					<Col
-						xs={12}
-						sm={6}
-						md={4}
-						lg={3}
-						key={actor._id}
-						className="d-flex justify-content-center actorcard"
-					>
-						<ActorCard
-							actor={actor}
-							darkMode={darkMode}
-							onActorClick={onActorClick}
-						/>
-					</Col>
-				))}
+			<Row className="mb-3">
+				<Col md={{ span: 6, offset: 3 }}>
+					<Form.Control
+						type="text"
+						placeholder="Search for an actor..."
+						value={searchTerm}
+						onChange={(event) => setSearchTerm(event.target.value)}
+					/>
+				</Col>
 			</Row>
+			{displayedActors.length === 0 ? (
+				<div>No actors found!</div>
+			) : (
+				<Row className="d-flex justify-content-center">
+					{displayedActors.map((actor) => (
+						<Col
+							xs={12}
+							sm={6}
+							md={4}
+							lg={3}
+							key={actor._id}
+							className="d-flex justify-content-center actorcard"
+						>
+							<ActorCard
+								actor={actor}
+								darkMode={darkMode}
+								onActorClick={onActorClick}
+							/>
+						</Col>
+					))}
+				</Row>
+			)}
 		</Container>
 	);
 };
