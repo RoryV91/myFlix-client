@@ -28,6 +28,7 @@ const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 		setItemsPerPage(Number(event.target.value));
 		setCurrentPage(1);
 	};
+
 	return movies.length === 0 ? (
 		<div>The list is empty!</div>
 	) : (
@@ -52,7 +53,6 @@ const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 							<Form.Select
 								value={itemsPerPage}
 								onChange={handleItemsPerPageChange}
-								style={{ minWidth: "100px" }}
 							>
 								<option value={5}>5</option>
 								<option value={10}>10</option>
@@ -103,32 +103,36 @@ const MoviesView = ({ darkMode, movies, token, user, updateUserFavorites }) => {
 				<Col md={{ span: 6, offset: 3 }}>
 					<Form.Control
 						type="text"
-						placeholder="Search"
+						placeholder="Search for a movie..."
 						value={searchTerm}
 						onChange={(event) => setSearchTerm(event.target.value)}
 					/>
 				</Col>
 			</Row>
-			<Row className="d-flex justify-content-center">
-				{displayedMovies.map((movie) => (
-					<Col
-						xs={12}
-						sm={6}
-						md={4}
-						lg={3}
-						key={movie._id}
-						className="d-flex justify-content-center moviecard"
-					>
-						<MovieCard
-							movie={movie}
-							darkMode={darkMode}
-							user={user}
-							token={token}
-							updateUserFavorites={updateUserFavorites}
-						/>
-					</Col>
-				))}
-			</Row>
+			{displayedMovies.length === 0 ? (
+				<div>No movies matched your search!</div>
+			) : (
+				<Row className="d-flex justify-content-center">
+					{displayedMovies.map((movie) => (
+						<Col
+							xs={12}
+							sm={6}
+							md={4}
+							lg={3}
+							key={movie._id}
+							className="d-flex justify-content-center moviecard"
+						>
+							<MovieCard
+								movie={movie}
+								darkMode={darkMode}
+								user={user}
+								token={token}
+								updateUserFavorites={updateUserFavorites}
+							/>
+						</Col>
+					))}
+				</Row>
+			)}
 		</Container>
 	);
 };
