@@ -305,6 +305,7 @@ const MainView = () => {
 										<GenreView
 											genres={genres}
 											movies={movies}
+											token={token}
 											darkMode={darkMode}
 											deleteGenre={deleteGenre}
 										/>

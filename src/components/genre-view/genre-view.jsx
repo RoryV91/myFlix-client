@@ -4,8 +4,9 @@ import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import ActionButtons from "../action-buttons/action-buttons";
 import useScrollToTop from "../../hooks/use-scroll-to-top/use-scroll-to-top";
+import axios from "axios";
 
-const GenreView = ({ genres, movies }) => {
+const GenreView = ({ genres, movies, token, deleteGenre }) => {
 	useScrollToTop();
 	const { id } = useParams();
 	const location = useLocation();
@@ -25,7 +26,28 @@ const GenreView = ({ genres, movies }) => {
 	);
 
 	const handleDelete = () => {
-		// code to handle delete action
+		if (window.confirm("Are you sure you want to delete this genre? This action cannot be undone.")) {
+			axios
+				.delete(`https://myflixapi.vanblaricom.dev:9999/genres/${selectedGenre._id}`, {
+					headers: { Authorization: `Bearer ${token}` },
+				})
+				.then((response) => {
+					if (response.status === 200) {
+						alert("Genre deleted successfully");
+
+						deleteGenre(selectedGenre._id);
+					} else {
+						alert("Failed to delete genre");
+					}
+				})
+				.catch((error) => {
+					console.error("Error deleting genre", error);
+					alert("Failed to delete genre: " + error.message);
+				})
+				.finally(() => {
+					navigate('/genres/view');
+				});
+		}
 	};
 
 	const handleEdit = () => {

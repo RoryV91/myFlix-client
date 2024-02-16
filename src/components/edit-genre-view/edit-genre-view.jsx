@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Form, Button, Col, Row } from "react-bootstrap";
 import axios from "axios";
 
-const EditGenreView = ({ genres, token, onEdit, darkMode, updateGenre }) => {
+const EditGenreView = ({ genres, token, updateGenre, deleteGenre }) => {
     const { id } = useParams();
     const [genre, setGenre] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -46,17 +46,28 @@ const EditGenreView = ({ genres, token, onEdit, darkMode, updateGenre }) => {
     };
 
     const onDelete = () => {
-        axios.delete(`/genres/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        .then(() => {
-            navigate(-1);
-        })
-        .catch(error => {
-            setError(error.message);
-        });
+        if (window.confirm("Are you sure you want to delete this genre? This action cannot be undone.")) {
+            axios
+                .delete(`https://myflixapi.vanblaricom.dev:9999/genres/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        alert("Genre deleted successfully");
+
+                        deleteGenre(id);
+                    } else {
+                        alert("Failed to delete genre");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error deleting genre", error);
+                    alert("Failed to delete genre: " + error.message);
+                })
+                .finally(() => {
+                    navigate('/genres/view');
+                });
+        }
     };
 
     if (isLoading) {
