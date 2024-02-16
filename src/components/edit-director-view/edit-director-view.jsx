@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Form, Button, Col, Row } from "react-bootstrap";
 import axios from "axios";
 
-const EditDirectorView = ({ directors, token, updateDirector }) => {
+const EditDirectorView = ({ directors, token, updateDirector, deleteDirector }) => {
     const { id } = useParams();
     const [director, setDirector] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -46,17 +46,28 @@ const EditDirectorView = ({ directors, token, updateDirector }) => {
     };
 
     const onDelete = () => {
-        axios.delete(`/directors/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        .then(() => {
-            navigate(-1);
-        })
-        .catch(error => {
-            setError(error.message);
-        });
+        if (window.confirm("Are you sure you want to delete this director? This action cannot be undone.")) {
+            axios
+                .delete(`https://myflixapi.vanblaricom.dev:9999/directors/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        alert("Director deleted successfully");
+
+                        deleteDirector(id);
+                    } else {
+                        alert("Failed to delete director");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error deleting director", error);
+                    alert("Failed to delete director: " + error.message);
+                })
+                .finally(() => {
+                    navigate('/directors/view');
+                });
+        }
     };
 
     if (isLoading) {
